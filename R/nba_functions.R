@@ -1,10 +1,17 @@
+library(magrittr)
+library(plyr)
+#' Takes in the raw data file name and does all the data cleaning
 convert.raw.nba <- function(file.path.in,write.out=F,file.path.out) {
   #nba <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\2015Season2.csv",stringsAsFactors=F)
+  # Read in the data
   nba <- read.csv(file.path.in,stringsAsFactors=F)
   #over10 <- nba14[nba14$SEC>600,]
+  #' Find players that played at all
   played <- nba$MIN!=''
+  # Remove players that didn't play
   nba <- nba[played,] # Remove those who didn't play, loses injury comments
   #browser()
+  # Convert playing time to seconds, fixes some issues
   nba$SEC <- sapply((nba$MIN), #   this wont work, fix this
                     function(xxx) {
                       strspl <- as.numeric(strsplit(xxx,':')[[1]])
@@ -22,24 +29,29 @@ convert.raw.nba <- function(file.path.in,write.out=F,file.path.out) {
                       }
                     }
   )
+  # Calculates Fan Duel points
   nba$FanDuelPts <- nba$PTS + 1.2*nba$REB + 1.5*nba$AST + 2*nba$BLK + 2*nba$STL - 1*nba$TO
   nba$IS_HOME <- (nba$TEAM_ID == nba$HOME_TEAM_ID)
   nba$OPP_TEAM_ID <- ifelse(nba$IS_HOME,nba$VISITOR_TEAM_ID,nba$HOME_TEAM_ID)
+  # Order the columns alphabetically
   nba <- nba[,order(names(nba))]
-  if (write.out) {
+  if (write.out) { # Write out clean data
     write.csv(nba,file.path.out)
   }
   return(nba)
 }
 if (F) {
-  nba15 <- convert.raw.nba("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\2015Season20160211.csv")
+  #nba15 <- convert.raw.nba("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\2015Season20160211.csv")
+  nba15 <- convert.raw.nba("data\\2015Season20160211.csv")
 }
 
+#' Create a table matching the players from the game data and salary data
 create.id.conversion.table <- function(nba,sal) {
   # NBA is full nba data table
   # sal is the Fan Duel salary table
-  
+
   # Conversion bs
+  # Some names don't agree between the two
   conversion.all.names <- c('Bradley Beal', 'Brad Beal',
                             'Lou Williams', 'Louis Williams',
                             'JJ Redick', 'J.J. Redick',
@@ -62,18 +74,20 @@ create.id.conversion.table <- function(nba,sal) {
   conversion.nba.names <- conversion.all.names[odds]
   # Check with grep to find player row
   #nba$PLAYER_NAME[grep("Michael",nba$PLAYER_NAME)]
-  
+
   # Need map between FD player ids and NBA
+  # Creates the data frame, will add rows to it in loop below
   FD.nba.conversion <- data.frame(FD.Id=numeric(0),FD.Paste.Name=numeric(0),
                                   FD.First.Name=numeric(0),FD.Last.Name=numeric(0),
                                   FD.Team=numeric(0),nba.ID=numeric(0),nba.PLAYER_NAME=numeric(0),
                                   nba.TEAM_ABBREVIATION=numeric(0))
-  
+
   # Some won't match up, need to figure out a conversion by hand
   no.conversion <- c()
-  
+
+  # Loop over players in salary table
   for(i in 1:(dim(sal)[1])) {
-    prow <- sal[i,]
+    prow <- sal[i,] # player row
     #print(prow)
     #print(i)
     pname <- paste(prow$First,prow$Last)
@@ -95,60 +109,70 @@ create.id.conversion.table <- function(nba,sal) {
                                  data.frame(FD.Id=prow$Id,FD.Paste.Name=pname,FD.First.Name=prow$First,FD.Last.Name=prow$Last,FD.Team=prow$Team,
                                             nba.PLAYER_ID=nba$PLAYER_ID[nbaind],nba.PLAYER_NAME=nba$PLAYER_NAME[nbaind],nba.TEAM_ABBREVIATION=nba$TEAM_ABBREVIATION[nbaind]))
     } else {
-      no.conversion <- c(no.conversion,pname) 
+      no.conversion <- c(no.conversion,pname)
       # Going to write out NAs
       FD.nba.conversion <- rbind(FD.nba.conversion,
                                  data.frame(FD.Id=prow$Id,FD.Paste.Name=pname,FD.First.Name=prow$First,FD.Last.Name=prow$Last,FD.Team=prow$Team,
                                             nba.PLAYER_ID=NA,nba.PLAYER_NAME=NA,nba.TEAM_ABBREVIATION=NA))
     }
   }
-  
-  
+
+
   # Write out conversion file
-  
+
   return(FD.nba.conversion)
-  
-  write.csv(FD.nba.conversion,"C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FD.nba.conversion.csv")
+
+  write.csv(FD.nba.conversion,"data\\FD_nba_conversion_csv")
 }
 if (F) {
   create.id.conversion.table(nba,sal)
-  FD.nba.conversion <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FD.nba.conversion.csv")
+  #FD.nba.conversion <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FD.nba.conversion.csv")
+  FD.nba.conversion <- read.csv("data\\FD_nba_conversion.csv")
 }
 
+#' Fit a simple linear model to the data
 fit.LM.1 <- function(nba,sal,res) {
   mod1 <- lm(FanDuelPts ~ factor(PLAYER_ID),data = nba)
   # Predict for single row to test (Cousins)
-  
-  FD.nba.conversion <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FD.nba.conversion.csv",stringsAsFactors=F)
+
+  #FD.nba.conversion <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FD.nba.conversion.csv",stringsAsFactors=F)
+  FD.nba.conversion <- read.csv("data\\FD.nba.conversion.csv",stringsAsFactors=F)
   FD.Id.to.NBA.PLAYER_ID <- FD.nba.conversion$nba.PLAYER_ID
   names(FD.Id.to.NBA.PLAYER_ID) <- FD.nba.conversion$FD.Id
   sal$PLAYER_ID <- FD.Id.to.NBA.PLAYER_ID[sal$Id]
-  
-  
+
+
   sal$LM.1.pred <- predict(mod1,newdata = sal)
   # Get coefficient for specific player
-  #mod3$coefficients['factor(PLAYER_ID)202326'] 
+  #mod3$coefficients['factor(PLAYER_ID)202326']
   plot(sal$FPPG,sal$LM.)
 }
+
+#' If you have two corresponding vectors, this creates a dictionary
+#'  allowing you to map keys to values.
 get.converter <- function(keys,values) {
   conv <- values#FD.Id.to.NBA.PLAYER_ID <- FD.nba.conversion$nba.PLAYER_ID
   names(conv) <- keys#names(FD.Id.to.NBA.PLAYER_ID) <- FD.nba.conversion$FD.Id
   return(conv)
 }
+#' Create a converter that removes duplicates
 get.converter.unique <- function(dat,key.name,value.name) {#browser()
   uniq <- ddply(dat,key.name,function(xx){xx[1,]})
   return(get.converter(uniq[,key.name],uniq[,value.name]))#ukeys,uvalues))
 }
 if (F) {
   get.converter(FD.nba.conversion$nba.PLAYER_ID,FD.nba.conversion$FD.Id)
-  get.converter.unique(nba,'TEAM_ID','TEAM_ABBREVIATION')
+  #team.abb.to.TEAM_ID.conv <- get.converter.unique(nba,'TEAM_ID','TEAM_ABBREVIATION')
+  #saveRDS(team.abb.to.TEAM_ID.conv, 'data//team_abb_to_TEAM_ID_conv.csv')
+  team.abb.to.TEAM_ID.conv <- readRDS('data//team_abb_to_TEAM_ID_conv.csv')
 }
 
+#' This does all steps of fitting the linear model
 fit.LM.2 <- function(nba,sal,res) {
   mod2 <- lm(FanDuelPts ~ factor(PLAYER_ID) + factor(IS_HOME) + factor(OPP_TEAM_ID),data = nba) # + factor(OPP_TEAM_ID)
   # Predict for single row to test (Cousins)
-  
-  FD.nba.conversion <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FD.nba.conversion.csv",stringsAsFactors=F)
+
+  FD.nba.conversion <- read.csv("data\\FD.nba.conversion.csv",stringsAsFactors=F)
   FD.Id.to.NBA.PLAYER_ID <- FD.nba.conversion$nba.PLAYER_ID
   names(FD.Id.to.NBA.PLAYER_ID) <- FD.nba.conversion$FD.Id
   sal$PLAYER_ID <- FD.Id.to.NBA.PLAYER_ID[sal$Id]
@@ -160,11 +184,11 @@ fit.LM.2 <- function(nba,sal,res) {
   sal$OPP_TEAM_ABBREVIATION[sal$OPP_TEAM_ABBREVIATION=='NO'] <- 'NOP'
   team.abb.to.TEAM_ID.conv <- get.converter.unique(nba,'TEAM_ABBREVIATION','TEAM_ID')
   sal$OPP_TEAM_ID <- team.abb.to.TEAM_ID.conv[sal$OPP_TEAM_ABBREVIATION]
-  
+
   sal$LM.2.pred <- predict(mod2,newdata = sal)
   sal$LM.2.pred[sal$Injury.Indicator=='O'] <- 0
   # Get coefficient for specific player
-  #mod3$coefficients['factor(PLAYER_ID)202326'] 
+  #mod3$coefficients['factor(PLAYER_ID)202326']
   plot(sal$FPPG,sal$LM.2)
   #points(sal$FPPG,sal$LM.2,col='red')
   plot(res$FDPt,sal$LM.2)
@@ -173,10 +197,10 @@ fit.LM.2 <- function(nba,sal,res) {
 if (F) {
   # Does everything
   library(plyr)
-  nba <- convert.raw.nba("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\2015Season20160211.csv")
-  FD.nba.conversion <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FD.nba.conversion.csv")
-  sal <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FDSalaryNow_2_8_16.csv",stringsAsFactors=F)
-  res <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FDResults_2_8_16.csv",stringsAsFactors=F)
+  nba <- convert.raw.nba("data\\2015Season20160211.csv")
+  FD.nba.conversion <- read.csv("data\\FD_nba_conversion.csv")
+  sal <- read.csv("data\\FDSalaryNow_2_8_16.csv",stringsAsFactors=F)
+  res <- read.csv("data\\FDResults_2_8_16.csv",stringsAsFactors=F)
   #fit.LM.2(nba,sal,res)
   # Standard errors of coeffs coef(summary(mod2))[,2]
   #nas <- which(is.na(sal$LM.2.pred)) # Fixed PHO and NO, just 3 nobodies giving NA
@@ -232,7 +256,7 @@ get.cor.and.cg.from.team <- function(atl) {
       atlcg[plr1,plr2] <- sum(!is.na(atlp[,plr1]) & !is.na(atlp[,plr2]))
     }
   }
-  # Return correlation matrix and 
+  # Return correlation matrix and
   return(list(cor=atlc,cg=atlcg))
 }
 get.cor.and.cg.all <- function(nbaa){
@@ -241,20 +265,20 @@ get.cor.and.cg.all <- function(nbaa){
 if (F) {
   # Find how FDP varies with FDP
   sal2 <- fit.LM.2.w.error(nba,sal,res)
-  
+
 }
 fit.LM.2.w.error <- function(nba,sal,res) {
   mod2 <- lm(FanDuelPts ~ factor(PLAYER_ID) + factor(IS_HOME) + factor(OPP_TEAM_ID),data = nba) # + factor(OPP_TEAM_ID)
   # Predict for single row to test (Cousins)
-  
-  FD.nba.conversion <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FD.nba.conversion.csv",stringsAsFactors=F)
+
+  FD.nba.conversion <- read.csv("data\\FD.nba.conversion.csv",stringsAsFactors=F)
   FD.Id.to.NBA.PLAYER_ID <- FD.nba.conversion$nba.PLAYER_ID
   names(FD.Id.to.NBA.PLAYER_ID) <- FD.nba.conversion$FD.Id
   sal$PLAYER_ID <- FD.Id.to.NBA.PLAYER_ID[sal$Id]
   sal$IS_HOME <- apply(sal,1,function(xxx){
     strsplit(xxx['Game'],'@')[[1]][2] == xxx['Team']
   })
-  
+
   # Get abbreviation and id for team and opponent
   sal$OPP_TEAM_ABBREVIATION <- sal$Opponent
   sal$OPP_TEAM_ABBREVIATION[sal$OPP_TEAM_ABBREVIATION=='PHO'] <- 'PHX'
@@ -267,14 +291,14 @@ fit.LM.2.w.error <- function(nba,sal,res) {
   sal$TEAM_ABBREVIATION[sal$TEAM_ABBREVIATION=='NO'] <- 'NOP'
   #team.abb.to.TEAM_ID.conv <- get.converter.unique(nba,'TEAM_ABBREVIATION','TEAM_ID')
   sal$TEAM_ID <- team.abb.to.TEAM_ID.conv[sal$TEAM_ABBREVIATION]
-  
+
   LM.2.pred <- predict(mod2,newdata = sal,se.fit = T)
   sal$LM.2.pred <- LM.2.pred$fit
   sal$LM.2.pred[sal$Injury.Indicator=='O'] <- 0
   sal$LM.2.pred.se <- LM.2.pred$se.fit
   sal$LM.2.pred.se[sal$Injury.Indicator=='O'] <- 1 # to avoid numerical issues later
   # Get coefficient for specific player
-  #mod3$coefficients['factor(PLAYER_ID)202326'] 
+  #mod3$coefficients['factor(PLAYER_ID)202326']
   plot(sal$FPPG,sal$LM.2.pred)
   points(sal$FPPG,sal$LM.2.pred+2*sal$LM.2.pred.se,col=5)
   points(sal$FPPG,sal$LM.2.pred-2*sal$LM.2.pred.se,col=5)
@@ -355,11 +379,11 @@ if (F) {
   # Trying to do everything here, including predictions (function)
   # First get data
   library(plyr)
-  nba <- convert.raw.nba("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\2015Season20160211.csv")
-  FD.nba.conversion <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FD.nba.conversion.csv")
-  sal <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FDSalaryNow_2_8_16.csv",stringsAsFactors=F)
-  res <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FDResults_2_8_16.csv",stringsAsFactors=F)
-  
+  nba <- convert.raw.nba("data\\2015Season20160211.csv")
+  FD.nba.conversion <- read.csv("data\\FD.nba.conversion.csv")
+  sal <- read.csv("data\\FDSalaryNow_2_8_16.csv",stringsAsFactors=F)
+  res <- read.csv("data\\FDResults_2_8_16.csv",stringsAsFactors=F)
+
   sal2a <- fit.LM.2.w.error(nba,sal,res)
   sal2 <- sal2a[-which(is.na(sal2a$PLAYER_ID)),]
   sal2.get.cor <- function(x,nba.cor.cg,sal2) {
@@ -438,7 +462,7 @@ write.out.nba.samples <- function(n.samples) {
   FD.nba.conversion <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FD.nba.conversion.csv")
   sal <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FDSalaryNow_2_8_16.csv",stringsAsFactors=F)
   #res <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FDResults_2_8_16.csv",stringsAsFactors=F)
-  
+
   sal2a <- fit.LM.2.w.error(nba,sal,res=NULL)
   sal2 <- sal2a[-which(is.na(sal2a$PLAYER_ID)),]
   sal2.get.cor <- function(x,nba.cor.cg,sal2) {
