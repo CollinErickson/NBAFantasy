@@ -136,7 +136,7 @@ fit.LM.1 <- function(nba,sal,res) {
   # Predict for single row to test (Cousins)
 
   #FD.nba.conversion <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\FD.nba.conversion.csv",stringsAsFactors=F)
-  FD.nba.conversion <- read.csv("data\\FD.nba.conversion.csv",stringsAsFactors=F)
+  FD.nba.conversion <- read.csv("data\\FD_nba_conversion.csv",stringsAsFactors=F)
   FD.Id.to.NBA.PLAYER_ID <- FD.nba.conversion$nba.PLAYER_ID
   names(FD.Id.to.NBA.PLAYER_ID) <- FD.nba.conversion$FD.Id
   sal$PLAYER_ID <- FD.Id.to.NBA.PLAYER_ID[sal$Id]
@@ -163,16 +163,17 @@ get.converter.unique <- function(dat,key.name,value.name) {#browser()
 if (F) {
   get.converter(FD.nba.conversion$nba.PLAYER_ID,FD.nba.conversion$FD.Id)
   #team.abb.to.TEAM_ID.conv <- get.converter.unique(nba,'TEAM_ID','TEAM_ABBREVIATION')
-  #saveRDS(team.abb.to.TEAM_ID.conv, 'data//team_abb_to_TEAM_ID_conv.csv')
-  team.abb.to.TEAM_ID.conv <- readRDS('data//team_abb_to_TEAM_ID_conv.csv')
+  #write.csv(team.abb.to.TEAM_ID.conv, 'data//team_abb_to_TEAM_ID_conv.csv')
+  #saveRDS(team.abb.to.TEAM_ID.conv, 'data//team_abb_to_TEAM_ID_conv.rds')
+  team.abb.to.TEAM_ID.conv <- readRDS('data//team_abb_to_TEAM_ID_conv.rds')
 }
 
 #' This does all steps of fitting the linear model
 fit.LM.2 <- function(nba,sal,res) {
+  # Fit the model
   mod2 <- lm(FanDuelPts ~ factor(PLAYER_ID) + factor(IS_HOME) + factor(OPP_TEAM_ID),data = nba) # + factor(OPP_TEAM_ID)
-  # Predict for single row to test (Cousins)
 
-  FD.nba.conversion <- read.csv("data\\FD.nba.conversion.csv",stringsAsFactors=F)
+  FD.nba.conversion <- read.csv("data\\FD_nba_conversion.csv",stringsAsFactors=F)
   FD.Id.to.NBA.PLAYER_ID <- FD.nba.conversion$nba.PLAYER_ID
   names(FD.Id.to.NBA.PLAYER_ID) <- FD.nba.conversion$FD.Id
   sal$PLAYER_ID <- FD.Id.to.NBA.PLAYER_ID[sal$Id]
@@ -182,7 +183,8 @@ fit.LM.2 <- function(nba,sal,res) {
   sal$OPP_TEAM_ABBREVIATION <- sal$Opponent
   sal$OPP_TEAM_ABBREVIATION[sal$OPP_TEAM_ABBREVIATION=='PHO'] <- 'PHX'
   sal$OPP_TEAM_ABBREVIATION[sal$OPP_TEAM_ABBREVIATION=='NO'] <- 'NOP'
-  team.abb.to.TEAM_ID.conv <- get.converter.unique(nba,'TEAM_ABBREVIATION','TEAM_ID')
+  #team.abb.to.TEAM_ID.conv <- get.converter.unique(nba,'TEAM_ABBREVIATION','TEAM_ID')
+  team.abb.to.TEAM_ID.conv<- readRDS('data//team_abb_to_TEAM_ID_conv.rds')
   sal$OPP_TEAM_ID <- team.abb.to.TEAM_ID.conv[sal$OPP_TEAM_ABBREVIATION]
 
   sal$LM.2.pred <- predict(mod2,newdata = sal)
@@ -201,7 +203,7 @@ if (F) {
   FD.nba.conversion <- read.csv("data\\FD_nba_conversion.csv")
   sal <- read.csv("data\\FDSalaryNow_2_8_16.csv",stringsAsFactors=F)
   res <- read.csv("data\\FDResults_2_8_16.csv",stringsAsFactors=F)
-  #fit.LM.2(nba,sal,res)
+  fit.LM.2(nba,sal,res)
   # Standard errors of coeffs coef(summary(mod2))[,2]
   #nas <- which(is.na(sal$LM.2.pred)) # Fixed PHO and NO, just 3 nobodies giving NA
 }
@@ -271,7 +273,7 @@ fit.LM.2.w.error <- function(nba,sal,res) {
   mod2 <- lm(FanDuelPts ~ factor(PLAYER_ID) + factor(IS_HOME) + factor(OPP_TEAM_ID),data = nba) # + factor(OPP_TEAM_ID)
   # Predict for single row to test (Cousins)
 
-  FD.nba.conversion <- read.csv("data\\FD.nba.conversion.csv",stringsAsFactors=F)
+  FD.nba.conversion <- read.csv("data\\FD_nba_conversion.csv",stringsAsFactors=F)
   FD.Id.to.NBA.PLAYER_ID <- FD.nba.conversion$nba.PLAYER_ID
   names(FD.Id.to.NBA.PLAYER_ID) <- FD.nba.conversion$FD.Id
   sal$PLAYER_ID <- FD.Id.to.NBA.PLAYER_ID[sal$Id]
@@ -284,6 +286,7 @@ fit.LM.2.w.error <- function(nba,sal,res) {
   sal$OPP_TEAM_ABBREVIATION[sal$OPP_TEAM_ABBREVIATION=='PHO'] <- 'PHX'
   sal$OPP_TEAM_ABBREVIATION[sal$OPP_TEAM_ABBREVIATION=='NO'] <- 'NOP'
   team.abb.to.TEAM_ID.conv <- get.converter.unique(nba,'TEAM_ABBREVIATION','TEAM_ID')
+  team.abb.to.TEAM_ID.conv <- readRDS('data/team_abb_to_TEAM_ID_conv.rds')
   sal$OPP_TEAM_ID <- team.abb.to.TEAM_ID.conv[sal$OPP_TEAM_ABBREVIATION]
     # for own team
   sal$TEAM_ABBREVIATION <- sal$Team
