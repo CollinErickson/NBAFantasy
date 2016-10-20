@@ -25,6 +25,120 @@ def getLB(xinc,playerList,pIDList,pData,N,T):
             lb += 1
     return lb
 
+# the input is the incumbent solution and the master program
+def genLagrangian(xhat,m,N,pList,scenList,pIDList,T):
+    # initialize with lambda = 0
+    lagranMul = {}
+    L = 99999
+    thetaList = []
+    # for each scenario
+    for i in range(N):
+        # initialize the theta problem to solve for lambda
+        ztrial = {}
+        for k in pList:
+            ztrial[k] = 0
+        thetaprob = Model()
+        theta = thetaprob.addVar(name = "theta")
+        lamb = {}
+        for k in pList:
+            lamb[k] = thetaprob.addVar(lb = -L, ub = L, name = "lambda_{}".format(k))
+        thetaprob.update()
+        # set up the objective function for the theta problem
+        thetaprob.setObjective(theta, GRB.MINIMIZE)
+        thetaprob.update()
+        # set up the initial constraint
+        thetaprob.addConstr(theta >= sum([lamb[k]*(-xhat[k]) for k in pList]))
+        thetaprob.update()
+        
+        prevTheta = -numpy.infty
+        thetaprob.optimize()
+        currentTheta = theta.x
+        for k in pList:
+            lagranMul[i,k] = lamb[k].x
+        while currentTheta != prevTheta:
+            # start the iteration to obtain lambda, split into y = 0 or y = 1!!!!!!!!!
+            
+            # y = 0
+            ytrial = 0
+            ztrial = {}
+            ratioL = []
+            ratioK = []
+            for k in pList:
+                if (lagranMul[i,k] >= 0):
+                    tsum = 0
+                    if (scenList[i][pIDList.index(k)] >= 0):
+                        tsum += scenList[i][pIDList.index(k)]
+                        ztrial[k] = 1
+                    else:
+                        ratioL.append(lagranMul[i,k]/(-scenList[i][pIDList.index(k)]))
+                        ratioK.append(k)
+            sortedind = list(numpy.argsort(ratioL)).reverse()
+            startind = 0
+            while (tsum >= 0)and(startind < len(sortedind)):
+                if tsum <= scenList[i][pIDList.index(ratioK[sortedind[startind]])]:
+                    ztrial[pIDList.index(ratioK[sortedind[startind]])] = tsum/scenList[i][pIDList.index(ratioK[sortedind[startind]])]
+                    tsum = 0
+                else:
+                    ztrial[pIDList.index(ratioK[sortedind[startind]])] = 1
+                    tsum -= scenList[i][pIDList.index(ratioK[sortedind[startind]])]
+                startind += 1
+            
+            thetaprob.addConstr(theta >= ytrial + sum([lamb[k]*(ztrial[k]-xhat[k]) for k in pList]))
+            thetaprob.update()
+                
+            # y = 1
+            ytrial = 1
+            ztrial = {}
+            ratioL1 = []
+            ratioK1 = []
+            ratioL2 = []
+            ratioK2 = []
+            if sum([scenList[i][pIDList.index(k)] for k in pList]) >= T:
+                for k in pList:
+                    if (lagranMul[i,k] >= 0):
+                        tsum = 0
+                        if (scenList[i][pIDList.index(k)] >= 0):
+                            tsum += scenList[i][pIDList.index(k)]
+                            ztrial[k] = 1
+                        else:
+                            ratioL1.append(lagranMul[i,k]/(-scenList[i][pIDList.index(k)]))
+                            ratioK1.append(k)
+                    else:
+                        ratioL2.append(-lagranMul[i,k]/scenList[i][pIDList.index(k)])
+                        ratioK2.append(k)
+                sortedind1 = list(numpy.argsort(ratioL1)).reverse()
+                sortedind2 = list(numpy.argsort(ratioL2))
+                startind = 0
+                if tsum >= T:
+                    while (tsum >= T)and(startind < len(sortedind1)):
+                        if (tsum - T) <= scenList[i][pIDList.index(ratioK1[sortedind1[startind]])]:
+                            ztrial[pIDList.index(ratioK1[sortedind1[startind]])] = (tsum - T)/scenList[i][pIDList.index(ratioK1[sortedind1[startind]])]
+                            tsum = T
+                        else:
+                            ztrial[pIDList.index(ratioK1[sortedind1[startind]])] = 1
+                            tsum -= scenList[i][pIDList.index(ratioK1[sortedind1[startind]])]
+                        startind += 1
+                else:
+                    while (tsum < T):
+                        if (T - tsum) <= scenList[i][pIDList.index(ratioK2[sortedind2[startind]])]:
+                            ztrial[pIDList.index(ratioK2[sortedind2[startind]])] = (T - tsum)/scenList[i][pIDList.index(ratioK2[sortedind2[startind]])]
+                            tsum = T
+                        else:
+                            ztrial[pIDList.index(ratioK2[sortedind2[startind]])] = 1
+                            tsum += scenList[i][pIDList.index(ratioK2[sortedind2][startind])]
+                        startind += 1
+                        
+                thetaprob.addConstr(theta >= ytrial + sum([lamb[k]*(ztrial[k]-xhat[k]) for k in pList]))
+                thetaprob.update()
+            
+            prevTheta = currentTheta
+            thetaprob.optimize()
+            currentTheta = theta.x
+            for k in pList:
+                lagranMul[i,k] = lamb[k].x
+        thetaList.append(theta)
+    return lagranMul,thetaList
+    
 # the input is the salary file, the simulated scenario file and the player dictionary
 def stoch_opt(salaryF,distrnF,playerDAdd,totalTeam):
     # load the dictionary that maps players' names to their IDs
@@ -104,44 +218,54 @@ def stoch_opt(salaryF,distrnF,playerDAdd,totalTeam):
         master.addConstr(posC[item] == posReq[item], name = "PositionConstraint_{}".format(item))
         detFirst.addConstr(posCdet[item] == posReq[item], name = "PCon_Det_{}".format(item))
     master.update()
-    detFirst.update()
-    # solve the deterministic expected problem, obtain solutions
-    detFirst.optimize()
     
-    k = 1
-    l = 1
-    # obtain a lower bound for the current expected solution
-    lb = getLB(xdet,playerList,pIDList,pData,N,threshold)
-    ub = N
-            
-    # generate cuts around the incumbent lower bound solution!!!!!!!!
-    
-    solColl = []
+    morig = master
     for j in range(totalTeam):
-        # start the iteration to solve the decomposed problem!!!!!!!!!
+        master = morig
+        detFirst.update()
+        # solve the deterministic expected problem, obtain solutions
+        detFirst.optimize()
+        
+        l = 1
+        # obtain a lower bound for the current expected solution
+        lb = getLB(xdet,playerList,pIDList,pData,N,threshold)
+        ub = N
+        xtemp = {}
+        for k in playerList:
+            xtemp[k] = xdet[k].x
+        # start the iteration to solve the decomposed problem
         while lb < numpy.floor(ub):
-            xSol = []
+            # generate cuts around the incumbent lower bound solution!!!!!!!!
+            pi,v = genLagrangian(xtemp,master,playerList,pData,pIDList,threshold)
+            pitotal = {}
+            vtotal = 0
+            for k in playerList:
+                pitotal[k] 
+                for i in range(N):
+                    pitotal[k] += pi[i,k]/N
+                    vtotal += v[i]/N
+            tempS = sum([pitotal[k]*(x[k] - xtemp[k]) for k in playerList])
+            master.addConstr(z >= vtotal + tempS, name = "LagrangianCut_{}".format(l))
+            master.update()
             master.optimize()
             # update the upper bound
             if ub > master.objVal:
                 ub = master.objVal
             lb = getLB(x,playerList,pIDList,pData,N,threshold)
-            for iKey in x.keys():
-                if abs(x[iKey].x - 1) <= 0.000001:
-                    xSol.append(iKey)
-            # add the integer L-shaped cuts!!!!!!
-            k += 1
-            master.update()
-            # add the Lagrangian cuts!!!!!!!
+            for k in playerList:
+                xtemp[k] = x[k].x
+            # new iteration
             l += 1
-            master.update()
         
         # record the xSol, add the constraint to remove this team, repeat the process
+        xSol = []
+        for k in playerList:
+            if abs(xtemp[k] - 1) <= 1e-4:
+                xSol.append(k)
         solColl.append(xSol)
         currentT = 0
         for item in xSol:
             currentT += x[item]
-        master.addConstr(currentT <= 8)
-        master.update()
-        
+        morig.addConstr(currentT <= 8)
+        morig.update()
         
