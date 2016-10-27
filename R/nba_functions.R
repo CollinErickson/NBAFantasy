@@ -43,6 +43,7 @@ convert.raw.nba <- function(file.path.in,write.out=F,file.path.out) {
 if (F) {
   #nba15 <- convert.raw.nba("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\2015Season20160211.csv")
   nba15 <- convert.raw.nba("data\\2015Season20160211.csv")
+  nba <- convert.raw.nba("data\\2015Season20160211.csv")
 }
 
 #' Create a table matching the players from the game data and salary data
@@ -162,14 +163,16 @@ get.converter.unique <- function(dat,key.name,value.name) {#browser()
 }
 if (F) {
   get.converter(FD.nba.conversion$nba.PLAYER_ID,FD.nba.conversion$FD.Id)
-  #team.abb.to.TEAM_ID.conv <- get.converter.unique(nba,'TEAM_ID','TEAM_ABBREVIATION')
+  #team.abb.to.TEAM_ID.conv <- get.converter.unique(nba,'TEAM_ABBREVIATION','TEAM_ID')
+  #TEAM_ID.to.team.abb.conv <- get.converter.unique(nba,'TEAM_ID','TEAM_ABBREVIATION')
   #write.csv(team.abb.to.TEAM_ID.conv, 'data//team_abb_to_TEAM_ID_conv.csv')
   #saveRDS(team.abb.to.TEAM_ID.conv, 'data//team_abb_to_TEAM_ID_conv.rds')
+  #saveRDS(team.abb.to.TEAM_ID.conv, 'data//TEAM_ID_to_team_abb_conv.rds')
   team.abb.to.TEAM_ID.conv <- readRDS('data//team_abb_to_TEAM_ID_conv.rds')
 }
 
 #' This does all steps of fitting the linear model
-fit.LM.2 <- function(nba,sal,res) {
+fit.LM.2 <- function(nba,sal,res) {browser()
   # Fit the model
   mod2 <- lm(FanDuelPts ~ factor(PLAYER_ID) + factor(IS_HOME) + factor(OPP_TEAM_ID),data = nba) # + factor(OPP_TEAM_ID)
 
@@ -198,7 +201,7 @@ fit.LM.2 <- function(nba,sal,res) {
 }
 if (F) {
   # Does everything
-  library(plyr)
+  #library(plyr)
   nba <- convert.raw.nba("data\\2015Season20160211.csv")
   FD.nba.conversion <- read.csv("data\\FD_nba_conversion.csv")
   sal <- read.csv("data\\FDSalaryNow_2_8_16.csv",stringsAsFactors=F)
