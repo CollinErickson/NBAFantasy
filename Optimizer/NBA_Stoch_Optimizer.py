@@ -14,6 +14,8 @@ Created on Tue Oct  4 22:36:20 2016
 from gurobipy import *
 import numpy
 import csv
+import pdb
+pdb.set_trace()
 
 def getLB(xinc,playerList,pIDList,pData,N,T):
     lb = 0
@@ -47,7 +49,10 @@ def genLagrangian(xhat,m,N,pList,scenList,pIDList,T):
         thetaprob.setObjective(theta, GRB.MINIMIZE)
         thetaprob.update()
         # set up the initial constraint
-        thetaprob.addConstr(theta >= sum([lamb[k]*(-xhat[k]) for k in pList]))
+        rhsExpr = 0
+        for k in pList:
+            rhsExpr += lamb[k]*(-xhat[k])
+        thetaprob.addConstr(theta >= rhsExpr)
         thetaprob.update()
         
         prevTheta = -numpy.infty
@@ -83,7 +88,10 @@ def genLagrangian(xhat,m,N,pList,scenList,pIDList,T):
                     tsum -= scenList[i][pIDList.index(ratioK[sortedind[startind]])]
                 startind += 1
             
-            thetaprob.addConstr(theta >= ytrial + sum([lamb[k]*(ztrial[k]-xhat[k]) for k in pList]))
+            rhsExpr = 0
+            for k in pList:
+                rhsExpr += lamb[k]*(ztrial[k]-xhat[k])
+            thetaprob.addConstr(theta >= ytrial + rhsExpr)
             thetaprob.update()
                 
             # y = 1
@@ -139,6 +147,29 @@ def genLagrangian(xhat,m,N,pList,scenList,pIDList,T):
         thetaList.append(theta)
     return lagranMul,thetaList
     
+def fakeInput(salaryF,playerDAdd,N,outputF):
+    # this function is used to generate random input to test the algorithm
+    playerDict = numpy.load(playerDAdd)[0]
+    fi = open(salaryF,"r")
+    csvReader = csv.reader(fi,dialect = "excel")
+    title = [""]
+    meansP = []
+    counter = 0
+    for item in csvReader:
+        if counter == 0:
+            counter += 1
+        else:
+            title.append(playerDict[item[2] + ' ' + item[3]])
+            meansP.append(float(item[4]))
+    fi.close()
+    fo = open(outputF,"w",newline = "")
+    csvWriter = csv.writer(fo,dialect = "excel")
+    csvWriter.writerow(title)
+    for i in range(N):
+        outputList = [i+1] + list(numpy.random.normal(meansP,list(0.01+numpy.multiply(0.2,meansP))))
+        csvWriter.writerow(outputList)
+    fo.close()
+    
 # the input is the salary file, the simulated scenario file and the player dictionary
 def stoch_opt(salaryF,distrnF,playerDAdd,totalTeam):
     # load the dictionary that maps players' names to their IDs
@@ -150,9 +181,10 @@ def stoch_opt(salaryF,distrnF,playerDAdd,totalTeam):
     pData = []
     for item in csvReader:
         if counter == 0:
-            pIDList = item[1:]
+            pIDList = list(map(int,item[1:]))
+            counter += 1
         else:
-            pData.append(item[1:])
+            pData.append(list(map(float,item[1:])))
     fi.close()
     pData = numpy.array(pData)
     N = numpy.size(pData,0)
@@ -214,7 +246,7 @@ def stoch_opt(salaryF,distrnF,playerDAdd,totalTeam):
     detFirst.setObjective(FDPointDet, GRB.MAXIMIZE)
     master.addConstr(totalS <= B, name = "BudgetConstraint")
     detFirst.addConstr(totalSdet <= B, name = "BCon_Det")
-    for item in posList.keys():
+    for item in posList:
         master.addConstr(posC[item] == posReq[item], name = "PositionConstraint_{}".format(item))
         detFirst.addConstr(posCdet[item] == posReq[item], name = "PCon_Det_{}".format(item))
     master.update()
@@ -236,7 +268,7 @@ def stoch_opt(salaryF,distrnF,playerDAdd,totalTeam):
         # start the iteration to solve the decomposed problem
         while lb < numpy.floor(ub):
             # generate cuts around the incumbent lower bound solution!!!!!!!!
-            pi,v = genLagrangian(xtemp,master,playerList,pData,pIDList,threshold)
+            pi,v = genLagrangian(xtemp,master,N,playerList,pData,pIDList,threshold)
             pitotal = {}
             vtotal = 0
             for k in playerList:
