@@ -1,8 +1,8 @@
-setwd("C:/Users/cbe117/School/IEMS490/Project")
+#setwd("C:/Users/cbe117/School/IEMS490/Project")
 library(caret)
 set.seed(0)
 #dat <- read.csv('nbaout_mm.csv')
-dat.in <- read.csv('PredictorSS.csv')
+dat.in <- read.csv('data/PredictorSS.csv')
 drop.cols <- c('Date','Player_ID','Name','Game_ID','Team','Opponent')
 dat <- dat.in[,!(names(dat.in)%in%drop.cols)] # remove date
 if (F) {
@@ -36,16 +36,16 @@ if(F) {
   write.csv(test3,'test3.csv',row.names=F)
 }
 if (F) {
-  # train4 does classes  
+  # train4 does classes
   dat2 <- dat[3081:dim(dat)[1],]
   num.classes <- 8
-  
+
   indices2 <- floor(1:((dim(dat2)[1])*.7))
   train2 <- dat2[indices2,]
   test2  <- dat[-indices2,]
   write.csv(train4,'train4.csv',row.names=F)
   write.csv(test4,'test4.csv',row.names=F)
-  
+
 }
 if (F) {
   # 5 removes first 14 days and does random 70/30 split with rest
@@ -53,6 +53,6 @@ if (F) {
   partit5 <- createDataPartition(dat5$FDP,p=.7,list=F)
   train5 <- dat[partit5,]
   test5 <- dat[-partit5,]
-  write.csv(train5,'train5.csv',row.names=F)
-  write.csv(test5,'test5.csv',row.names=F)
+  write.csv(train5,'data/train5.csv',row.names=F)
+  write.csv(test5,'data/test5.csv',row.names=F)
 }
