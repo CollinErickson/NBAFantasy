@@ -39,7 +39,7 @@ class NBAScraper:
     def GetGameList(self):
         currentDate = self.start
         self.totalGameList = {}
-        browser = webdriver.Chrome("C:\\Users\\hyang89\\chromedriver.exe")
+        browser = webdriver.Chrome("C:\\Documents\\Python_Files\\NBA\\chromedriver.exe")
         time.sleep(10)
         while currentDate <= self.end:
             # The previous version of scraping the IDs cannot work as the server
