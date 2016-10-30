@@ -40,7 +40,7 @@ def genLagrangian(xhat,m,N,pList,scenList,pIDList,T):
         for k in pList:
             ztrial[k] = 0
         thetaprob = Model()
-        theta = thetaprob.addVar(name = "theta")
+        theta = thetaprob.addVar(lb = -numpy.inf, name = "theta")
         lamb = {}
         for k in pList:
             lamb[k] = thetaprob.addVar(lb = -L, ub = L, name = "lambda_{}".format(k))
@@ -49,6 +49,7 @@ def genLagrangian(xhat,m,N,pList,scenList,pIDList,T):
         thetaprob.setObjective(theta, GRB.MINIMIZE)
         thetaprob.update()
         # set up the initial constraint
+        # start with y = 0, z = 0
         rhsExpr = 0
         for k in pList:
             rhsExpr += lamb[k]*(-xhat[k])
@@ -75,22 +76,32 @@ def genLagrangian(xhat,m,N,pList,scenList,pIDList,T):
                         tsum += scenList[i][pIDList.index(k)]
                         ztrial[k] = 1
                     else:
+                        # if the lambda is greater than or equal to 0 but the w is less than 0
+                        # then we need to decide which z should be added first
+                        # this is decided by ordering the ratio between lambda and w since local copy z is continuous between 0 and 1
                         ratioL.append(lagranMul[i,k]/(-scenList[i][pIDList.index(k)]))
                         ratioK.append(k)
-            sortedind = list(numpy.argsort(ratioL)).reverse()
+            if ratioL != []:
+                sortedind = list(numpy.argsort(ratioL)).reverse()
+            else:
+                sortedind = []
             startind = 0
+            
             while (tsum >= 0)and(startind < len(sortedind)):
                 if tsum <= scenList[i][pIDList.index(ratioK[sortedind[startind]])]:
-                    ztrial[pIDList.index(ratioK[sortedind[startind]])] = tsum/scenList[i][pIDList.index(ratioK[sortedind[startind]])]
+                    ztrial[ratioK[sortedind[startind]]] = tsum/scenList[i][pIDList.index(ratioK[sortedind[startind]])]
                     tsum = 0
                 else:
-                    ztrial[pIDList.index(ratioK[sortedind[startind]])] = 1
+                    ztrial[ratioK[sortedind[startind]]] = 1
                     tsum -= scenList[i][pIDList.index(ratioK[sortedind[startind]])]
                 startind += 1
             
             rhsExpr = 0
             for k in pList:
-                rhsExpr += lamb[k]*(ztrial[k]-xhat[k])
+                if k in ztrial.keys():
+                    rhsExpr += lamb[k]*(ztrial[k]-xhat[k])
+                else:
+                    rhsExpr += lamb[k]*(-xhat[k])
             thetaprob.addConstr(theta >= ytrial + rhsExpr)
             thetaprob.update()
                 
@@ -109,34 +120,54 @@ def genLagrangian(xhat,m,N,pList,scenList,pIDList,T):
                             tsum += scenList[i][pIDList.index(k)]
                             ztrial[k] = 1
                         else:
+                            # if lambda is greater than/equal to 0 but w is smaller than 0
+                            # record the ratio between lambda and w
                             ratioL1.append(lagranMul[i,k]/(-scenList[i][pIDList.index(k)]))
                             ratioK1.append(k)
                     else:
+                        # if lambda is less than 0
+                        # record the ratio between lambda and w
                         ratioL2.append(-lagranMul[i,k]/scenList[i][pIDList.index(k)])
                         ratioK2.append(k)
-                sortedind1 = list(numpy.argsort(ratioL1)).reverse()
-                sortedind2 = list(numpy.argsort(ratioL2))
+                if ratioL1 != []:
+                    sortedind1 = list(numpy.argsort(ratioL1)).reverse()
+                else:
+                    sortedind1 = []
+                if ratioL2 != []:
+                    sortedind2 = list(numpy.argsort(ratioL2))
+                else:
+                    sortedind2 = []
                 startind = 0
                 if tsum >= T:
+                    # if the summed weight is over threshold
+                    # then add positive lambda with negative w until tsum = T
+                    # according to the order in sortedind1
                     while (tsum >= T)and(startind < len(sortedind1)):
                         if (tsum - T) <= scenList[i][pIDList.index(ratioK1[sortedind1[startind]])]:
-                            ztrial[pIDList.index(ratioK1[sortedind1[startind]])] = (tsum - T)/scenList[i][pIDList.index(ratioK1[sortedind1[startind]])]
+                            ztrial[ratioK1[sortedind1[startind]]] = (tsum - T)/scenList[i][pIDList.index(ratioK1[sortedind1[startind]])]
                             tsum = T
                         else:
-                            ztrial[pIDList.index(ratioK1[sortedind1[startind]])] = 1
+                            ztrial[ratioK1[sortedind1[startind]]] = 1
                             tsum -= scenList[i][pIDList.index(ratioK1[sortedind1[startind]])]
                         startind += 1
                 else:
+                    # if the summed weight is less than threshold
+                    # then add positive w with negative lambda until tsum = T
+                    # according to the order in sortedind2
                     while (tsum < T):
                         if (T - tsum) <= scenList[i][pIDList.index(ratioK2[sortedind2[startind]])]:
-                            ztrial[pIDList.index(ratioK2[sortedind2[startind]])] = (T - tsum)/scenList[i][pIDList.index(ratioK2[sortedind2[startind]])]
+                            ztrial[ratioK2[sortedind2[startind]]] = (T - tsum)/scenList[i][pIDList.index(ratioK2[sortedind2[startind]])]
                             tsum = T
                         else:
-                            ztrial[pIDList.index(ratioK2[sortedind2[startind]])] = 1
-                            tsum += scenList[i][pIDList.index(ratioK2[sortedind2][startind])]
+                            ztrial[ratioK2[sortedind2[startind]]] = 1
+                            tsum += scenList[i][pIDList.index(ratioK2[sortedind2[startind]])]
                         startind += 1
-                        
-                thetaprob.addConstr(theta >= ytrial + sum([lamb[k]*(ztrial[k]-xhat[k]) for k in pList]))
+                
+                rhsExpr = 0
+                for k in pList:
+                    if k in ztrial.keys():
+                        rhsExpr += lamb[k]*(ztrial[k]-xhat[k])
+                thetaprob.addConstr(theta >= ytrial + rhsExpr)
                 thetaprob.update()
             
             prevTheta = currentTheta
@@ -144,7 +175,7 @@ def genLagrangian(xhat,m,N,pList,scenList,pIDList,T):
             currentTheta = theta.x
             for k in pList:
                 lagranMul[i,k] = lamb[k].x
-        thetaList.append(theta)
+        thetaList.append(currentTheta)
     return lagranMul,thetaList
     
 def fakeInput(salaryF,playerDAdd,N,outputF):
@@ -201,12 +232,14 @@ def stoch_opt(salaryF,distrnF,playerDAdd,totalTeam):
     # define the decision variable
     x = {}
     xdet = {}
-    z = {}
+#    z = {}
     obj = 0
     # define the objective function
-    for i in range(N):
-        z[i] = master.addVar(lb = 0, ub = 1, name = "Z_{}".format(i))
-        obj += 1/N*z[i]
+#    for i in range(N):
+#        z[i] = master.addVar(lb = 0, ub = 1, name = "Z_{}".format(i))
+#        obj += 1/N*z[i]
+    z = master.addVar(lb = 0, name = "Z")
+    obj = z
     playerList = []
     totalS = 0
     totalSdet = 0
@@ -272,12 +305,14 @@ def stoch_opt(salaryF,distrnF,playerDAdd,totalTeam):
             pitotal = {}
             vtotal = 0
             for k in playerList:
-                pitotal[k] 
+                pitotal[k] = 0 
                 for i in range(N):
                     pitotal[k] += pi[i,k]/N
                     vtotal += v[i]/N
-            tempS = sum([pitotal[k]*(x[k] - xtemp[k]) for k in playerList])
-            master.addConstr(z >= vtotal + tempS, name = "LagrangianCut_{}".format(l))
+            piTerm = 0
+            for k in playerList:
+                piTerm += pitotal[k]*(x[k] - xtemp[k])
+            master.addConstr(z <= vtotal + piTerm, name = "LagrangianCut_{}".format(l))
             master.update()
             master.optimize()
             # update the upper bound
