@@ -82,19 +82,24 @@ def genLagrangian(xhat,m,N,pList,scenList,pIDList,T):
                         ratioL.append(lagranMul[i,k]/(-scenList[i][pIDList.index(k)]))
                         ratioK.append(k)
             if ratioL != []:
-                sortedind = list(numpy.argsort(ratioL)).reverse()
+                ratioList = list(numpy.argsort(ratioL))
+                ratioList.reverse()
+                sortedind = ratioList
             else:
                 sortedind = []
             startind = 0
             
-            while (tsum >= 0)and(startind < len(sortedind)):
-                if tsum <= scenList[i][pIDList.index(ratioK[sortedind[startind]])]:
-                    ztrial[ratioK[sortedind[startind]]] = tsum/scenList[i][pIDList.index(ratioK[sortedind[startind]])]
-                    tsum = 0
-                else:
-                    ztrial[ratioK[sortedind[startind]]] = 1
-                    tsum -= scenList[i][pIDList.index(ratioK[sortedind[startind]])]
-                startind += 1
+            try:
+                while (tsum >= 0)and(startind < len(sortedind)):
+                    if tsum <= scenList[i][pIDList.index(ratioK[sortedind[startind]])]:
+                        ztrial[ratioK[sortedind[startind]]] = tsum/scenList[i][pIDList.index(ratioK[sortedind[startind]])]
+                        tsum = 0
+                    else:
+                        ztrial[ratioK[sortedind[startind]]] = 1
+                        tsum -= scenList[i][pIDList.index(ratioK[sortedind[startind]])]
+                    startind += 1
+            except:
+                print(1)
             
             rhsExpr = 0
             for k in pList:
@@ -191,19 +196,20 @@ def fakeInput(salaryF,playerDAdd,N,outputF):
             counter += 1
         else:
             title.append(playerDict[item[2] + ' ' + item[3]])
-            meansP.append(float(item[4]))
+            meansP.append(float(item[4])+10)
     fi.close()
     fo = open(outputF,"w",newline = "")
     csvWriter = csv.writer(fo,dialect = "excel")
     csvWriter.writerow(title)
     for i in range(N):
-        outputList = [i+1] + list(numpy.random.normal(meansP,list(0.01+numpy.multiply(0.2,meansP))))
+        outputList = [i+1] + list(numpy.random.normal(meansP,list(0.01+numpy.multiply(0.5,meansP))))
         csvWriter.writerow(outputList)
     fo.close()
     
 # the input is the salary file, the simulated scenario file and the player dictionary
 def stoch_opt(salaryF,distrnF,playerDAdd,totalTeam):
     # load the dictionary that maps players' names to their IDs
+    solColl = []
     playerDict = numpy.load(playerDAdd)[0]
     # load the simulated scenarios
     fi = open(distrnF,"r")
@@ -226,6 +232,7 @@ def stoch_opt(salaryF,distrnF,playerDAdd,totalTeam):
     counter = 0
     posList = ["C","PG","SG","PF","SF"]
     posReq = {"C":1,"PG":2,"SG":2,"PF":2,"SF":2}
+    posPlayer = {"C":[],"PG":[],"SG":[],"PF":[],"SF":[]}
     
     master = Model()
     detFirst = Model()
@@ -265,6 +272,7 @@ def stoch_opt(salaryF,distrnF,playerDAdd,totalTeam):
             # append the position information
             posC[item[1]] += x[playerID]
             posCdet[item[1]] += xdet[playerID]
+            posPlayer[item[1]].append(playerID)
             # append the salary information
             totalS += float(item[6])*x[playerID]
             totalSdet += float(item[6])*xdet[playerID]
@@ -326,13 +334,30 @@ def stoch_opt(salaryF,distrnF,playerDAdd,totalTeam):
         
         # record the xSol, add the constraint to remove this team, repeat the process
         xSol = []
+        solPG = []
+        solSG = []
+        solSF = []
+        solPF = []
+        solC = []
         for k in playerList:
             if abs(xtemp[k] - 1) <= 1e-4:
                 xSol.append(k)
-        solColl.append(xSol)
+                if k in posPlayer["PG"]:
+                    solPG.append(k)
+                elif k in posPlayer["SG"]:
+                    solSG.append(k)
+                elif k in posPlayer["SF"]:
+                    solSF.append(k)
+                elif k in posPlayer["PF"]:
+                    solPF.append(k)
+                elif k in posPlayer["C"]:
+                    solC.append(k)
+        solColl.append(solPG+solSG+solSF+solPF+solC)
         currentT = 0
         for item in xSol:
             currentT += x[item]
         morig.addConstr(currentT <= 8)
         morig.update()
+    return solColl
+        
         
