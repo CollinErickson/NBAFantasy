@@ -39,7 +39,7 @@ class NBAScraper:
     def GetGameList(self):
         currentDate = self.start
         self.totalGameList = {}
-        browser = webdriver.Chrome("C:\\Users\\hyang89\\chromedriver.exe")
+        browser = webdriver.Chrome("C:\\Documents\\Python_Files\\NBA\\chromedriver.exe")
         time.sleep(10)
         while currentDate <= self.end:
             # The previous version of scraping the IDs cannot work as the server
@@ -148,11 +148,11 @@ class NBAScraper:
                         'SEASON','ATTENDANCE','GAME_TIME'})
                         header = list(headerSet)
                         header.append('FDScore')
-                        header.append('DKScore')
                         self.totalPlayerList.append(header)
                     
                     for player in range(len(boxData['resultSets'][0]['rowSet'])):
                         playerData = []
+                        FDscore = 0
                         for item in header:
                             if item in boxData['resultSets'][0]['headers']:
                                 indexx = boxData['resultSets'][0]['headers'].index(item)
@@ -189,6 +189,19 @@ class NBAScraper:
                                                             if item in sumData['resultSets'][4]['headers']:
                                                                 indexx = sumData['resultSets'][4]['headers'].index(item)
                                                                 playerData.append(sumData['resultSets'][4]['rowSet'][0][indexx])
+                            if item == "PTS":
+                                FDscore += float(playerData[-1])
+                            elif item == "AST":
+                                FDscore += float(playerData[-1])*1.5
+                            elif item == "BLK":
+                                FDscore += float(playerData[-1])*2
+                            elif item == "STL":
+                                FDscore += float(playerData[-1])*2
+                            elif item == "REB":
+                                FDscore += float(playerData[-1])*1.2
+                            elif item == "TO":
+                                FDscore += float(playerData[-1])*(-1)
+                        playerData.append(FDscore)
                         self.totalPlayerList.append(playerData)
                 except:
                     pass
