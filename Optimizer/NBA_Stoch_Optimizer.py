@@ -29,158 +29,51 @@ def getLB(xinc,playerList,pIDList,pData,N,T):
 
 # the input is the incumbent solution and the master program
 def genLagrangian(xhat,m,N,pList,scenList,pIDList,T):
-    # initialize with lambda = 0
     lagranMul = {}
     L = 99999
-    thetaList = []
+    thetaList = {}
+        
     # for each scenario
     for i in range(N):
-        # initialize the theta problem to solve for lambda
-        ztrial = {}
-        for k in pList:
-            ztrial[k] = 0
-        thetaprob = Model()
-        theta = thetaprob.addVar(lb = -numpy.inf, name = "theta")
-        lamb = {}
-        for k in pList:
-            lamb[k] = thetaprob.addVar(lb = -L, ub = L, name = "lambda_{}".format(k))
-        thetaprob.update()
-        # set up the objective function for the theta problem
-        thetaprob.setObjective(theta, GRB.MINIMIZE)
-        thetaprob.update()
-        # set up the initial constraint
-        # start with y = 0, z = 0
-        rhsExpr = 0
-        for k in pList:
-            rhsExpr += lamb[k]*(-xhat[k])
-        thetaprob.addConstr(theta >= rhsExpr)
-        thetaprob.update()
+        for j in pList:
+            # initialize with lambda = 0
+            lagranMul[i,j] = 0
+
+        # build the lagrangian relaxation problem
+        lrm = Model()
+        zlr = {}
+        ylr = lrm.addVar(vtype = GRB.BINARY, name = "y")
+        for j in pList:
+            zlr[j] = lrm.addVar(lb = 0, ub = 1, name = "z_{}".format(j))
+        lrm.update()
+        lrm.addConstr(T*ylr<=quicksum([scenList[i][pIDList.index(j)]*zlr[j] for j in pList]))
+        lrm.update()
         
-        prevTheta = -numpy.infty
-        thetaprob.optimize()
-        currentTheta = theta.x
-        for k in pList:
-            lagranMul[i,k] = lamb[k].x
-        while currentTheta != prevTheta:
-            # start the iteration to obtain lambda, split into y = 0 or y = 1!!!!!!!!!
+        stopBool = False
+        k = 0
+        # until stop criterion is met, solve the lagrangian relaxation with the current multiplier
+        while (not(stopBool))or(k <= 50):
+            # update the objective function and solve the lagrangian relaxation problem
+            lrm.setObjective(-ylr-quicksum([lagranMul[i,j]*(zlr[j]-xhat[j]) for j in pList]),GRB.MINIMIZE)
+            lrm.update()
+            lrm.optimize()
             
-            # y = 0
-            ytrial = 0
-            ztrial = {}
-            ratioL = []
-            ratioK = []
-            for k in pList:
-                if (lagranMul[i,k] >= 0):
-                    tsum = 0
-                    if (scenList[i][pIDList.index(k)] >= 0):
-                        tsum += scenList[i][pIDList.index(k)]
-                        ztrial[k] = 1
-                    else:
-                        # if the lambda is greater than or equal to 0 but the w is less than 0
-                        # then we need to decide which z should be added first
-                        # this is decided by ordering the ratio between lambda and w since local copy z is continuous between 0 and 1
-                        ratioL.append(lagranMul[i,k]/(-scenList[i][pIDList.index(k)]))
-                        ratioK.append(k)
-            if ratioL != []:
-                ratioList = list(numpy.argsort(ratioL))
-                ratioList.reverse()
-                sortedind = ratioList
-            else:
-                sortedind = []
-            startind = 0
-            
-            try:
-                while (tsum >= 0)and(startind < len(sortedind)):
-                    if tsum <= scenList[i][pIDList.index(ratioK[sortedind[startind]])]:
-                        ztrial[ratioK[sortedind[startind]]] = tsum/scenList[i][pIDList.index(ratioK[sortedind[startind]])]
-                        tsum = 0
-                    else:
-                        ztrial[ratioK[sortedind[startind]]] = 1
-                        tsum -= scenList[i][pIDList.index(ratioK[sortedind[startind]])]
-                    startind += 1
-            except:
-                print(1)
-            
-            rhsExpr = 0
-            for k in pList:
-                if k in ztrial.keys():
-                    rhsExpr += lamb[k]*(ztrial[k]-xhat[k])
-                else:
-                    rhsExpr += lamb[k]*(-xhat[k])
-            thetaprob.addConstr(theta >= ytrial + rhsExpr)
-            thetaprob.update()
+            # update the indicator whether the iteration should stop
+            stopBool = True
+            for j in pList:
+                if abs(zlr[j].x - xhat[j]) >= 1e-5:
+                    stopBool = False
+            if not(stopBool):
+                # calculate the step size
+                gamma = 1/(k+1)
+                for j in pList:
+                    lagranMul[i,j] += gamma*(xhat[j] - zlr[j].x)
+        lrm.setObjective(-ylr-quicksum([lagranMul[i,j]*(zlr[j]-xhat[j]) for j in pList]),GRB.MINIMIZE)
+        lrm.update()
+        lrm.optimize()
+        thetaList[i] = lrm.objVal
                 
-            # y = 1
-            ytrial = 1
-            ztrial = {}
-            ratioL1 = []
-            ratioK1 = []
-            ratioL2 = []
-            ratioK2 = []
-            if sum([scenList[i][pIDList.index(k)] for k in pList]) >= T:
-                for k in pList:
-                    if (lagranMul[i,k] >= 0):
-                        tsum = 0
-                        if (scenList[i][pIDList.index(k)] >= 0):
-                            tsum += scenList[i][pIDList.index(k)]
-                            ztrial[k] = 1
-                        else:
-                            # if lambda is greater than/equal to 0 but w is smaller than 0
-                            # record the ratio between lambda and w
-                            ratioL1.append(lagranMul[i,k]/(-scenList[i][pIDList.index(k)]))
-                            ratioK1.append(k)
-                    else:
-                        # if lambda is less than 0
-                        # record the ratio between lambda and w
-                        ratioL2.append(-lagranMul[i,k]/scenList[i][pIDList.index(k)])
-                        ratioK2.append(k)
-                if ratioL1 != []:
-                    sortedind1 = list(numpy.argsort(ratioL1)).reverse()
-                else:
-                    sortedind1 = []
-                if ratioL2 != []:
-                    sortedind2 = list(numpy.argsort(ratioL2))
-                else:
-                    sortedind2 = []
-                startind = 0
-                if tsum >= T:
-                    # if the summed weight is over threshold
-                    # then add positive lambda with negative w until tsum = T
-                    # according to the order in sortedind1
-                    while (tsum >= T)and(startind < len(sortedind1)):
-                        if (tsum - T) <= scenList[i][pIDList.index(ratioK1[sortedind1[startind]])]:
-                            ztrial[ratioK1[sortedind1[startind]]] = (tsum - T)/scenList[i][pIDList.index(ratioK1[sortedind1[startind]])]
-                            tsum = T
-                        else:
-                            ztrial[ratioK1[sortedind1[startind]]] = 1
-                            tsum -= scenList[i][pIDList.index(ratioK1[sortedind1[startind]])]
-                        startind += 1
-                else:
-                    # if the summed weight is less than threshold
-                    # then add positive w with negative lambda until tsum = T
-                    # according to the order in sortedind2
-                    while (tsum < T):
-                        if (T - tsum) <= scenList[i][pIDList.index(ratioK2[sortedind2[startind]])]:
-                            ztrial[ratioK2[sortedind2[startind]]] = (T - tsum)/scenList[i][pIDList.index(ratioK2[sortedind2[startind]])]
-                            tsum = T
-                        else:
-                            ztrial[ratioK2[sortedind2[startind]]] = 1
-                            tsum += scenList[i][pIDList.index(ratioK2[sortedind2[startind]])]
-                        startind += 1
-                
-                rhsExpr = 0
-                for k in pList:
-                    if k in ztrial.keys():
-                        rhsExpr += lamb[k]*(ztrial[k]-xhat[k])
-                thetaprob.addConstr(theta >= ytrial + rhsExpr)
-                thetaprob.update()
-            
-            prevTheta = currentTheta
-            thetaprob.optimize()
-            currentTheta = theta.x
-            for k in pList:
-                lagranMul[i,k] = lamb[k].x
-        thetaList.append(currentTheta)
+        
     return lagranMul,thetaList
     
 def fakeInput(salaryF,playerDAdd,N,outputF):
@@ -211,7 +104,7 @@ def stoch_opt(salaryF,distrnF,playerDAdd,totalTeam):
     # load the dictionary that maps players' names to their IDs
     solColl = []
     playerDict = numpy.load(playerDAdd)[0]
-    # load the simulated scenarios
+    # load the simulated scenarios: each row is one scenario, first row contains the ID
     fi = open(distrnF,"r")
     csvReader = csv.reader(fi,dialect = "excel")
     counter = 0
