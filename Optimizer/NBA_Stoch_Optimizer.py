@@ -52,9 +52,9 @@ def genLagrangian(xhat,m,N,pList,scenList,pIDList,T):
         stopBool = False
         k = 0
         # until stop criterion is met, solve the lagrangian relaxation with the current multiplier
-        while (not(stopBool))or(k <= 50):
+        while (not(stopBool))and(k <= 50):
             # update the objective function and solve the lagrangian relaxation problem
-            lrm.setObjective(-ylr-quicksum([lagranMul[i,j]*(zlr[j]-xhat[j]) for j in pList]),GRB.MINIMIZE)
+            lrm.setObjective(ylr+quicksum([lagranMul[i,j]*(xhat[j] - zlr[j]) for j in pList]),GRB.MAXIMIZE)
             lrm.update()
             lrm.optimize()
             
@@ -65,12 +65,14 @@ def genLagrangian(xhat,m,N,pList,scenList,pIDList,T):
                     stopBool = False
             if not(stopBool):
                 # calculate the step size
-                gamma = 1/(k+1)
+                gamma = 1/(k+2)
                 for j in pList:
-                    lagranMul[i,j] += gamma*(xhat[j] - zlr[j].x)
-        lrm.setObjective(-ylr-quicksum([lagranMul[i,j]*(zlr[j]-xhat[j]) for j in pList]),GRB.MINIMIZE)
+                    lagranMul[i,j] -= gamma*(xhat[j] - zlr[j].x)
+            k += 1
+        lrm.setObjective(ylr+quicksum([lagranMul[i,j]*(xhat[j] - zlr[j]) for j in pList]),GRB.MAXIMIZE)
         lrm.update()
         lrm.optimize()
+        sumScore = sum([zlr[j].x*scenList[i][pIDList.index(j)] for j in pList])
         thetaList[i] = lrm.objVal
                 
         
@@ -209,7 +211,8 @@ def stoch_opt(salaryF,distrnF,playerDAdd,totalTeam):
                 pitotal[k] = 0 
                 for i in range(N):
                     pitotal[k] += pi[i,k]/N
-                    vtotal += v[i]/N
+            for i in range(N):
+                vtotal += v[i]/N
             piTerm = 0
             for k in playerList:
                 piTerm += pitotal[k]*(x[k] - xtemp[k])
