@@ -9,8 +9,8 @@ Created on Wed Feb 03 19:37:55 2016
 # the function will take in the score of that day. Input as 
 
 from gurobipy import *
-import pdb
-pdb.set_trace()
+#import pdb
+#pdb.set_trace()
 import csv
 
 class detOptimizer:
@@ -32,6 +32,7 @@ class detOptimizer:
         
         # set up the model
         self.model = Model()
+        self.model.params.outputflag = 0
         self.budget = 60000
         self.playertype = ["PG","SG","SF","PF","C"]
         self.playerQ = {"PG":2,"SG":2,"SF":2,"PF":2,"C":1}
@@ -72,7 +73,9 @@ class detOptimizer:
     def outputLineups(self):
         fo = open(self.outAdd,"w",newline = '')
         csvWriter = csv.writer(fo,dialect = 'excel')
-        title = ["Lineup No.","PG","FD Score","PG","FD Score","SG","FD Score","SG","FD Score","PF","FD Score","PF","FD Score","SF","FD Score","SF","FD Score","C","FD Score"]
+        title = ["Lineup No.","PG","FD Score","Salary","PG","FD Score","Salary","SG","FD Score","Salary",\
+                 "SG","FD Score","Salary","PF","FD Score","Salary","PF","FD Score","Salary","SF","FD Score","Salary",\
+                 "SF","FD Score","Salary","C","FD Score","Salary","Total Score","Total Salary"]
         csvWriter.writerow(title)
         
         counter = 0
@@ -80,40 +83,73 @@ class detOptimizer:
             outList = [0]*len(title)
             counter += 1
             outList[0] = counter
+            totalScore = 0
+            totalSalary = 0
             
             for item in lineup:
+                
                 # fill first PG
                 if self.playerInfo[self.playerIndexRev[item]][2] == "PG":
                     if outList[1] == 0:
                         outList[1] = self.playerIndexRev[item]
                         outList[2] = self.playerInfo[self.playerIndexRev[item]][0]
+                        totalScore += self.playerInfo[self.playerIndexRev[item]][0]
+                        outList[3] = self.playerInfo[self.playerIndexRev[item]][1]
+                        totalSalary += self.playerInfo[self.playerIndexRev[item]][1]
                     else:
-                        outList[3] = self.playerIndexRev[item]
-                        outList[4] = self.playerInfo[self.playerIndexRev[item]][0]
+                        outList[4] = self.playerIndexRev[item]
+                        outList[5] = self.playerInfo[self.playerIndexRev[item]][0]
+                        totalScore += self.playerInfo[self.playerIndexRev[item]][0]
+                        outList[6] = self.playerInfo[self.playerIndexRev[item]][1]
+                        totalSalary += self.playerInfo[self.playerIndexRev[item]][1]
                 elif self.playerInfo[self.playerIndexRev[item]][2] == "SG":
-                    if outList[5] == 0:
-                        outList[5] = self.playerIndexRev[item]
-                        outList[6] = self.playerInfo[self.playerIndexRev[item]][0]
-                    else:
+                    if outList[7] == 0:
                         outList[7] = self.playerIndexRev[item]
                         outList[8] = self.playerInfo[self.playerIndexRev[item]][0]
-                elif self.playerInfo[self.playerIndexRev[item]][2] == "PF":
-                    if outList[9] == 0:
-                        outList[9] = self.playerIndexRev[item]
-                        outList[10] = self.playerInfo[self.playerIndexRev[item]][0]
+                        totalScore += self.playerInfo[self.playerIndexRev[item]][0]
+                        outList[9] = self.playerInfo[self.playerIndexRev[item]][1]
+                        totalSalary += self.playerInfo[self.playerIndexRev[item]][1]
                     else:
-                        outList[11] = self.playerIndexRev[item]
-                        outList[12] = self.playerInfo[self.playerIndexRev[item]][0]
-                elif self.playerInfo[self.playerIndexRev[item]][2] == "SF":
+                        outList[10] = self.playerIndexRev[item]
+                        outList[11] = self.playerInfo[self.playerIndexRev[item]][0]
+                        totalScore += self.playerInfo[self.playerIndexRev[item]][0]
+                        outList[12] = self.playerInfo[self.playerIndexRev[item]][1]
+                        totalSalary += self.playerInfo[self.playerIndexRev[item]][1]
+                elif self.playerInfo[self.playerIndexRev[item]][2] == "PF":
                     if outList[13] == 0:
                         outList[13] = self.playerIndexRev[item]
                         outList[14] = self.playerInfo[self.playerIndexRev[item]][0]
+                        totalScore += self.playerInfo[self.playerIndexRev[item]][0]
+                        outList[15] = self.playerInfo[self.playerIndexRev[item]][1]
+                        totalSalary += self.playerInfo[self.playerIndexRev[item]][1]
                     else:
-                        outList[15] = self.playerIndexRev[item]
-                        outList[16] = self.playerInfo[self.playerIndexRev[item]][0]
+                        outList[16] = self.playerIndexRev[item]
+                        outList[17] = self.playerInfo[self.playerIndexRev[item]][0]
+                        totalScore += self.playerInfo[self.playerIndexRev[item]][0]
+                        outList[18] = self.playerInfo[self.playerIndexRev[item]][1]
+                        totalSalary += self.playerInfo[self.playerIndexRev[item]][1]
+                elif self.playerInfo[self.playerIndexRev[item]][2] == "SF":
+                    if outList[19] == 0:
+                        outList[19] = self.playerIndexRev[item]
+                        outList[20] = self.playerInfo[self.playerIndexRev[item]][0]
+                        totalScore += self.playerInfo[self.playerIndexRev[item]][0]
+                        outList[21] = self.playerInfo[self.playerIndexRev[item]][1]
+                        totalSalary += self.playerInfo[self.playerIndexRev[item]][1]
+                    else:
+                        outList[22] = self.playerIndexRev[item]
+                        outList[23] = self.playerInfo[self.playerIndexRev[item]][0]
+                        totalScore += self.playerInfo[self.playerIndexRev[item]][0]
+                        outList[24] = self.playerInfo[self.playerIndexRev[item]][1]
+                        totalSalary += self.playerInfo[self.playerIndexRev[item]][1]
                 else:
-                    outList[17] = self.playerIndexRev[item]
-                    outList[18] = self.playerInfo[self.playerIndexRev[item]][0]
+                    outList[25] = self.playerIndexRev[item]
+                    outList[26] = self.playerInfo[self.playerIndexRev[item]][0]
+                    totalScore += self.playerInfo[self.playerIndexRev[item]][0]
+                    outList[27] = self.playerInfo[self.playerIndexRev[item]][1]
+                    totalSalary += self.playerInfo[self.playerIndexRev[item]][1]
+                    
+            outList[28] = totalScore
+            outList[29] = totalSalary
             csvWriter.writerow(outList)
             
         fo.close()
