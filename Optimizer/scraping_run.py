@@ -30,3 +30,4 @@ for yr in range(2017,2013,-1):
     end = seasonDict[yr][1]
     b = SalaryScraper(start,end,"/Users/haoxiangyang/Desktop/NBA_Data/Salary/")
     b.SalaryDayScraper()
+    
