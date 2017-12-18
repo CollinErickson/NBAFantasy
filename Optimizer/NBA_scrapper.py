@@ -404,7 +404,7 @@ class SalaryScraper:
                 aString = aString.decode("ISO-8859-1")
                 
                 # use regEx to extract information & obtain a csv file
-                playerList = re.findall('<!--([0-9]+)--><tr><td>([A-Z]+)</td><td><a href=".+" target="_blank" >(.+)</a>([\^]*)</td><td align=center>([0-9\.]+)</td><td align=right>([0-9\$\,]+)</td><td align=center>([a-z]+)</td><td>([a-z\ \@]+)</td><td align=right>&nbsp;([0-9\-]+)</td><td align=right>([0-9\:]+)</td><td align=left> &nbsp; (.+)</td></tr>',aString)
+                playerList = re.findall('<!--([0-9]+)--><tr><td>([A-Z]+)</td><td><a href=".+" target="_blank" >(.+)</a>([\^]*)</td><td align=center>([0-9\.]+)</td><td align=right>([0-9\$\,]+)</td><td align=center>([a-z]+)</td><td>([a-z\ \@]+)</td><td align=right>&nbsp;([0-9\-]+)</td><td align=right>([0-9\:A-Z]+)</td><td align=left> &nbsp; (.*)</td></tr>',aString)
                 salaryData = []
                 title = ["Player ID","Position","First Name","Last Name","Starter","FDPoints","Salary",\
                          "Team","Opponent","Home","Team Score","Opponent Score",]

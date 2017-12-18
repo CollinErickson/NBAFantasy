@@ -6,31 +6,23 @@ Created on Mon Dec  4 23:59:54 2017
 """
 
  # deterministic optimization analysis: check what players are among the most picked
+import os
+os.chdir("/Users/haoxiangyang/Desktop/Git/NBAFantasy/Optimizer/")
+ 
 import datetime
 from gurobipy import *
 from NBA_Det_Optimizer import *
 import csv
-import os
-os.chdir("/Users/haoxiangyang/Desktop/Git/NBAFantasy/Optimizer/")
-import pdb
-pdb.set_trace()
-#%%
-# first generate the top 500 picks of each day
-start = datetime.date(2017,12,8)
-end = datetime.date(2017,12,10)
-currentDate = start
-#salaryPath = "C:/Documents/PhD/Sports/FD/Salary/"
-#lineupPath = "C:/Documents/PhD/Sports/FD/Lineups/"
-N = 2000
+from NBA_scrapper import *
+#import pdb
+#pdb.set_trace()
 salaryPath = "/Users/haoxiangyang/Desktop/NBA_Data/Salary/"
 lineupPath = "/Users/haoxiangyang/Desktop/NBA_Data/Lineups/"
 snapshotPath = "/Users/haoxiangyang/Desktop/NBA_Data/Snapshot/"
-#
-digTrans = {1:'01',2:'02',3:'03',4:'04',5:'05',6:'06',7:'07',8:'08',9:'09'}
-# 
-while currentDate <= end:
-    # for every single day print out the top 500 lineups in csv format
-#    try:
+blankPath = "/Users/haoxiangyang/Desktop/NBA_Data/Blank/"
+
+# function to convert the datetime date to a YYYYMMDD string
+def dateConvert(currentDate):
     if currentDate.month < 10:
         monthTemp = digTrans[currentDate.month]
     else:
@@ -39,14 +31,31 @@ while currentDate <= end:
         dayTemp = digTrans[currentDate.day]
     else:
         dayTemp = str(currentDate.day)
-        
-    c = detOptimizer(str(currentDate.year)+monthTemp+dayTemp,salaryPath,lineupPath,N)
+    return str(currentDate.year)+monthTemp+dayTemp
+
+#%%
+# first generate the top 2000 picks of each day
+start = datetime.date(2017,12,17)
+end = datetime.date(2017,12,17)
+currentDate = start
+#salaryPath = "C:/Documents/PhD/Sports/FD/Salary/"
+#lineupPath = "C:/Documents/PhD/Sports/FD/Lineups/"
+N = 2000
+M = 1
+#
+digTrans = {1:'01',2:'02',3:'03',4:'04',5:'05',6:'06',7:'07',8:'08',9:'09'}
+# 
+while currentDate <= end:
+    # for every single day print out the top 500 lineups in csv format
+#    try:
+    dateStr = dateConvert(currentDate) 
+    c = detOptimizer(dateStr,salaryPath,lineupPath,N,M)
     c.mainN()
     c.outputLineups()
 #    except:
 #        print(currentDate)
     currentDate = currentDate + datetime.timedelta(1)
-#     
+#
 #%%
 # After hand draw the trend of position of top human player's, $75 winner's order in the list of best options
 # Collect the information of how many times a player has shown up in the top 2000?1000?
@@ -60,17 +69,9 @@ pActDict = {}
 N = 2000
 while currentDate <= end:
     try:
-        if currentDate.month < 10:
-            monthTemp = digTrans[currentDate.month]
-        else:
-            monthTemp = str(currentDate.month)
-        if currentDate.day < 10:
-            dayTemp = digTrans[currentDate.day]
-        else:
-            dayTemp = str(currentDate.day)
-        
+        dateStr = dateConvert(currentDate) 
         # first generate a list of players
-        fi = open(salaryPath + str(currentDate.year) + monthTemp + dayTemp + ".csv","r")
+        fi = open(salaryPath + dateStr + ".csv","r")
         csvReader = csv.reader(fi)
         # read in the data from the salary file
         counter = 0
@@ -90,7 +91,7 @@ while currentDate <= end:
         fi.close()
         
         # read in the N best lineup file
-        fi = open(lineupPath + str(currentDate.year) + monthTemp + dayTemp + "_" + str(N) + ".csv","r")
+        fi = open(lineupPath + dateStr + "_" + str(N) + ".csv","r")
         csvReader = csv.reader(fi)
         counter = 0
         for item in csvReader:
@@ -122,7 +123,7 @@ while currentDate <= end:
         fi.close()
         
         # make a snapshot
-        fo = open(snapshotPath + str(currentDate.year) + monthTemp + dayTemp + ".csv","w",newline = '')
+        fo = open(snapshotPath + dateStr + ".csv","w",newline = '')
         csvWriter = csv.writer(fo,dialect = 'excel')
         for pl in playerList:
             csvWriter.writerow([pl,pActDict[pl],pBaseDict[pl],pActDict[pl]/pBaseDict[pl]])
@@ -135,7 +136,7 @@ while currentDate <= end:
         
 #%%
 # After creating all the snapshot, use probability as a reward 
-testRunAdd = "/Users/haoxiangyang/Desktop/NBA/testRun.csv"
+testRunAdd = "/Users/haoxiangyang/Desktop/NBA/testRun_20171213.csv"
 fi = open(testRunAdd,"r")
 csvReader = csv.reader(fi)
 model = Model()

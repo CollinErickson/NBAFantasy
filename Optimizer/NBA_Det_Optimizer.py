@@ -23,7 +23,7 @@ class detOptimizer:
             if v.x == 1:
                 lineupN.append(self.playerIndex[v.varName])
                 # add the past lineups
-        self.model.addConstr(quicksum(self.x[j] for j in lineupN) <= 8)
+        self.model.addConstr(quicksum(self.x[j] for j in lineupN) <= 9 - self.M)
         return lineupN
     
     def mainN(self):
@@ -155,11 +155,12 @@ class detOptimizer:
         fo.close()
             
     
-    def __init__(self,date,inPath,outPath,N):
+    def __init__(self,date,inPath,outPath,N,M):
         # create the input path and the output path
         self.inAdd = inPath + date + ".csv"
         self.outAdd = outPath + date + "_" + str(N) + ".csv"
         self.N = N
+        self.M = M
         
         fi = open(self.inAdd,"r")
         csvReader = csv.reader(fi)
