@@ -20,9 +20,11 @@ salaryPath = "/Users/haoxiangyang/Desktop/NBA_Data/Salary/"
 lineupPath = "/Users/haoxiangyang/Desktop/NBA_Data/Lineups/"
 snapshotPath = "/Users/haoxiangyang/Desktop/NBA_Data/Snapshot/"
 blankPath = "/Users/haoxiangyang/Desktop/NBA_Data/Blank/"
+projPath = "/Users/haoxiangyang/Desktop/NBA_Data/Projections/"
 
 # function to convert the datetime date to a YYYYMMDD string
 def dateConvert(currentDate):
+    digTrans = {1:'01',2:'02',3:'03',4:'04',5:'05',6:'06',7:'07',8:'08',9:'09'}
     if currentDate.month < 10:
         monthTemp = digTrans[currentDate.month]
     else:
@@ -35,15 +37,13 @@ def dateConvert(currentDate):
 
 #%%
 # first generate the top 2000 picks of each day
-start = datetime.date(2017,12,17)
-end = datetime.date(2017,12,17)
+start = datetime.date(2017,12,26)
+end = datetime.date(2017,12,26)
 currentDate = start
 #salaryPath = "C:/Documents/PhD/Sports/FD/Salary/"
 #lineupPath = "C:/Documents/PhD/Sports/FD/Lineups/"
 N = 2000
 M = 1
-#
-digTrans = {1:'01',2:'02',3:'03',4:'04',5:'05',6:'06',7:'07',8:'08',9:'09'}
 # 
 while currentDate <= end:
     # for every single day print out the top 500 lineups in csv format

@@ -15,7 +15,7 @@ seasonDict = {2010:("2010.10.26","2011.04.13"),
               2014:("2014.10.28","2015.04.15"),
               2015:("2015.10.27","2016.04.13"),
               2016:("2016.10.25","2017.04.12"),
-              2017:("2017.10.17","2017.12.16")}
+              2017:("2017.10.17","2017.12.20")}
 
 for yr in yearList:
     start = seasonDict[yr][0]
@@ -31,3 +31,8 @@ for yr in range(2017,2013,-1):
     b = SalaryScraper(start,end,"/Users/haoxiangyang/Desktop/NBA_Data/Salary/")
     b.SalaryDayScraper()
     
+for yr in range(2017,2013,-1):
+    start = seasonDict[yr][0]
+    end = seasonDict[yr][1]
+    pS = projectionScraper(start,end,"/Users/haoxiangyang/Desktop/NBA_Data/Projections/")
+    pS.ProjectionDayScraper()

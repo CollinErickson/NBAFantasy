@@ -30,6 +30,17 @@ import datetime
 import time
 import bs4
 
+def dateConvert(currentDate):
+    digTrans = {1:'01',2:'02',3:'03',4:'04',5:'05',6:'06',7:'07',8:'08',9:'09'}
+    if currentDate.month < 10:
+        monthTemp = digTrans[currentDate.month]
+    else:
+        monthTemp = str(currentDate.month)
+    if currentDate.day < 10:
+        dayTemp = digTrans[currentDate.day]
+    else:
+        dayTemp = str(currentDate.day)
+    return str(currentDate.year)+monthTemp+dayTemp
 
 class MyOpener(FancyURLopener):
     #version = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11'
@@ -235,17 +246,17 @@ class NBAScraper:
                                                             if item in sumData['resultSets'][4]['headers']:
                                                                 indexx = sumData['resultSets'][4]['headers'].index(item)
                                                                 playerData.append(sumData['resultSets'][4]['rowSet'][0][indexx])
-                            if item == "PTS":
+                            if item == "PTS" and playerData[-1] != None:
                                 FDscore += float(playerData[-1])
-                            elif item == "AST":
+                            elif item == "AST" and playerData[-1] != None:
                                 FDscore += float(playerData[-1])*1.5
-                            elif item == "BLK":
+                            elif item == "BLK" and playerData[-1] != None:
                                 FDscore += float(playerData[-1])*3
-                            elif item == "STL":
+                            elif item == "STL" and playerData[-1] != None:
                                 FDscore += float(playerData[-1])*3
-                            elif item == "REB":
+                            elif item == "REB" and playerData[-1] != None:
                                 FDscore += float(playerData[-1])*1.2
-                            elif item == "TO":
+                            elif item == "TO" and playerData[-1] != None:
                                 FDscore += float(playerData[-1])*(-1)
                         playerData.append(FDscore)
                         self.totalPlayerList.append(playerData)
@@ -485,3 +496,58 @@ class SalaryScraper:
         self.start = datetime.date(int(startList[0]),int(startList[1]),int(startList[2]))
         self.end = datetime.date(int(endList[0]),int(endList[1]),int(endList[2]))
         self.digTrans = {1:'01',2:'02',3:'03',4:'04',5:'05',6:'06',7:'07',8:'08',9:'09'}
+        
+class projectionScraper:
+    def ProjectionDayScraper(self):
+        # use urlrequest to obtain data from RotoGuru
+        currentDate = self.start
+        title = ["Player Name","Predicted Point"]
+        self.dayDict = {}
+        
+        # from the start to the end
+        while currentDate <= self.end:
+            monthTemp = self.monthStr[currentDate.month]
+            wkDayTemp = self.wkDays[currentDate.weekday()]
+            if currentDate.day < 10:
+                dayTemp = self.digTrans[currentDate.day]
+            else:
+                dayTemp = currentDate.day
+            
+            self.browser.get('https://dailyfantasynerd.com/projections/fanduel/nba?d={}%20{}%20{}%20{}'.format(wkDayTemp,monthTemp,dayTemp,currentDate.year))
+            time.sleep(10)
+            self.dayDict[currentDate] = {}
+            
+            
+            nameList = self.browser.find_elements_by_name("n")
+            nameList = nameList[1:]
+            elemList = self.browser.find_elements_by_xpath("//*[@class='text-center'][@name='dfn']")
+            listlen = len(elemList)
+            projData = []
+            
+            for i in range(listlen):
+                self.dayDict[currentDate][nameList[i].text] = float(elemList[i].text)
+                projData.append([nameList[i].text,elemList[i].text])
+            
+            outAdd = self.outPath + dateConvert(currentDate) + ".csv"
+            fo = open(outAdd,'w',newline = '')
+            csvWriter = csv.writer(fo,dialect = 'excel')
+            csvWriter.writerow(title)
+            csvWriter.writerows(projData)
+            fo.close()
+            
+            currentDate = currentDate + datetime.timedelta(1)
+            
+    
+    def __init__(self,start,end,outPath):
+        self.outPath = outPath
+        startList = start.split(".")
+        endList = end.split(".")
+        self.start = datetime.date(int(startList[0]),int(startList[1]),int(startList[2]))
+        self.end = datetime.date(int(endList[0]),int(endList[1]),int(endList[2]))
+        self.digTrans = {1:'01',2:'02',3:'03',4:'04',5:'05',6:'06',7:'07',8:'08',9:'09'}
+        self.wkDays = {0:'Mon',1:'Tue',2:'Wed',3:'Thu',4:'Fri',5:'Sat',6:'Sun'}
+        self.monthStr = {1:'Jan',2:'Feb',3:'Mar',4:'Apr',5:'May',6:'Jun',7:'Jul',8:'Aug',9:'Sep',10:'Oct',11:'Nov',12:'Dec'}
+        
+        # work around: input the username and password manually
+        self.browser = webdriver.Chrome("/Users/haoxiangyang/Downloads/chromedriver")
+        self.browser.get('https://dailyfantasynerd.com/login')
