@@ -30,16 +30,30 @@ import datetime
 import time
 import bs4
 
+def dateConvert(currentDate):
+    digTrans = {1:'01',2:'02',3:'03',4:'04',5:'05',6:'06',7:'07',8:'08',9:'09'}
+    if currentDate.month < 10:
+        monthTemp = digTrans[currentDate.month]
+    else:
+        monthTemp = str(currentDate.month)
+    if currentDate.day < 10:
+        dayTemp = digTrans[currentDate.day]
+    else:
+        dayTemp = str(currentDate.day)
+    return str(currentDate.year)+monthTemp+dayTemp
 
 class MyOpener(FancyURLopener):
-    version = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11'
+    #version = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11'
+    version = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.1 Safari/603.1.30'
 
 class NBAScraper:
     # Get the list of game ids
     def GetGameList(self):
         currentDate = self.start
         self.totalGameList = {}
-        browser = webdriver.Chrome("C:\\Documents\\Python_Files\\NBA\\chromedriver.exe")
+        #browser = webdriver.Chrome("C:\\Documents\\Python_Files\\NBA\\chromedriver.exe")
+        browser = webdriver.Chrome("/Users/haoxiangyang/Downloads/chromedriver")
+
         time.sleep(10)
         while currentDate <= self.end:
             # The previous version of scraping the IDs cannot work as the server
@@ -61,15 +75,25 @@ class NBAScraper:
             #currentDate = currentDate + datetime.timedelta(1)
             
             # Here we use selenium to obtain the list of the games
-            browser.get('http://stats.nba.com/scores/#!/%s/%s/%s' % (currentDate.month,currentDate.day,currentDate.year))
+            if currentDate.month < 10:
+                monthTemp = self.digTrans[currentDate.month]
+            else:
+                monthTemp = currentDate.month
+            if currentDate.day < 10:
+                dayTemp = self.digTrans[currentDate.day]
+            else:
+                dayTemp = currentDate.day
+            browser.get('http://stats.nba.com/scores/#!/%s/%s/%s' % (monthTemp,dayTemp,currentDate.year))
             time.sleep(10)
-            elemList = browser.find_elements_by_class_name('game-footer__bs')
+            elemList = browser.find_elements_by_xpath("//*[@class='bottom-bar-container']//*[text() = 'Box Score']")
             dgameID = []
-            for i in range(0,len(elemList),2):
+            for i in range(0,len(elemList)):
                 address = elemList[i].get_attribute("href")
-                dgameID.append(address[-10:])
+                dgameID.append(address[-11:-1])
             self.totalGameList[currentDate] = dgameID
             currentDate = currentDate + datetime.timedelta(1)
+            
+        browser.close()
             
      # Given the list of game ids, obtain the players' information
             
@@ -85,56 +109,89 @@ class NBAScraper:
             header = []
         currentDate = self.start
         self.totalPlayerList = []
+        browser = webdriver.Chrome("/Users/haoxiangyang/Downloads/chromedriver")
         while currentDate <= self.end:
             for igame in self.totalGameList[currentDate]:
                 try:
                     sumAddress = 'http://stats.nba.com/stats/boxscoresummaryv2?GameID='+ igame
-                    sumFile = self.myopener.open(sumAddress)
-                    sumString = sumFile.read()
-                    sumString = sumString.decode('utf-8')
+#                    sumFile = self.myopener.open(sumAddress)
+#                    sumString = sumFile.read()
+#                    sumString = sumString.decode('utf-8')
+                    browser.get(sumAddress)
+                    time.sleep(1)
+                    elem = browser.find_element_by_xpath("//*[pre]")
+                    sumString = elem.text
                     sumData = json.loads(sumString)
                     
                     boxAddress = 'http://stats.nba.com/stats/boxscoretraditionalv2?EndPeriod=10&EndRange=100000&GameID='+ igame +'&RangeType=0&SeasonType=Regular+Season&StartPeriod=1&StartRange=0'
-                    boxFile = self.myopener.open(boxAddress)
-                    boxString = boxFile.read()
-                    boxString = boxString.decode('utf-8')
+#                    boxFile = self.myopener.open(boxAddress)
+#                    boxString = boxFile.read()
+#                    boxString = boxString.decode('utf-8')
+                    browser.get(boxAddress)
+                    time.sleep(1)
+                    elem = browser.find_element_by_xpath("//*[pre]")
+                    boxString = elem.text
                     boxData = json.loads(boxString)
                     
                     aboxAddress = 'http://stats.nba.com/stats/boxscoreadvancedv2?EndPeriod=10&EndRange=100000&GameID='+ igame +'&RangeType=0&SeasonType=Regular+Season&StartPeriod=1&StartRange=0'
-                    aboxFile = self.myopener.open(aboxAddress)
-                    aboxString = aboxFile.read()
-                    aboxString = aboxString.decode('utf-8')
+#                    aboxFile = self.myopener.open(aboxAddress)
+#                    aboxString = aboxFile.read()
+#                    aboxString = aboxString.decode('utf-8')
+                    browser.get(aboxAddress)
+                    time.sleep(1)
+                    elem = browser.find_element_by_xpath("//*[pre]")
+                    aboxString = elem.text
                     aboxData = json.loads(aboxString)
                     
                     fourFacAddress = 'http://stats.nba.com/stats/boxscorefourfactorsv2?EndPeriod=10&EndRange=28800&GameID='+ igame +'&RangeType=0&SeasonType=Regular+Season&StartPeriod=1&StartRange=0'
-                    fourFacFile = self.myopener.open(fourFacAddress)
-                    fourFacString = fourFacFile.read()
-                    fourFacString = fourFacString.decode('utf-8')
+#                    fourFacFile = self.myopener.open(fourFacAddress)
+#                    fourFacString = fourFacFile.read()
+#                    fourFacString = fourFacString.decode('utf-8')
+                    browser.get(fourFacAddress)
+                    time.sleep(1)
+                    elem = browser.find_element_by_xpath("//*[pre]")
+                    fourFacString = elem.text
                     fourFacData = json.loads(fourFacString)
                     
                     plTrackAddress = 'http://stats.nba.com/stats/boxscoreplayertrackv2?GameID='+ igame +'&SeasonType=Regular+Season'
-                    plTrackFile = self.myopener.open(plTrackAddress)
-                    plTrackString = plTrackFile.read()
-                    plTrackString = plTrackString.decode('utf-8')
+#                    plTrackFile = self.myopener.open(plTrackAddress)
+#                    plTrackString = plTrackFile.read()
+#                    plTrackString = plTrackString.decode('utf-8')
+                    browser.get(plTrackAddress)
+                    time.sleep(1)
+                    elem = browser.find_element_by_xpath("//*[pre]")
+                    plTrackString = elem.text
                     plTrackData = json.loads(plTrackString)
                     
                     miscAddress = 'http://stats.nba.com/stats/boxscoremiscv2?EndPeriod=10&EndRange=100000&GameID='+ igame +'&RangeType=0&SeasonType=Regular+Season&StartPeriod=1&StartRange=0'
-                    miscFile = self.myopener.open(miscAddress)
-                    miscString = miscFile.read()
-                    miscString = miscString.decode('utf-8')
+#                    miscFile = self.myopener.open(miscAddress)
+#                    miscString = miscFile.read()
+#                    miscString = miscString.decode('utf-8')
+                    browser.get(miscAddress)
+                    time.sleep(1)
+                    elem = browser.find_element_by_xpath("//*[pre]")
+                    miscString = elem.text
                     miscData = json.loads(miscString)
                     
                     scoringAddress = 'http://stats.nba.com/stats/boxscorescoringv2?EndPeriod=10&EndRange=100000&GameID='+ igame +'&RangeType=0&SeasonType=Regular+Season&StartPeriod=1&StartRange=0'
-                    scoringFile = self.myopener.open(scoringAddress)
-                    scoringString = scoringFile.read()
-                    scoringString = scoringString.decode('utf-8')
+#                    scoringFile = self.myopener.open(scoringAddress)
+#                    scoringString = scoringFile.read()
+#                    scoringString = scoringString.decode('utf-8')
+                    browser.get(scoringAddress)
+                    time.sleep(1)
+                    elem = browser.find_element_by_xpath("//*[pre]")
+                    scoringString = elem.text
                     scoringData = json.loads(scoringString)
                     
                     usageAddress = 'http://stats.nba.com/stats/boxscoreusagev2?EndPeriod=10&EndRange=34800&GameID='+ igame +'&RangeType=0&SeasonType=Regular+Season&StartPeriod=1&StartRange=0'
-                    usageFile = self.myopener.open(usageAddress)
-                    usagestring = usageFile.read()
-                    usagestring = usagestring.decode('utf-8')
-                    usageData = json.loads(usagestring)
+#                    usageFile = self.myopener.open(usageAddress)
+#                    usagestring = usageFile.read()
+#                    usagestring = usagestring.decode('utf-8')
+                    browser.get(usageAddress)
+                    time.sleep(1)
+                    elem = browser.find_element_by_xpath("//*[pre]")
+                    usageString = elem.text
+                    usageData = json.loads(usageString)
                     
                     if header == []:
                         headerSet = set(boxData['resultSets'][0]['headers'])
@@ -189,23 +246,24 @@ class NBAScraper:
                                                             if item in sumData['resultSets'][4]['headers']:
                                                                 indexx = sumData['resultSets'][4]['headers'].index(item)
                                                                 playerData.append(sumData['resultSets'][4]['rowSet'][0][indexx])
-                            if item == "PTS":
+                            if item == "PTS" and playerData[-1] != None:
                                 FDscore += float(playerData[-1])
-                            elif item == "AST":
+                            elif item == "AST" and playerData[-1] != None:
                                 FDscore += float(playerData[-1])*1.5
-                            elif item == "BLK":
-                                FDscore += float(playerData[-1])*2
-                            elif item == "STL":
-                                FDscore += float(playerData[-1])*2
-                            elif item == "REB":
+                            elif item == "BLK" and playerData[-1] != None:
+                                FDscore += float(playerData[-1])*3
+                            elif item == "STL" and playerData[-1] != None:
+                                FDscore += float(playerData[-1])*3
+                            elif item == "REB" and playerData[-1] != None:
                                 FDscore += float(playerData[-1])*1.2
-                            elif item == "TO":
+                            elif item == "TO" and playerData[-1] != None:
                                 FDscore += float(playerData[-1])*(-1)
                         playerData.append(FDscore)
                         self.totalPlayerList.append(playerData)
                 except:
                     pass
             currentDate = currentDate + datetime.timedelta(1)
+        browser.close()
             
     def InjuryScraper(self,startDate,endDate,InjuryOut):
         # Input format: YYYY-MM-DD
@@ -277,9 +335,38 @@ class NBAScraper:
         fo = open(InjuryOut,"w",newline ="")
         csvWriter = csv.writer(fo)
         csvWriter.writerows(totalData)
-        fo.close()
-                    
-    def SalaryScraper(self,salaryIDadd,salaryOutput):
+        fo.close()        
+        
+    # Output the data to the spread sheet
+    def Output(self):
+        title = []
+        if self.existed:
+            self.fo = open(self.fileOutput,'a',newline = '')
+            self.csvWriter = csv.writer(self.fo,dialect = 'excel')
+            self.csvWriter.writerow(title)
+        else:
+            self.fo = open(self.fileOutput,'w',newline = '')
+            self.csvWriter = csv.writer(self.fo,dialect = 'excel')
+        self.csvWriter.writerows(self.totalPlayerList)
+        self.fo.close()   
+            
+        
+    def __init__(self,start,end,fileOutput):
+        # date format: YYYY.MM.DD
+        startList = start.split(".")
+        endList = end.split(".")
+        self.fileOutput = fileOutput
+        self.start = datetime.date(int(startList[0]),int(startList[1]),int(startList[2]))
+        self.end = datetime.date(int(endList[0]),int(endList[1]),int(endList[2]))
+        if os.path.exists(self.fileOutput):
+            self.existed = True
+        else:
+            self.existed = False
+        self.myopener = MyOpener()
+        self.digTrans = {1:'01',2:'02',3:'03',4:'04',5:'05',6:'06',7:'07',8:'08',9:'09'}
+        
+class SalaryScraper:
+    def SalaryIDScraper(self,salaryIDadd,salaryOutput):
         # scrape the salary information from Rotoguru
         salaryFI = open(salaryIDadd,'r')
         IDstring = salaryFI.read()
@@ -314,28 +401,153 @@ class NBAScraper:
         csvWriter.writerows(SalaryTot)
         fo.close()
         
-    # Output the data to the spread sheet
-    def Output(self):
-        title = []
-        if self.existed:
-            self.fo = open(self.fileOutput,'a',newline = '')
-            self.csvWriter = csv.writer(self.fo,dialect = 'excel')
-            self.csvWriter.writerow(title)
-        else:
-            self.fo = open(self.fileOutput,'w',newline = '')
-            self.csvWriter = csv.writer(self.fo,dialect = 'excel')
-        self.csvWriter.writerows(self.totalPlayerList)
-        self.fo.close()   
-            
+    def SalaryDayScraper(self):
+        # use urlrequest to obtain data from RotoGuru
+        currentDate = self.start
         
-    def __init__(self,start,end,fileOutput):
+        # from the start to the end
+        while currentDate <= self.end:
+            # read the day's data (csv format option on)
+            try:
+                salaryAdd = "http://rotoguru1.com/cgi-bin/hyday.pl?mon=%s&day=%s&year=%s&game=fd" % (currentDate.month,currentDate.day,currentDate.year)
+                aRaw = urllib.request.urlopen(salaryAdd)
+                aString = aRaw.read()
+                aString = aString.decode("ISO-8859-1")
+                
+                # use regEx to extract information & obtain a csv file
+                playerList = re.findall('<!--([0-9]+)--><tr><td>([A-Z]+)</td><td><a href=".+" target="_blank" >(.+)</a>([\^]*)</td><td align=center>([0-9\.]+)</td><td align=right>([0-9\$\,]+)</td><td align=center>([a-z]+)</td><td>([a-z\ \@]+)</td><td align=right>&nbsp;([0-9\-]+)</td><td align=right>([0-9\:A-Z]+)</td><td align=left> &nbsp; (.*)</td></tr>',aString)
+                salaryData = []
+                title = ["Player ID","Position","First Name","Last Name","Starter","FDPoints","Salary",\
+                         "Team","Opponent","Home","Team Score","Opponent Score",]
+                for item in playerList:
+                    itemL = list(item)
+                    nameList = itemL[2].split(',')
+                    lastName = nameList[0].strip()
+                    firstName = nameList[1].strip()
+                    itemL = itemL[:2] + [firstName,lastName] + itemL[3:]
+                    if itemL[4] == '^':
+                        itemL[4] = 1
+                    else:
+                        itemL[4] = 0
+                    itemL[6] = itemL[6].replace("$","")
+                    itemL[6] = itemL[6].replace(",","")
+                    if 'v' in itemL[8]:
+                        homeInd = 1
+                        itemL[8] = itemL[8].replace("v","")
+                        itemL[8] = itemL[8].strip()
+                    else:
+                        homeInd = 0
+                        itemL[8] = itemL[8].replace("@","")
+                        itemL[8] = itemL[8].strip()
+                    itemL = itemL[:9] + [homeInd] + itemL[9:]
+                    scoreList = itemL[10].split('-')
+                    itemL = itemL[:10] + [scoreList[0],scoreList[1]] + itemL[11:]
+                        
+                    salaryData.append(itemL)
+                    
+#                dailySoup = bs4.BeautifulSoup(aString,'html.parser')
+#                csvOut = dailySoup.find("pre")
+#                csvOut = csvOut.find("pre")
+#                csvContent = csvOut.contents
+#                csvContentStr = str(csvContent[0])
+#                csvContentList = csvContentStr.split('\n')
+#                title = csvContentList[0].split(';')
+#                title = title[:3] + ["First Name","Last Name"] + title[4:]
+#                
+#                # split the data 
+#                salaryData = []
+#                for item in csvContentList[1:-1]:
+#                    itemList = item.split(';')
+#                    # split the first name and the last name
+#                    nameList = itemList[3].split(',')
+#                    lastName = nameList[0].strip()
+#                    firstName = nameList[1].strip()
+#                    itemList = itemList[:3] + [firstName,lastName] + itemList[4:]
+#                    
+#                    # transform the salary format to a number format
+#                    itemList[7] = itemList[7].replace("$","")
+#                    itemList[7] = itemList[7].replace(",","")
+#                    salaryData.append(itemList)
+                
+                # output the salary information to the outPath folder
+                if currentDate.month < 10:
+                    monthTemp = self.digTrans[currentDate.month]
+                else:
+                    monthTemp = currentDate.month
+                if currentDate.day < 10:
+                    dayTemp = self.digTrans[currentDate.day]
+                else:
+                    dayTemp = currentDate.day
+                outAdd = self.outPath + "%s%s%s.csv" % (currentDate.year, monthTemp, dayTemp)
+                fo = open(outAdd,'w',newline = '')
+                csvWriter = csv.writer(fo,dialect = 'excel')
+                csvWriter.writerow(title)
+                csvWriter.writerows(salaryData)
+                fo.close()
+            except:
+                print(currentDate)
+            
+            currentDate = currentDate + datetime.timedelta(1)
+    
+    def __init__(self,start,end,outPath):
+        self.outPath = outPath
         startList = start.split(".")
         endList = end.split(".")
-        self.fileOutput = fileOutput
         self.start = datetime.date(int(startList[0]),int(startList[1]),int(startList[2]))
         self.end = datetime.date(int(endList[0]),int(endList[1]),int(endList[2]))
-        if os.path.exists(self.fileOutput):
-            self.existed = True
-        else:
-            self.existed = False
-        self.myopener = MyOpener()
+        self.digTrans = {1:'01',2:'02',3:'03',4:'04',5:'05',6:'06',7:'07',8:'08',9:'09'}
+        
+class projectionScraper:
+    def ProjectionDayScraper(self):
+        # use urlrequest to obtain data from RotoGuru
+        currentDate = self.start
+        title = ["Player Name","Predicted Point"]
+        self.dayDict = {}
+        
+        # from the start to the end
+        while currentDate <= self.end:
+            monthTemp = self.monthStr[currentDate.month]
+            wkDayTemp = self.wkDays[currentDate.weekday()]
+            if currentDate.day < 10:
+                dayTemp = self.digTrans[currentDate.day]
+            else:
+                dayTemp = currentDate.day
+            
+            self.browser.get('https://dailyfantasynerd.com/projections/fanduel/nba?d={}%20{}%20{}%20{}'.format(wkDayTemp,monthTemp,dayTemp,currentDate.year))
+            time.sleep(10)
+            self.dayDict[currentDate] = {}
+            
+            
+            nameList = self.browser.find_elements_by_name("n")
+            nameList = nameList[1:]
+            elemList = self.browser.find_elements_by_xpath("//*[@class='text-center'][@name='dfn']")
+            listlen = len(elemList)
+            projData = []
+            
+            for i in range(listlen):
+                self.dayDict[currentDate][nameList[i].text] = float(elemList[i].text)
+                projData.append([nameList[i].text,elemList[i].text])
+            
+            outAdd = self.outPath + dateConvert(currentDate) + ".csv"
+            fo = open(outAdd,'w',newline = '')
+            csvWriter = csv.writer(fo,dialect = 'excel')
+            csvWriter.writerow(title)
+            csvWriter.writerows(projData)
+            fo.close()
+            
+            currentDate = currentDate + datetime.timedelta(1)
+            
+    
+    def __init__(self,start,end,outPath):
+        self.outPath = outPath
+        startList = start.split(".")
+        endList = end.split(".")
+        self.start = datetime.date(int(startList[0]),int(startList[1]),int(startList[2]))
+        self.end = datetime.date(int(endList[0]),int(endList[1]),int(endList[2]))
+        self.digTrans = {1:'01',2:'02',3:'03',4:'04',5:'05',6:'06',7:'07',8:'08',9:'09'}
+        self.wkDays = {0:'Mon',1:'Tue',2:'Wed',3:'Thu',4:'Fri',5:'Sat',6:'Sun'}
+        self.monthStr = {1:'Jan',2:'Feb',3:'Mar',4:'Apr',5:'May',6:'Jun',7:'Jul',8:'Aug',9:'Sep',10:'Oct',11:'Nov',12:'Dec'}
+        
+        # work around: input the username and password manually
+        self.browser = webdriver.Chrome("/Users/haoxiangyang/Downloads/chromedriver")
+        self.browser.get('https://dailyfantasynerd.com/login')
