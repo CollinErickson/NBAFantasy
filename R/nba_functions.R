@@ -190,6 +190,11 @@ fit.LM.2 <- function(nba,sal,res) {browser()
   team.abb.to.TEAM_ID.conv<- readRDS('data//team_abb_to_TEAM_ID_conv.rds')
   sal$OPP_TEAM_ID <- team.abb.to.TEAM_ID.conv[sal$OPP_TEAM_ABBREVIATION]
 
+  # Getting Error in model.frame.default(Terms, newdata, na.action = na.action, xlev = object$xlevels) :
+              # factor factor(PLAYER_ID) has new levels 202343
+  # Try to fix by setting to NA those that don't player_id in nba
+  sal$PLAYER_ID[!(sal$PLAYER_ID %in% nba$PLAYER_ID)] <- NA
+
   sal$LM.2.pred <- predict(mod2,newdata = sal)
   sal$LM.2.pred[sal$Injury.Indicator=='O'] <- 0
   # Get coefficient for specific player
