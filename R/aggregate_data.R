@@ -4,6 +4,7 @@
 #' @param datelow Begin date in format "YYYYMMDD".
 #' @param datehigh End date in format "YYYYMMDD".
 put_all_fromdates_in_one_df <- function(folder, datelow, datehigh) {#browser()
+  library(readr)
   if (nchar(datelow) != 8 || nchar(datehigh)!=8) {stop("date must have length 8 #982357")}
   datelowformat <- as.Date(datelow, format='%Y%m%d')
   datehighformat <- as.Date(datehigh, format='%Y%m%d')
@@ -31,6 +32,8 @@ put_all_fromdates_in_one_df <- function(folder, datelow, datehigh) {#browser()
     all_salary$Opponent <- toupper(all_salary$Opponent)
     names(all_salary)[1] <- "FD.Id"
     names(all_salary)[c(3,4)] <- c("FD.First.Name", "FD.Last.Name")
+    all_salary$FD.NamePaste <- paste(all_salary$FD.First.Name, all_salary$FD.Last.Name)
+    all_salary$FD.Nickname.NoDot <- gsub("[.]","",all_salary$FD.NamePaste)
   } else if (folder=="Projections") {browser()
     names(all_salary)[c(1,2)] <- c("DFN.Name", "DFN.Projection")
     # Convert names to FD names
@@ -41,11 +44,13 @@ put_all_fromdates_in_one_df <- function(folder, datelow, datehigh) {#browser()
     names(DFN_to_FD) <- namedf$DFN.Name
     all_salary$FD.Nickname <- sapply(all_salary$DFN.Name, function(i) {if (i %in% namedf$DFN.Name) {DFN_to_FD[i]} else {i}})
     all_salary$DFN.Name <- NULL
+    all_salary$FD.Nickname.NoDot <- gsub("[.]","",all_salary$FD.Nickname)
   } else if (folder=="Blank") {
     all_salary$Team <- toupper(all_salary$Team)
     all_salary$Opponent <- toupper(all_salary$Opponent)
     names(all_salary)[1] <- "FD.Id"
     names(all_salary)[c(3,5,4)] <- c("FD.First.Name", "FD.Last.Name", "FD.Nickname")
+    all_salary$FD.Nickname.NoDot <- gsub("[.]","",all_salary$FD.Nickname)
   } else {stop("#328722")}
   all_salary
 }
@@ -70,14 +75,16 @@ join_data <- function(nba, datelow, datehigh) {browser()
 
   # Now try to join them
   # blank_proj <- dplyr::full_join(blank, projections, by=c('FD.Nickname' = "DFN.Name", "Date"))
-  blank_proj <- dplyr::full_join(blank, projections, by=c('FD.Nickname' = "FD.Nickname", "Date"))
+  # which(all_salary$FD.Nickname == "A.J. Hammons")
+  # blank_proj <- dplyr::full_join(blank, projections, by=c('FD.Nickname' = "FD.Nickname", "Date"))
+  blank_proj <- dplyr::full_join(blank, projections, by=c('FD.Nickname.NoDot' = "FD.Nickname.NoDot", "Date"))
   print("These show up in blank but not proj")
-  print(blank_proj[is.na(blank_proj$DFN.Projection),] %>% .$FD.Nickname %>% unique %>% sort)
+  print(blank_proj[is.na(blank_proj$DFN.Projection),] %>% .$FD.Nickname.NoDot %>% unique %>% sort)
   print("These show up in proj but not blank")
-  print(blank_proj[is.na(blank_proj$Salary),] %>% .$FD.Nickname %>% unique %>% sort)
-  blank_proj_sal <- dplyr::full_join(blank_proj, salary)
+  print(blank_proj[is.na(blank_proj$Salary),] %>% .$FD.Nickname.NoDot %>% unique %>% sort)
+  blank_proj_sal <- dplyr::full_join(blank_proj, salary, by=c('FD.Nickname.NoDot' = "FD.Nickname.NoDot", "Date"))
 
-  nba_blank_proj_sal <- dplyr::full_join(nba, blank_proj_sal)
+  nba_blank_proj_sal <- dplyr::full_join(nba, blank_proj_sal, by=c('PLAYER_NAME' = "FD.Nickname.NoDot", "Date"))
 
   return()
 }
