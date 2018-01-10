@@ -34,7 +34,7 @@ put_all_fromdates_in_one_df <- function(folder, datelow, datehigh) {#browser()
     names(all_salary)[c(3,4)] <- c("FD.First.Name", "FD.Last.Name")
     all_salary$FD.NamePaste <- paste(all_salary$FD.First.Name, all_salary$FD.Last.Name)
     all_salary$FD.Nickname.NoDot <- gsub("[.]","",all_salary$FD.NamePaste)
-  } else if (folder=="Projections") {browser()
+  } else if (folder=="Projections") {#browser()
     names(all_salary)[c(1,2)] <- c("DFN.Name", "DFN.Projection")
     # Convert names to FD names
     namedf <- read.csv("data//FD_DFN_name_conversion.csv", stringsAsFactors = F)
@@ -69,9 +69,11 @@ join_data <- function(nba, datelow, datehigh) {browser()
   salary <- put_all_fromdates_in_one_df("Salary", datelow, datehigh) #read.csv(paste0("data//Salary//", date, ".csv"))
   projections <- put_all_fromdates_in_one_df("Projections", datelow, datehigh) #read.csv(paste0("data//Projections//", date, ".csv"))
   blank <- put_all_fromdates_in_one_df("Blank", datelow, datehigh) #read.csv(paste0("data//Blank//", date, ".csv"))
+  # Add date to nba, only keep entries in date range
   nba$GAME_YYYMMDD <- sapply(nba$GAME_DATE_EST, function(gd) {paste0(substr(gd,1,4), substr(gd,6,7), substr(gd,9,10))})
-  # nbadate <- nba[, nba$]
   nba$Date <- as.Date(nba$GAME_YYYMMDD, "%Y%m%d")
+  nba <- nba[nba$Date >=as.Date(datelow, format='%Y%m%d') & nba$Date <= as.Date(datehigh, format='%Y%m%d'),]
+  nba$PLAYER_NAME.NoDot <- gsub("[.]","",nba$PLAYER_NAME)
 
   # Now try to join them
   # blank_proj <- dplyr::full_join(blank, projections, by=c('FD.Nickname' = "DFN.Name", "Date"))
@@ -84,10 +86,19 @@ join_data <- function(nba, datelow, datehigh) {browser()
   print(blank_proj[is.na(blank_proj$Salary),] %>% .$FD.Nickname.NoDot %>% unique %>% sort)
   blank_proj_sal <- dplyr::full_join(blank_proj, salary, by=c('FD.Nickname.NoDot' = "FD.Nickname.NoDot", "Date"))
 
-  nba_blank_proj_sal <- dplyr::full_join(nba, blank_proj_sal, by=c('PLAYER_NAME' = "FD.Nickname.NoDot", "Date"))
-
+  nba_blank_proj_sal <- dplyr::full_join(nba, blank_proj_sal, by=c('PLAYER_NAME.NoDot' = "FD.Nickname.NoDot", "Date"))
+  # To see where rows are
+  # c(nrow(nba), nrow(blank_proj_sal), nrow(nba) + nrow(blank_proj_sal), nrow(nba_blank_proj_sal), nrow(nba) + nrow(blank_proj_sal) - nrow(nba_blank_proj_sal))
+  print("These show up in bpj but not nba")
+  print(nba_blank_proj_sal[is.na(nba_blank_proj_sal$PLAYER_NAME),] %>% .$FD.Nickname.NoDot %>% unique %>% sort)
   return()
 }
 if (F) {
+  year <- 2017
+  year_file_name <- paste0("data/Player/", year, ".csv")
+  ydf <- read.csv(year_file_name)
+  source('~/GitHub/NBAFantasy/R/nba_functions.R')
+  nba <- convert.raw.nba(year_file_name)
+
   join_data(nba, "20171128", "20171213")
 }
