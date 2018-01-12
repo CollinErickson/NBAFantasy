@@ -30,6 +30,7 @@ convert.raw.nba <- function(file.path.in,write.out=F,file.path.out) {
                     }
   )
   # Calculates Fan Duel points
+  if (is.character(nba$REB[1])) {nba$REB <- as.numeric(nba$REB)}
   nba$FanDuelPts <- nba$PTS + 1.2*nba$REB + 1.5*nba$AST + 2*nba$BLK + 2*nba$STL - 1*nba$TO
   nba$IS_HOME <- (nba$TEAM_ID == nba$HOME_TEAM_ID)
   nba$OPP_TEAM_ID <- ifelse(nba$IS_HOME,nba$VISITOR_TEAM_ID,nba$HOME_TEAM_ID)

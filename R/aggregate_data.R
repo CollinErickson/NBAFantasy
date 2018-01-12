@@ -90,7 +90,11 @@ join_data <- function(nba, datelow, datehigh) {browser()
   # To see where rows are
   # c(nrow(nba), nrow(blank_proj_sal), nrow(nba) + nrow(blank_proj_sal), nrow(nba_blank_proj_sal), nrow(nba) + nrow(blank_proj_sal) - nrow(nba_blank_proj_sal))
   print("These show up in bpj but not nba")
-  print(nba_blank_proj_sal[is.na(nba_blank_proj_sal$PLAYER_NAME),] %>% .$FD.Nickname.NoDot %>% unique %>% sort)
+  print(nba_blank_proj_sal[is.na(nba_blank_proj_sal$PLAYER_NAME),] %>% .$FD.Nickname.x %>% unique %>% sort)
+  print("These show up in nba but not bpj, should be 23")
+  print(nba_blank_proj_sal[is.na(nba_blank_proj_sal$FD.Nickname.x),] %>% .$PLAYER_NAME %>% unique %>% sort)
+
+  print(dplyr::anti_join(nba, blank_proj_sal, by=c('PLAYER_NAME.NoDot' = "FD.Nickname.NoDot", "Date"))$PLAYER_NAME.NoDot)
   return()
 }
 if (F) {
