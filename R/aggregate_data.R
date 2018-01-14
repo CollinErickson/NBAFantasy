@@ -34,6 +34,8 @@ put_all_fromdates_in_one_df <- function(folder, datelow, datehigh) {#browser()
     names(all_salary)[c(3,4)] <- c("FD.First.Name", "FD.Last.Name")
     all_salary$FD.NamePaste <- paste(all_salary$FD.First.Name, all_salary$FD.Last.Name)
     all_salary$FD.Nickname.NoDot <- gsub("[.]","",all_salary$FD.NamePaste)
+    # browser()
+    all_salary$stdname <- convert.nickname.to.standard.name(all_salary$FD.NamePaste)
   } else if (folder=="Projections") {#browser()
     names(all_salary)[c(1,2)] <- c("DFN.Name", "DFN.Projection")
     # Convert names to FD names
@@ -45,12 +47,14 @@ put_all_fromdates_in_one_df <- function(folder, datelow, datehigh) {#browser()
     all_salary$FD.Nickname <- sapply(all_salary$DFN.Name, function(i) {if (i %in% namedf$DFN.Name) {DFN_to_FD[i]} else {i}})
     all_salary$DFN.Name <- NULL
     all_salary$FD.Nickname.NoDot <- gsub("[.]","",all_salary$FD.Nickname)
+    all_salary$stdname <- convert.nickname.to.standard.name(all_salary$FD.Nickname)
   } else if (folder=="Blank") {
     all_salary$Team <- toupper(all_salary$Team)
     all_salary$Opponent <- toupper(all_salary$Opponent)
     names(all_salary)[1] <- "FD.Id"
     names(all_salary)[c(3,5,4)] <- c("FD.First.Name", "FD.Last.Name", "FD.Nickname")
     all_salary$FD.Nickname.NoDot <- gsub("[.]","",all_salary$FD.Nickname)
+    all_salary$stdname <- convert.nickname.to.standard.name(all_salary$FD.Nickname)
   } else {stop("#328722")}
   all_salary
 }
@@ -75,6 +79,12 @@ join_data <- function(nba, datelow, datehigh) {browser()
   nba <- nba[nba$Date >=as.Date(datelow, format='%Y%m%d') & nba$Date <= as.Date(datehigh, format='%Y%m%d'),]
   nba$PLAYER_NAME.NoDot <- gsub("[.]","",nba$PLAYER_NAME)
 
+  # Keep track of which ones they were in
+  salary$in.salary <- TRUE
+  projections$in.projections <- TRUE
+  blank$in.blank <- TRUE
+  nba$in.nba <- TRUE
+
   # Now try to join them
   # blank_proj <- dplyr::full_join(blank, projections, by=c('FD.Nickname' = "DFN.Name", "Date"))
   # which(all_salary$FD.Nickname == "A.J. Hammons")
@@ -86,6 +96,7 @@ join_data <- function(nba, datelow, datehigh) {browser()
   print(blank_proj[is.na(blank_proj$Salary),] %>% .$FD.Nickname.NoDot %>% unique %>% sort)
   blank_proj_sal <- dplyr::full_join(blank_proj, salary, by=c('FD.Nickname.NoDot' = "FD.Nickname.NoDot", "Date"))
 
+  browser()
   nba_blank_proj_sal <- dplyr::full_join(nba, blank_proj_sal, by=c('PLAYER_NAME.NoDot' = "FD.Nickname.NoDot", "Date"))
   # To see where rows are
   # c(nrow(nba), nrow(blank_proj_sal), nrow(nba) + nrow(blank_proj_sal), nrow(nba_blank_proj_sal), nrow(nba) + nrow(blank_proj_sal) - nrow(nba_blank_proj_sal))
