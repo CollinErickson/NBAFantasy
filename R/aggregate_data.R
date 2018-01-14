@@ -78,6 +78,7 @@ join_data <- function(nba, datelow, datehigh) {browser()
   nba$Date <- as.Date(nba$GAME_YYYMMDD, "%Y%m%d")
   nba <- nba[nba$Date >=as.Date(datelow, format='%Y%m%d') & nba$Date <= as.Date(datehigh, format='%Y%m%d'),]
   nba$PLAYER_NAME.NoDot <- gsub("[.]","",nba$PLAYER_NAME)
+  nba$stdname <- convert.nickname.to.standard.name(nba$PLAYER_NAME)
 
   # Keep track of which ones they were in
   salary$in.salary <- TRUE
@@ -89,23 +90,23 @@ join_data <- function(nba, datelow, datehigh) {browser()
   # blank_proj <- dplyr::full_join(blank, projections, by=c('FD.Nickname' = "DFN.Name", "Date"))
   # which(all_salary$FD.Nickname == "A.J. Hammons")
   # blank_proj <- dplyr::full_join(blank, projections, by=c('FD.Nickname' = "FD.Nickname", "Date"))
-  blank_proj <- dplyr::full_join(blank, projections, by=c('FD.Nickname.NoDot' = "FD.Nickname.NoDot", "Date"))
+  blank_proj <- dplyr::full_join(blank, projections, by=c('stdname', "Date"))
   print("These show up in blank but not proj")
-  print(blank_proj[is.na(blank_proj$DFN.Projection),] %>% .$FD.Nickname.NoDot %>% unique %>% sort)
+  print(blank_proj[is.na(blank_proj$DFN.Projection),] %>% .$stdname %>% unique %>% sort)
   print("These show up in proj but not blank")
-  print(blank_proj[is.na(blank_proj$Salary),] %>% .$FD.Nickname.NoDot %>% unique %>% sort)
-  blank_proj_sal <- dplyr::full_join(blank_proj, salary, by=c('FD.Nickname.NoDot' = "FD.Nickname.NoDot", "Date"))
+  print(blank_proj[is.na(blank_proj$Salary),] %>% .$stdname %>% unique %>% sort)
+  blank_proj_sal <- dplyr::full_join(blank_proj, salary, by=c('stdname', "Date"))
 
   browser()
-  nba_blank_proj_sal <- dplyr::full_join(nba, blank_proj_sal, by=c('PLAYER_NAME.NoDot' = "FD.Nickname.NoDot", "Date"))
+  nba_blank_proj_sal <- dplyr::full_join(nba, blank_proj_sal, by=c('stdname', "Date"))
   # To see where rows are
-  # c(nrow(nba), nrow(blank_proj_sal), nrow(nba) + nrow(blank_proj_sal), nrow(nba_blank_proj_sal), nrow(nba) + nrow(blank_proj_sal) - nrow(nba_blank_proj_sal))
+  print(c(nrow(nba), nrow(blank_proj_sal), nrow(nba) + nrow(blank_proj_sal), nrow(nba_blank_proj_sal), nrow(nba) + nrow(blank_proj_sal) - nrow(nba_blank_proj_sal)))
   print("These show up in bpj but not nba")
-  print(nba_blank_proj_sal[is.na(nba_blank_proj_sal$PLAYER_NAME),] %>% .$FD.Nickname.x %>% unique %>% sort)
+  print(nba_blank_proj_sal[is.na(nba_blank_proj_sal$in.nba),] %>% .$stdname %>% unique %>% sort)
   print("These show up in nba but not bpj, should be 23")
-  print(nba_blank_proj_sal[is.na(nba_blank_proj_sal$FD.Nickname.x),] %>% .$PLAYER_NAME %>% unique %>% sort)
+  print(nba_blank_proj_sal[is.na(nba_blank_proj_sal$stdname),] %>% .$stdname %>% unique %>% sort)
 
-  print(dplyr::anti_join(nba, blank_proj_sal, by=c('PLAYER_NAME.NoDot' = "FD.Nickname.NoDot", "Date"))$PLAYER_NAME.NoDot)
+  print(dplyr::anti_join(nba, blank_proj_sal, by=c('stdname', "Date"))$stdname)
   return()
 }
 if (F) {

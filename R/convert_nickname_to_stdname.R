@@ -1,4 +1,4 @@
-convert.nickname.to.standard.name <- function(nms) {browser()
+convert.nickname.to.standard.name <- function(nms) {#browser()
 
   # Convert  Daily Fantasy Nerd names to FD names
   namedf <- read.csv("data//FD_DFN_name_conversion.csv", stringsAsFactors = F)
