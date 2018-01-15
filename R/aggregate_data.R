@@ -36,6 +36,9 @@ put_all_fromdates_in_one_df <- function(folder, datelow, datehigh) {#browser()
     all_salary$FD.Nickname.NoDot <- gsub("[.]","",all_salary$FD.NamePaste)
     # browser()
     all_salary$stdname <- convert.nickname.to.standard.name(all_salary$FD.NamePaste)
+    all_salary$FD.First.Name <- NULL
+    all_salary$FD.Last.Name <- NULL
+    all_salary$FD.NamePaste <- NULL
   } else if (folder=="Projections") {#browser()
     names(all_salary)[c(1,2)] <- c("DFN.Name", "DFN.Projection")
     # Convert names to FD names
@@ -48,6 +51,9 @@ put_all_fromdates_in_one_df <- function(folder, datelow, datehigh) {#browser()
     all_salary$DFN.Name <- NULL
     all_salary$FD.Nickname.NoDot <- gsub("[.]","",all_salary$FD.Nickname)
     all_salary$stdname <- convert.nickname.to.standard.name(all_salary$FD.Nickname)
+    # browser()
+    all_salary$FD.Nickname <- NULL
+    all_salary$FD.Nickname.NoDot <- NULL
   } else if (folder=="Blank") {
     all_salary$Team <- toupper(all_salary$Team)
     all_salary$Opponent <- toupper(all_salary$Opponent)
@@ -55,6 +61,13 @@ put_all_fromdates_in_one_df <- function(folder, datelow, datehigh) {#browser()
     names(all_salary)[c(3,5,4)] <- c("FD.First.Name", "FD.Last.Name", "FD.Nickname")
     all_salary$FD.Nickname.NoDot <- gsub("[.]","",all_salary$FD.Nickname)
     all_salary$stdname <- convert.nickname.to.standard.name(all_salary$FD.Nickname)
+    # browser()
+    all_salary$FD.First.Name <- NULL
+    all_salary$FD.Last.Name <- NULL
+    all_salary$FD.Nickname <- NULL
+    all_salary$FD.Nickname.NoDot <- NULL
+    all_salary$Team <- convert.teamname.to.stdteamname(all_salary$Team)
+    all_salary$Opponent <- convert.teamname.to.stdteamname(all_salary$Opponent)
   } else {stop("#328722")}
   all_salary
 }
@@ -97,8 +110,29 @@ join_data <- function(nba, datelow, datehigh) {browser()
   print(blank_proj[is.na(blank_proj$Salary),] %>% .$stdname %>% unique %>% sort)
   blank_proj_sal <- dplyr::full_join(blank_proj, salary, by=c('stdname', "Date"))
 
+  # Fix duplicates
+  browser()
+  # salary and blank both have FD.Id and Position, make sure all match
+  if (any(blank_proj_sal$FD.Id.x != blank_proj_sal$FD.Id.x, na.rm = T)) {browser(); warning("Not all FD.id's match #8237")}
+  blank_proj_sal$FD.Id.y <- NULL
+  names(blank_proj_sal)[names(blank_proj_sal) == 'FD.Id.x'] <- 'FD.Id'
+  if (any(blank_proj_sal$Position.x != blank_proj_sal$Position.x, na.rm = T)) {browser(); warning("Not all Positions match #8237")}
+  blank_proj_sal$Position.y <- NULL
+  names(blank_proj_sal)[names(blank_proj_sal) == 'Position.x'] <- 'Position'
+  if (any(blank_proj_sal$Salary.x != blank_proj_sal$Salary.x, na.rm = T)) {browser(); warning("Not all Salarys match #8237")}
+  blank_proj_sal$Salary.y <- NULL
+  names(blank_proj_sal)[names(blank_proj_sal) == 'Salary.x'] <- 'Salary'
+  if (any(blank_proj_sal$Team.x != blank_proj_sal$Team.x, na.rm = T)) {browser(); warning("Not all Teams match #8237")}
+  blank_proj_sal$Team.y <- NULL
+  names(blank_proj_sal)[names(blank_proj_sal) == 'Team.x'] <- 'Team'
+  if (any(blank_proj_sal$Opponent.x != blank_proj_sal$Opponent.x, na.rm = T)) {browser(); warning("Not all Opponents match #8237")}
+  blank_proj_sal$Opponents.y <- NULL
+  names(blank_proj_sal)[names(blank_proj_sal) == 'Opponent.x'] <- 'Opponent'
+
   browser()
   nba_blank_proj_sal <- dplyr::full_join(nba, blank_proj_sal, by=c('stdname', "Date"))
+  # Track which has which values
+  nba_blank_proj_sal$in.spbn <- sapply(1:nrow(nba_blank_proj_sal), function(i) {paste0(if (isTRUE(nba_blank_proj_sal$in.salary[i])) "S" else "-", if (isTRUE(nba_blank_proj_sal$in.projections[i])) "P" else "-", if (isTRUE(nba_blank_proj_sal$in.blank[i])) "B" else "-", if (isTRUE(nba_blank_proj_sal$in.nba[i])) "N" else "-")})
   # To see where rows are
   print(c(nrow(nba), nrow(blank_proj_sal), nrow(nba) + nrow(blank_proj_sal), nrow(nba_blank_proj_sal), nrow(nba) + nrow(blank_proj_sal) - nrow(nba_blank_proj_sal)))
   print("These show up in bpj but not nba")
@@ -106,8 +140,12 @@ join_data <- function(nba, datelow, datehigh) {browser()
   print("These show up in nba but not bpj, should be 23")
   print(nba_blank_proj_sal[is.na(nba_blank_proj_sal$stdname),] %>% .$stdname %>% unique %>% sort)
 
+  print("These players show up in nba but not blank_proj_sal")
   print(dplyr::anti_join(nba, blank_proj_sal, by=c('stdname', "Date"))$stdname)
-  return()
+  boxplot(FDPoints ~ in.spbn, data=nba_blank_proj_sal)
+  print("Here is table of which players show up in which tables")
+  nba_blank_proj_sal$in.spbn %>% table
+  return(nba_blank_proj_sal)
 }
 if (F) {
   year <- 2017
@@ -115,6 +153,8 @@ if (F) {
   ydf <- read.csv(year_file_name)
   source('~/GitHub/NBAFantasy/R/nba_functions.R')
   nba <- convert.raw.nba(year_file_name)
-
+  source('~/GitHub/NBAFantasy/R/convert_nickname_to_stdname.R')
+  source('~/GitHub/NBAFantasy/R/convert_teamname_to_stdteamname.R')
   join_data(nba, "20171128", "20171213")
+  df1 <- join_data(nba, "20171128", "20171128")
 }
