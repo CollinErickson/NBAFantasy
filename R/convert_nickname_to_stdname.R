@@ -14,9 +14,13 @@ convert.nickname.to.standard.name <- function(nms) {#browser()
   # Lower case
   nms <- tolower(nms)
   # Remove II, III, and jr
-  nms <- gsub("[II]","",nms)
-  nms <- gsub("[III]","",nms)
+  nms <- gsub(" II","",nms)
+  nms <- gsub(" III","",nms)
   nms <- gsub(" jr","",nms)
+
+  # Special names that mess it up
+  nms[nms=="guillermo hernangomez"] <- "willy hernangomez"
+  nms[nms=="vince hunter"] <- "vincent hunter"
 
   nms
 }
