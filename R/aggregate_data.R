@@ -78,14 +78,29 @@ if (F) {
   dplyr::left_join(blank, proj, by=c('FD.Nickname' = "DFN.Name", "Date")) %>% View
 }
 
-join_data <- function(nba, datelow, datehigh) {browser()
+
+#' Join data from nba, salary, projections, and blank into one big table
+#'
+#' @param nba Table of players sheet
+#' @param datelow Start date for date range
+#' @param datehigh End date for date range
+#'
+#' @return Big table
+#' @export
+#'
+#' @examples
+join_data <- function(nba, datelow, datehigh) {
+  # Make sure dates are in correct format
   if (!is.data.frame(nba)) {stop("nba not good #58209")}
   if (is.numeric(date)) {date <- as.character(date)}
   if (!is.character(datelow)  || nchar(datelow)!=8  || substr(datelow,1,3)!="201" ) {stop("date should be YYYYMMDD int or char")}
   if (!is.character(datehigh) || nchar(datehigh)!=8 || substr(datehigh,1,3)!="201") {stop("date should be YYYYMMDD int or char")}
+
+  # Gather data for date ranges
   salary <- put_all_fromdates_in_one_df("Salary", datelow, datehigh) #read.csv(paste0("data//Salary//", date, ".csv"))
   projections <- put_all_fromdates_in_one_df("Projections", datelow, datehigh) #read.csv(paste0("data//Projections//", date, ".csv"))
   blank <- put_all_fromdates_in_one_df("Blank", datelow, datehigh) #read.csv(paste0("data//Blank//", date, ".csv"))
+
   # Add date to nba, only keep entries in date range
   nba$GAME_YYYMMDD <- sapply(nba$GAME_DATE_EST, function(gd) {paste0(substr(gd,1,4), substr(gd,6,7), substr(gd,9,10))})
   nba$Date <- as.Date(nba$GAME_YYYMMDD, "%Y%m%d")
@@ -104,47 +119,64 @@ join_data <- function(nba, datelow, datehigh) {browser()
   # which(all_salary$FD.Nickname == "A.J. Hammons")
   # blank_proj <- dplyr::full_join(blank, projections, by=c('FD.Nickname' = "FD.Nickname", "Date"))
   blank_proj <- dplyr::full_join(blank, projections, by=c('stdname', "Date"))
-  print("These show up in blank but not proj")
-  print(blank_proj[is.na(blank_proj$DFN.Projection),] %>% .$stdname %>% unique %>% sort)
-  print("These show up in proj but not blank")
-  print(blank_proj[is.na(blank_proj$Salary),] %>% .$stdname %>% unique %>% sort)
+
+  print("These show up in blank but not proj, consider checking them")
+  # print(blank_proj[is.na(blank_proj$DFN.Projection),] %>% .$stdname %>% unique %>% sort)
+  print(blank_proj[is.na(blank_proj$DFN.Projection),][,c("stdname", "Date")])
+  # print("These show up in proj but not blank")
+  # print(blank_proj[is.na(blank_proj$Salary),] %>% .$stdname %>% unique %>% sort)
+  print(paste(nrow(blank_proj[is.na(blank_proj$Salary),]), "show up in proj but not in blank, can ignore"))
   blank_proj_sal <- dplyr::full_join(blank_proj, salary, by=c('stdname', "Date"))
 
   # Fix duplicates
-  browser()
-  # salary and blank both have FD.Id and Position, make sure all match
-  if (any(blank_proj_sal$FD.Id.x != blank_proj_sal$FD.Id.x, na.rm = T)) {browser(); warning("Not all FD.id's match #8237")}
+  # salary and blank both have FD.Id, Position, make sure all match, then remove one column and rename other
+  if (any(blank_proj_sal$FD.Id.x != blank_proj_sal$FD.Id.y, na.rm = T)) {browser(); warning("Not all FD.id's match #8237")}
   blank_proj_sal$FD.Id.y <- NULL
   names(blank_proj_sal)[names(blank_proj_sal) == 'FD.Id.x'] <- 'FD.Id'
-  if (any(blank_proj_sal$Position.x != blank_proj_sal$Position.x, na.rm = T)) {browser(); warning("Not all Positions match #8237")}
+  if (any(blank_proj_sal$Position.x != blank_proj_sal$Position.y, na.rm = T)) {browser(); warning("Not all Positions match #8237")}
   blank_proj_sal$Position.y <- NULL
   names(blank_proj_sal)[names(blank_proj_sal) == 'Position.x'] <- 'Position'
-  if (any(blank_proj_sal$Salary.x != blank_proj_sal$Salary.x, na.rm = T)) {browser(); warning("Not all Salarys match #8237")}
+  if (any(blank_proj_sal$Salary.x != blank_proj_sal$Salary.y, na.rm = T)) {browser(); warning("Not all Salarys match #8237")}
   blank_proj_sal$Salary.y <- NULL
   names(blank_proj_sal)[names(blank_proj_sal) == 'Salary.x'] <- 'Salary'
-  if (any(blank_proj_sal$Team.x != blank_proj_sal$Team.x, na.rm = T)) {browser(); warning("Not all Teams match #8237")}
+  if (any(blank_proj_sal$Team.x != blank_proj_sal$Team.y, na.rm = T)) {browser(); warning("Not all Teams match #8237")}
   blank_proj_sal$Team.y <- NULL
   names(blank_proj_sal)[names(blank_proj_sal) == 'Team.x'] <- 'Team'
-  if (any(blank_proj_sal$Opponent.x != blank_proj_sal$Opponent.x, na.rm = T)) {browser(); warning("Not all Opponents match #8237")}
+  if (any(blank_proj_sal$Opponent.x != blank_proj_sal$Opponent.y, na.rm = T)) {browser(); warning("Not all Opponents match #8237")}
   blank_proj_sal$Opponents.y <- NULL
   names(blank_proj_sal)[names(blank_proj_sal) == 'Opponent.x'] <- 'Opponent'
 
   browser()
+  # Join these with nba
   nba_blank_proj_sal <- dplyr::full_join(nba, blank_proj_sal, by=c('stdname', "Date"))
   # Track which has which values
+  #   First set NA for in.<name> to FALSE
+  nba_blank_proj_sal$in.blank[is.na(nba_blank_proj_sal$in.blank)] <- FALSE
+  nba_blank_proj_sal$in.projections[is.na(nba_blank_proj_sal$in.projections)] <- FALSE
+  nba_blank_proj_sal$in.salary[is.na(nba_blank_proj_sal$in.salary)] <- FALSE
+  nba_blank_proj_sal$in.nba[is.na(nba_blank_proj_sal$in.nba)] <- FALSE
+  #   Set in.spbn to be four characters showing which each row came from, dash indicates missing
   nba_blank_proj_sal$in.spbn <- sapply(1:nrow(nba_blank_proj_sal), function(i) {paste0(if (isTRUE(nba_blank_proj_sal$in.salary[i])) "S" else "-", if (isTRUE(nba_blank_proj_sal$in.projections[i])) "P" else "-", if (isTRUE(nba_blank_proj_sal$in.blank[i])) "B" else "-", if (isTRUE(nba_blank_proj_sal$in.nba[i])) "N" else "-")})
+  # Print to see where data came from
+  print(table(nba_blank_proj_sal$in.spbn))
   # To see where rows are
-  print(c(nrow(nba), nrow(blank_proj_sal), nrow(nba) + nrow(blank_proj_sal), nrow(nba_blank_proj_sal), nrow(nba) + nrow(blank_proj_sal) - nrow(nba_blank_proj_sal)))
-  print("These show up in bpj but not nba")
-  print(nba_blank_proj_sal[is.na(nba_blank_proj_sal$in.nba),] %>% .$stdname %>% unique %>% sort)
-  print("These show up in nba but not bpj, should be 23")
-  print(nba_blank_proj_sal[is.na(nba_blank_proj_sal$stdname),] %>% .$stdname %>% unique %>% sort)
+  # print(c(nrow(nba), nrow(blank_proj_sal), nrow(nba) + nrow(blank_proj_sal), nrow(nba_blank_proj_sal), nrow(nba) + nrow(blank_proj_sal) - nrow(nba_blank_proj_sal)))
+  # print("These show up in bpj but not nba")
+  # print(nba_blank_proj_sal[is.na(nba_blank_proj_sal$in.nba),] %>% .$stdname %>% unique %>% sort)
+  # print("These show up in nba but not bpj, should be 23")
+  # print(nba_blank_proj_sal[is.na(nba_blank_proj_sal$stdname),] %>% .$stdname %>% unique %>% sort)
 
   print("These players show up in nba but not blank_proj_sal")
-  print(dplyr::anti_join(nba, blank_proj_sal, by=c('stdname', "Date"))$stdname)
+  # print(dplyr::anti_join(nba, blank_proj_sal, by=c('stdname', "Date"))$stdname)
+  print(nba_blank_proj_sal[nba_blank_proj_sal$in.spbn=="---N",][,c("stdname", "Date")])
+
+  # Plot shows distribution of data for players in groups
+  #   Should see that players not in nba don't score points/play in game
   boxplot(FDPoints ~ in.spbn, data=nba_blank_proj_sal)
-  print("Here is table of which players show up in which tables")
-  nba_blank_proj_sal$in.spbn %>% table
+  # print("Here is table of which players show up in which tables")
+  # nba_blank_proj_sal$in.spbn %>% table
+
+  # Return big table
   return(nba_blank_proj_sal)
 }
 if (F) {
