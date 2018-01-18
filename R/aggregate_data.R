@@ -133,10 +133,19 @@ join_data <- function(nba, datelow, datehigh) {
   if (any(blank_proj_sal$FD.Id.x != blank_proj_sal$FD.Id.y, na.rm = T)) {browser(); warning("Not all FD.id's match #8237")}
   blank_proj_sal$FD.Id.y <- NULL
   names(blank_proj_sal)[names(blank_proj_sal) == 'FD.Id.x'] <- 'FD.Id'
-  if (any(blank_proj_sal$Position.x != blank_proj_sal$Position.y, na.rm = T)) {browser(); warning("Not all Positions match #8237")}
+  if (any(blank_proj_sal$Position.x != blank_proj_sal$Position.y, na.rm = T)) {
+    # browser();
+    warning("Not all Positions match #8237")
+    print("Positions that don't match are as follows, going to ignore and assume not an issue, use Position.x")
+    print(blank_proj_sal[sapply(blank_proj_sal$Position.x != blank_proj_sal$Position.y, isTRUE),][,c('stdname', 'Date', 'Position.x', 'Position.y')])
+  }
   blank_proj_sal$Position.y <- NULL
   names(blank_proj_sal)[names(blank_proj_sal) == 'Position.x'] <- 'Position'
-  if (any(blank_proj_sal$Salary.x != blank_proj_sal$Salary.y, na.rm = T)) {browser(); warning("Not all Salarys match #8237")}
+  if (any(blank_proj_sal$Salary.x != blank_proj_sal$Salary.y, na.rm = T)) {
+    warning("Not all Salarys match #8237")
+    print("Salaries that don't match are as follows, going to ignore and assume Salary.x is correct")
+    print(blank_proj_sal[sapply(blank_proj_sal$Salary.x != blank_proj_sal$Salary.y, isTRUE),][,c('stdname', 'Date', 'Salary.x', 'Salary.y')])
+  }
   blank_proj_sal$Salary.y <- NULL
   names(blank_proj_sal)[names(blank_proj_sal) == 'Salary.x'] <- 'Salary'
   if (any(blank_proj_sal$Team.x != blank_proj_sal$Team.y, na.rm = T)) {browser(); warning("Not all Teams match #8237")}
@@ -146,7 +155,6 @@ join_data <- function(nba, datelow, datehigh) {
   blank_proj_sal$Opponents.y <- NULL
   names(blank_proj_sal)[names(blank_proj_sal) == 'Opponent.x'] <- 'Opponent'
 
-  browser()
   # Join these with nba
   nba_blank_proj_sal <- dplyr::full_join(nba, blank_proj_sal, by=c('stdname', "Date"))
   # Track which has which values
