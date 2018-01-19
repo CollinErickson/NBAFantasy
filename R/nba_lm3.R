@@ -29,32 +29,42 @@ nba_lm4 <- function(dftrain, dftest) {
   print(dim(dftrain))
   print(dim(dftest))
 
-  # Use FanDuelPts or FDScore (from nba) instead of FDPoints (from blank)
-  # Opponent (from blank) not good, should get it from nba
-  lm3 <- lm(FDPoints ~ stdname + IS_HOME + Opponent, data=dftrain, na.action=na.omit)
-  plot(lm3$model$FDPoints, lm3$fitted.values, main="Fitted vs actual FDPoints on training")
+  lm3 <- lm(FanDuelPts ~ stdname + IS_HOME + OPP_TEAM_ABBREVIATION, data=dftrain, na.action=na.omit)
+  plot(lm3$model$FanDuelPts, lm3$fitted.values, main="Fitted vs actual FanDuelPts on training")
   abline(a=0,b=1,col=2)
 
-  inboth <- (dftrain$stdname %in% (lm3$model$stdname)) & !is.na(dftrain$DFN.Projection) & !is.na(dftrain$FDPoints)
+  inboth <- (dftrain$stdname %in% (lm3$model$stdname)) & !is.na(dftrain$DFN.Projection) & !is.na(dftrain$FanDuelPts)
   myproj <- predict(lm3, dftrain[inboth,])
-  inbothandnotNA <- !is.na(myproj)
 
-  plot(dftrain[inboth,][inbothandnotNA,]$FDPoints, myproj[inbothandnotNA])
-  plot(dftrain[inboth,][inbothandnotNA,]$FDPoints, dftrain[inboth,][inbothandnotNA,]$DFN.Projection)
-  myrmse <- sqrt(mean((dftrain[inboth,][inbothandnotNA,]$FDPoints - myproj[inbothandnotNA])^2))
-  DFNrmse <- sqrt(mean((dftrain[inboth,][inbothandnotNA,]$FDPoints - dftrain[inboth,][inbothandnotNA,]$DFN.Projection)^2))
-  c(myrmse, DFNrmse)
+  # inbothandnotNA <- !is.na(myproj)
+  # plot(dftrain[inboth,][inbothandnotNA,]$FanDuelPts, myproj[inbothandnotNA])
+  # plot(dftrain[inboth,][inbothandnotNA,]$FanDuelPts, dftrain[inboth,][inbothandnotNA,]$DFN.Projection)
+  # myrmse <- sqrt(mean((dftrain[inboth,][inbothandnotNA,]$FanDuelPts - myproj[inbothandnotNA])^2))
+  # DFNrmse <- sqrt(mean((dftrain[inboth,][inbothandnotNA,]$FanDuelPts - dftrain[inboth,][inbothandnotNA,]$DFN.Projection)^2))
+
+  plot(dftrain[inboth,]$FanDuelPts, myproj)
+  plot(dftrain[inboth,]$FanDuelPts, dftrain[inboth,]$DFN.Projection)
+  myrmse <- sqrt(mean((dftrain[inboth,]$FanDuelPts - myproj)^2))
+  DFNrmse <- sqrt(mean((dftrain[inboth,]$FanDuelPts - dftrain[inboth,]$DFN.Projection)^2))
+
+  print(c(myrmse, DFNrmse))
 
 
-  inboth <- (dftest$stdname %in% (lm3$model$stdname)) & !is.na(dftest$DFN.Projection) & !is.na(dftest$FDPoints)
+  inboth <- (dftest$stdname %in% (lm3$model$stdname)) & !is.na(dftest$DFN.Projection) & !is.na(dftest$FanDuelPts)
   myproj <- predict(lm3, dftest[inboth,])
-  inbothandnotNA <- !is.na(myproj)
 
-  plot(dftest[inboth,][inbothandnotNA,]$FDPoints, myproj[inbothandnotNA])
-  plot(dftest[inboth,][inbothandnotNA,]$FDPoints, dftest[inboth,][inbothandnotNA,]$DFN.Projection)
-  myrmse <- sqrt(mean((dftest[inboth,][inbothandnotNA,]$FDPoints - myproj[inbothandnotNA])^2))
-  DFNrmse <- sqrt(mean((dftest[inboth,][inbothandnotNA,]$FDPoints - dftest[inboth,][inbothandnotNA,]$DFN.Projection)^2))
-  c(myrmse, DFNrmse)
+  # inbothandnotNA <- !is.na(myproj)
+  # plot(dftest[inboth,][inbothandnotNA,]$FanDuelPts, myproj[inbothandnotNA])
+  # plot(dftest[inboth,][inbothandnotNA,]$FanDuelPts, dftest[inboth,][inbothandnotNA,]$DFN.Projection)
+  # myrmse <- sqrt(mean((dftest[inboth,][inbothandnotNA,]$FanDuelPts - myproj[inbothandnotNA])^2))
+  # DFNrmse <- sqrt(mean((dftest[inboth,][inbothandnotNA,]$FanDuelPts - dftest[inboth,][inbothandnotNA,]$DFN.Projection)^2))
+
+  plot(dftest[inboth,]$FanDuelPts, myproj)
+  plot(dftest[inboth,]$FanDuelPts, dftest[inboth,]$DFN.Projection)
+  myrmse <- sqrt(mean((dftest[inboth,]$FanDuelPts - myproj)^2))
+  DFNrmse <- sqrt(mean((dftest[inboth,]$FanDuelPts - dftest[inboth,]$DFN.Projection)^2))
+
+  print(c(myrmse, DFNrmse))
 
 
 
