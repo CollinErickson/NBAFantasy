@@ -1,7 +1,7 @@
 library(magrittr)
 library(plyr)
 #' Takes in the raw data file name and does all the data cleaning
-convert.raw.nba <- function(file.path.in,write.out=F,file.path.out) {
+convert.raw.nba <- function(file.path.in,write.out=F,file.path.out) {browser()
   #nba <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\2015Season2.csv",stringsAsFactors=F)
   # Read in the data
   nba <- read.csv(file.path.in,stringsAsFactors=F)
@@ -31,9 +31,19 @@ convert.raw.nba <- function(file.path.in,write.out=F,file.path.out) {
   )
   # Calculates Fan Duel points
   if (is.character(nba$REB[1])) {nba$REB <- as.numeric(nba$REB)}
-  nba$FanDuelPts <- nba$PTS + 1.2*nba$REB + 1.5*nba$AST + 2*nba$BLK + 2*nba$STL - 1*nba$TO
+  nba$FanDuelPts <- nba$PTS + 1.2*nba$REB + 1.5*nba$AST + 3*nba$BLK + 3*nba$STL - 1*nba$TO
   nba$IS_HOME <- (nba$TEAM_ID == nba$HOME_TEAM_ID)
   nba$OPP_TEAM_ID <- ifelse(nba$IS_HOME,nba$VISITOR_TEAM_ID,nba$HOME_TEAM_ID)
+
+  # Change team abbrev to standardized
+  nba$TEAM_ABBREVIATION <- convert.teamname.to.stdteamname(nba$TEAM_ABBREVIATION)
+
+  # Get OPP_TEAM_ABBREVIATION
+  unique.teams <- unique.data.frame(nba[,c('TEAM_ID', 'TEAM_ABBREVIATION')])
+  teammap <- unique.teams[,2]
+  names(teammap) <- unique.teams[,1]
+  nba$OPP_TEAM_ABBREVIATION <- teammap[as.character(nba$OPP_TEAM_ID)]
+
   # Order the columns alphabetically
   nba <- nba[,order(names(nba))]
   if (write.out) { # Write out clean data
