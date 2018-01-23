@@ -68,6 +68,8 @@ put_all_fromdates_in_one_df <- function(folder, datelow, datehigh) {#browser()
     all_salary$FD.Nickname.NoDot <- NULL
     all_salary$Team <- convert.teamname.to.stdteamname(all_salary$Team)
     all_salary$Opponent <- convert.teamname.to.stdteamname(all_salary$Opponent)
+    # Convert Injury Indicators that are NA to "None"
+    all_salary$`Injury Indicator`[is.na(all_salary$`Injury Indicator`)] <- "None"
   } else {stop("#328722")}
   all_salary
 }
@@ -154,7 +156,7 @@ join_data <- function(nba, datelow, datehigh) {
   if (any(blank_proj_sal$Opponent.x != blank_proj_sal$Opponent.y, na.rm = T)) {browser(); warning("Not all Opponents match #8237")}
   blank_proj_sal$Opponents.y <- NULL
   names(blank_proj_sal)[names(blank_proj_sal) == 'Opponent.x'] <- 'Opponent'
-
+browser()
   # Join these with nba
   nba_blank_proj_sal <- dplyr::full_join(nba, blank_proj_sal, by=c('stdname', "Date"))
   # Track which has which values
@@ -177,6 +179,9 @@ join_data <- function(nba, datelow, datehigh) {
   print("These players show up in nba but not blank_proj_sal")
   # print(dplyr::anti_join(nba, blank_proj_sal, by=c('stdname', "Date"))$stdname)
   print(nba_blank_proj_sal[nba_blank_proj_sal$in.spbn=="---N",][,c("stdname", "Date")])
+
+  # Fix things that are NA after join
+  nba_blank_proj_sal$`In`
 
   # Plot shows distribution of data for players in groups
   #   Should see that players not in nba don't score points/play in game
