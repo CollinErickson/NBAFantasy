@@ -156,7 +156,7 @@ join_data <- function(nba, datelow, datehigh) {
   if (any(blank_proj_sal$Opponent.x != blank_proj_sal$Opponent.y, na.rm = T)) {browser(); warning("Not all Opponents match #8237")}
   blank_proj_sal$Opponents.y <- NULL
   names(blank_proj_sal)[names(blank_proj_sal) == 'Opponent.x'] <- 'Opponent'
-browser()
+
   # Join these with nba
   nba_blank_proj_sal <- dplyr::full_join(nba, blank_proj_sal, by=c('stdname', "Date"))
   # Track which has which values

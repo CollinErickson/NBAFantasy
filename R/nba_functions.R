@@ -1,7 +1,7 @@
 library(magrittr)
 library(plyr)
 #' Takes in the raw data file name and does all the data cleaning
-convert.raw.nba <- function(file.path.in,write.out=F,file.path.out) {browser()
+convert.raw.nba <- function(file.path.in,write.out=F,file.path.out) {#browser()
   #nba <- read.csv("C:\\Users\\cbe117\\School\\SportsAnalytics\\NBA\\2015Season2.csv",stringsAsFactors=F)
   # Read in the data
   nba <- read.csv(file.path.in,stringsAsFactors=F)

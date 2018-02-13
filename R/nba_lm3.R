@@ -36,12 +36,6 @@ nba_lm4 <- function(dftrain, dftest) {
   inboth <- (dftrain$stdname %in% (lm3$model$stdname)) & !is.na(dftrain$DFN.Projection) & !is.na(dftrain$FanDuelPts)
   myproj <- predict(lm3, dftrain[inboth,])
 
-  # inbothandnotNA <- !is.na(myproj)
-  # plot(dftrain[inboth,][inbothandnotNA,]$FanDuelPts, myproj[inbothandnotNA])
-  # plot(dftrain[inboth,][inbothandnotNA,]$FanDuelPts, dftrain[inboth,][inbothandnotNA,]$DFN.Projection)
-  # myrmse <- sqrt(mean((dftrain[inboth,][inbothandnotNA,]$FanDuelPts - myproj[inbothandnotNA])^2))
-  # DFNrmse <- sqrt(mean((dftrain[inboth,][inbothandnotNA,]$FanDuelPts - dftrain[inboth,][inbothandnotNA,]$DFN.Projection)^2))
-
   plot(dftrain[inboth,]$FanDuelPts, myproj)
   plot(dftrain[inboth,]$FanDuelPts, dftrain[inboth,]$DFN.Projection)
   myrmse <- sqrt(mean((dftrain[inboth,]$FanDuelPts - myproj)^2))
@@ -52,12 +46,6 @@ nba_lm4 <- function(dftrain, dftest) {
 
   inboth <- (dftest$stdname %in% (lm3$model$stdname)) & !is.na(dftest$DFN.Projection) & !is.na(dftest$FanDuelPts)
   myproj <- predict(lm3, dftest[inboth,])
-
-  # inbothandnotNA <- !is.na(myproj)
-  # plot(dftest[inboth,][inbothandnotNA,]$FanDuelPts, myproj[inbothandnotNA])
-  # plot(dftest[inboth,][inbothandnotNA,]$FanDuelPts, dftest[inboth,][inbothandnotNA,]$DFN.Projection)
-  # myrmse <- sqrt(mean((dftest[inboth,][inbothandnotNA,]$FanDuelPts - myproj[inbothandnotNA])^2))
-  # DFNrmse <- sqrt(mean((dftest[inboth,][inbothandnotNA,]$FanDuelPts - dftest[inboth,][inbothandnotNA,]$DFN.Projection)^2))
 
   plot(dftest[inboth,]$FanDuelPts, myproj)
   plot(dftest[inboth,]$FanDuelPts, dftest[inboth,]$DFN.Projection)
@@ -71,6 +59,13 @@ nba_lm4 <- function(dftrain, dftest) {
   return()
 }
 if (F) {
+  year <- 2017
+  year_file_name <- paste0("data/Player/", year, ".csv")
+  source('~/GitHub/NBAFantasy/R/nba_functions.R')
+  nba <- convert.raw.nba(year_file_name)
+  source('~/GitHub/NBAFantasy/R/aggregate_data.R')
+  source('~/GitHub/NBAFantasy/R/convert_nickname_to_stdname.R')
+  source('~/GitHub/NBAFantasy/R/convert_teamname_to_stdteamname.R')
   df1 <- join_data(nba, "20171128", "20171219")
   df2 <- join_data(nba, "20171220", "20180104")
   nba_lm4(dftrain=df1, dftest=df2)
