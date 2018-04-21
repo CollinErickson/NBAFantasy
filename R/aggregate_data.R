@@ -1,8 +1,16 @@
+# This file contains functions to load data from different sources
+# (NBA results, DFN projections, FD salaries)
+# and put them all into one big data.frame.
+# Created 2017-18.
+
+# Gather all Salary, Projections, and Blank to single df
+#
 # This function gathers all Salary, Projections, or ? data into one big df.
 # Each is stored in a separate .csv file, so this loops over them.
 #' @param folder Name of folder. One of Salary, Projection, ?
 #' @param datelow Begin date in format "YYYYMMDD".
 #' @param datehigh End date in format "YYYYMMDD".
+#' @return data.frame with all data
 put_all_fromdates_in_one_df <- function(folder, datelow, datehigh) {#browser()
   library(readr)
   if (nchar(datelow) != 8 || nchar(datehigh)!=8) {stop("date must have length 8 #982357")}
@@ -91,6 +99,7 @@ if (F) {
 #' @export
 #'
 #' @examples
+#' #
 join_data <- function(nba, datelow, datehigh) {
   # Make sure dates are in correct format
   if (!is.data.frame(nba)) {stop("nba not good #58209")}

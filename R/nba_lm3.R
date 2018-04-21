@@ -1,3 +1,13 @@
+#' Linear model test 3
+#'
+#' Fit LM with stdname, IS_HOME, and Opponent
+#'
+#' @param df
+#'
+#' @return
+#' @export
+#'
+#' @examples
 nba_lm3 <- function(df) {
   browser()
   print(dim(df))

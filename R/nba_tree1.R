@@ -1,3 +1,14 @@
+#' Predict using a tree
+#'
+#' Was worse than LM
+#'
+#' @param dftrain
+#' @param dftest
+#'
+#' @return
+#' @export
+#'
+#' @examples
 nba_tree1 <- function(dftrain, dftest) {
   browser()
   print(dim(dftrain))

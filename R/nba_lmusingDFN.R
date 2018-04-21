@@ -1,4 +1,14 @@
-# Predict using Daily Fantasy Nerd as an input
+#' Predict using Daily Fantasy Nerd as an input
+#'
+#' No real improvement over others
+#'
+#' @param dftrain0
+#' @param dftest0
+#'
+#' @return
+#' @export
+#'
+#' @examples
 nba_lm_pwDFN <- function(dftrain0, dftest0) {
   dftrain <- dftrain0[dftrain0$in.spbn == "SPBN",]
   dftest <- dftest0[dftest0$in.spbn == "SPBN",]
