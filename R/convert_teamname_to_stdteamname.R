@@ -1,3 +1,14 @@
+#' Convert NBA team name to my standard format
+#'
+#' Some times have variant abbreviations that need to be fixed.
+#'
+#' @param tms
+#'
+#' @return vector of char
+#' @export
+#'
+#' @examples
+#' convert.teamname.to.stdteamname(c("BOS", "CLE", "NO", "GS"))
 convert.teamname.to.stdteamname <- function(tms) {
   # These names need to be fixed
   tms[tms=="NO"] <- "NOR"
