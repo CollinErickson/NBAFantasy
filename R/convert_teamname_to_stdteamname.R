@@ -2,9 +2,9 @@
 #'
 #' Some times have variant abbreviations that need to be fixed.
 #'
-#' @param tms
+#' @param tms Vector of char team names to be standardized
 #'
-#' @return vector of char
+#' @return vector of char with standardized team names
 #' @export
 #'
 #' @examples

@@ -206,9 +206,9 @@ if (F) {
   year_file_name <- paste0("data/Player/", year, ".csv")
   ydf <- read.csv(year_file_name)
   source('~/GitHub/NBAFantasy/R/nba_functions.R')
-  nba <- convert.raw.nba(year_file_name)
   source('~/GitHub/NBAFantasy/R/convert_nickname_to_stdname.R')
   source('~/GitHub/NBAFantasy/R/convert_teamname_to_stdteamname.R')
-  join_data(nba, "20171128", "20171213")
+  nba <- convert.raw.nba(year_file_name)
+  # join_data(nba, "20171128", "20171213")
   df1 <- join_data(nba, "20171128", "20171213")
 }

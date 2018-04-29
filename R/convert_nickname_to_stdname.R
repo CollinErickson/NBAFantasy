@@ -8,7 +8,7 @@
 #'
 #' @param nms vector of names
 #'
-#' @return something
+#' @return vector of names in standard format
 #' @export
 convert.nickname.to.standard.name <- function(nms) {#browser()
 
@@ -33,6 +33,7 @@ convert.nickname.to.standard.name <- function(nms) {#browser()
   # Special names that mess it up
   nms[nms=="guillermo hernangomez"] <- "willy hernangomez"
   nms[nms=="vince hunter"] <- "vincent hunter"
+  nms[nms=="moe harkless"] <- "maurice harkless"
 
   nms
 }
