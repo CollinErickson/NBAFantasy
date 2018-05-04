@@ -41,14 +41,14 @@ if (F) {
   year <- 2017
   year_file_name <- paste0("data/Player/", year, ".csv")
   source('~/GitHub/NBAFantasy/R/nba_functions.R')
-  nba <- convert.raw.nba(year_file_name)
   source('~/GitHub/NBAFantasy/R/aggregate_data.R')
   source('~/GitHub/NBAFantasy/R/convert_nickname_to_stdname.R')
   source('~/GitHub/NBAFantasy/R/convert_teamname_to_stdteamname.R')
+  nba <- convert.raw.nba(year_file_name)
   df1all <- join_data(nba, "20171128", "20171219")
   df2all <- join_data(nba, "20171220", "20180104")
   df1 <- df1all[df1all$in.spbn=="SPBN",]
   df2 <- df2all[df2all$in.spbn=="SPBN",]
   nba_lm_for_pred_vars(dftrain=df1, dftest=df2, pred_vars=c("IS_HOME"))
-  nba_lm_for_pred_vars(dftrain=df1, dftest=df2, pred_vars=c("IS_HOME"))
+  nba_lm_for_pred_vars(dftrain=df1, dftest=df2, pred_vars=c("IS_HOME", "Opponent"))
 }
