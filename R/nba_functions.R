@@ -35,6 +35,9 @@ convert.raw.nba <- function(file.path.in,write.out=F,file.path.out) {#browser()
   nba$IS_HOME <- (nba$TEAM_ID == nba$HOME_TEAM_ID)
   nba$OPP_TEAM_ID <- ifelse(nba$IS_HOME,nba$VISITOR_TEAM_ID,nba$HOME_TEAM_ID)
 
+  # Add stdname
+  nba$stdname <- convert.nickname.to.standard.name(nba$PLAYER_NAME)
+
   # Change team abbrev to standardized
   nba$TEAM_ABBREVIATION <- convert.teamname.to.stdteamname(nba$TEAM_ABBREVIATION)
 
@@ -43,6 +46,24 @@ convert.raw.nba <- function(file.path.in,write.out=F,file.path.out) {#browser()
   teammap <- unique.teams[,2]
   names(teammap) <- unique.teams[,1]
   nba$OPP_TEAM_ABBREVIATION <- teammap[as.character(nba$OPP_TEAM_ID)]
+
+  # Add date
+  nba$GAME_YYYMMDD <- sapply(nba$GAME_DATE_EST, function(gd) {paste0(substr(gd,1,4), substr(gd,6,7), substr(gd,9,10))})
+  nba$Date <- as.Date(nba$GAME_YYYMMDD, "%Y%m%d")
+
+  # get RestDays, at most 3 since 3 is enough
+  nba <- plyr::ddply(nba, "stdname",
+              function(tdf) {
+                minDate <- min(tdf$Date)
+                tdf$RestDays <- sapply(tdf$Date,
+                                       function(dd) {
+                                         if (dd == minDate) {return(3)}
+                                         min(3,
+                                             as.numeric(dd - max(tdf$Date[tdf$Date < dd]))-1
+                                         )
+                                       })
+                tdf
+              })
 
   # Order the columns alphabetically
   nba <- nba[,order(names(nba))]

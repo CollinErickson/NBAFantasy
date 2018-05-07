@@ -9,7 +9,7 @@ nba_lm_for_pred_vars <- function(dftrain, dftest, pred_vars) {
   lm3 <- lm(f, data=dftrain, na.action=na.omit)
   plot(lm3$model$FanDuelPts, lm3$fitted.values, main="Fitted vs actual FanDuelPts on training")
   abline(a=0,b=1,col=2)
-browser()
+
   # inboth <- (dftrain$stdname %in% (lm3$model$stdname)) & !is.na(dftrain$DFN.Projection) & !is.na(dftrain$FanDuelPts)
   # myproj <- predict(lm3, dftrain[inboth,])
   myproj <- predict(lm3, dftrain)
@@ -62,4 +62,6 @@ if (F) {
   nba_lm_for_pred_vars(dftrain=df1, dftest=df2, pred_vars=c("IS_HOME"))
   nba_lm_for_pred_vars(dftrain=df1, dftest=df2, pred_vars=c("IS_HOME", "Opponent"))
   nba_lm_for_pred_vars(dftrain=df1, dftest=df2, pred_vars=c("IS_HOME", "Opponent", "stdname"))
+  nba_lm_for_pred_vars(dftrain=df1, dftest=df2, pred_vars=c("IS_HOME", "Opponent", "stdname", "RestDays"))
+  nba_lm_for_pred_vars(dftrain=df1, dftest=df2, pred_vars=c("IS_HOME", "Opponent", "stdname", "RestDays", "DFN.Projection"))
 }

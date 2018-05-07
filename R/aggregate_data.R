@@ -113,11 +113,11 @@ join_data <- function(nba, datelow, datehigh) {
   blank <- put_all_fromdates_in_one_df("Blank", datelow, datehigh) #read.csv(paste0("data//Blank//", date, ".csv"))
 
   # Add date to nba, only keep entries in date range
-  nba$GAME_YYYMMDD <- sapply(nba$GAME_DATE_EST, function(gd) {paste0(substr(gd,1,4), substr(gd,6,7), substr(gd,9,10))})
-  nba$Date <- as.Date(nba$GAME_YYYMMDD, "%Y%m%d")
+  # nba$GAME_YYYMMDD <- sapply(nba$GAME_DATE_EST, function(gd) {paste0(substr(gd,1,4), substr(gd,6,7), substr(gd,9,10))})
+  # nba$Date <- as.Date(nba$GAME_YYYMMDD, "%Y%m%d")
   nba <- nba[nba$Date >=as.Date(datelow, format='%Y%m%d') & nba$Date <= as.Date(datehigh, format='%Y%m%d'),]
   nba$PLAYER_NAME.NoDot <- gsub("[.]","",nba$PLAYER_NAME)
-  nba$stdname <- convert.nickname.to.standard.name(nba$PLAYER_NAME)
+  # nba$stdname <- convert.nickname.to.standard.name(nba$PLAYER_NAME)
 
   # Keep track of which ones they were in
   salary$in.salary <- TRUE
