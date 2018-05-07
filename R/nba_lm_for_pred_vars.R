@@ -9,7 +9,7 @@ nba_lm_for_pred_vars <- function(dftrain, dftest, pred_vars) {
   lm3 <- lm(f, data=dftrain, na.action=na.omit)
   plot(lm3$model$FanDuelPts, lm3$fitted.values, main="Fitted vs actual FanDuelPts on training")
   abline(a=0,b=1,col=2)
-
+browser()
   # inboth <- (dftrain$stdname %in% (lm3$model$stdname)) & !is.na(dftrain$DFN.Projection) & !is.na(dftrain$FanDuelPts)
   # myproj <- predict(lm3, dftrain[inboth,])
   myproj <- predict(lm3, dftrain)
@@ -24,7 +24,17 @@ nba_lm_for_pred_vars <- function(dftrain, dftest, pred_vars) {
 
   # inboth <- (dftest$stdname %in% (lm3$model$stdname)) & !is.na(dftest$DFN.Projection) & !is.na(dftest$FanDuelPts)
   # myproj <- predict(lm3, dftest[inboth,])
-  myproj <- predict(lm3, dftest)
+  # myproj <- predict(lm3, dftest)
+  # Need to fix where names don't show up
+  default.proj <- 10
+  myproj <- sapply(1:nrow(dftest),
+                    function(i) {
+                      p1 <- try(predict(lm3, dftest[i,]), silent = T)
+                      if (inherits(p1, "try-error")) {
+                        return(default.proj)
+                      }
+                      p1
+                    })
 
   plot(dftest$FanDuelPts, myproj)
   plot(dftest$FanDuelPts, dftest$DFN.Projection)
@@ -51,4 +61,5 @@ if (F) {
   df2 <- df2all[df2all$in.spbn=="SPBN",]
   nba_lm_for_pred_vars(dftrain=df1, dftest=df2, pred_vars=c("IS_HOME"))
   nba_lm_for_pred_vars(dftrain=df1, dftest=df2, pred_vars=c("IS_HOME", "Opponent"))
+  nba_lm_for_pred_vars(dftrain=df1, dftest=df2, pred_vars=c("IS_HOME", "Opponent", "stdname"))
 }
