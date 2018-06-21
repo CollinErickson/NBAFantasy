@@ -1,3 +1,14 @@
+#' Fits an LM to dftrain, predicts on dftest, using the columns listed
+#' in pred_vars
+#'
+#' @param dftrain Data frame with training data.
+#' @param dftest Data frame with testing data.
+#' @param pred_vars Vector of names of variables to use.
+#'
+#' @return RMSEs
+#' @export
+#'
+#' @examples
 nba_lm_for_pred_vars <- function(dftrain, dftest, pred_vars) {
   # browser()
   print(dim(dftrain))
