@@ -15,12 +15,12 @@ seasonDict = {2010:("2010.10.26","2011.04.13"),
               2014:("2014.10.28","2015.04.15"),
               2015:("2015.10.27","2016.04.13"),
               2016:("2016.10.25","2017.04.12"),
-              2017:("2017.10.17","2017.12.20")}
+              2017:("2017.10.17","2018.01.11")}
 
 for yr in yearList:
     start = seasonDict[yr][0]
     end = seasonDict[yr][1]
-    a = NBAScraper(start,end,"/Users/haoxiangyang/Desktop/NBA_Data/%s.csv" % yr);
+    a = NBAScraper(start,end,"/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/%s.csv" % yr);
     a.GetGameList()
     a.GetPlayersData()
     a.Output()
@@ -28,11 +28,11 @@ for yr in yearList:
 for yr in range(2017,2013,-1):
     start = seasonDict[yr][0]
     end = seasonDict[yr][1]
-    b = SalaryScraper(start,end,"/Users/haoxiangyang/Desktop/NBA_Data/Salary/")
+    b = SalaryScraper(start,end,"/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Salary/")
     b.SalaryDayScraper()
     
 for yr in range(2017,2013,-1):
     start = seasonDict[yr][0]
     end = seasonDict[yr][1]
-    pS = projectionScraper(start,end,"/Users/haoxiangyang/Desktop/NBA_Data/Projections/")
+    pS = projectionScraper(start,end,"/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Projections/")
     pS.ProjectionDayScraper()

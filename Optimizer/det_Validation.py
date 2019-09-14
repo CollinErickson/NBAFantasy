@@ -13,7 +13,7 @@ from gurobipy import *
 from NBA_Det_Optimizer import *
 import csv
 from NBA_scrapper import *
-salaryPath = "/Users/haoxiangyang/Desktop/NBA_Data/Salary/"
+salaryPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Salary/"
 
 # recover the blank file from the salary file by giving the date and the match info
 # match info input as a list with team name xxx
@@ -33,7 +33,7 @@ def convertBlank(salaryAdd,teamList,blankAdd):
                     playerData = [item[0],item[1],item[2],item[2]+" "+item[3],item[3],0,0,item[6],"",item[7],item[8],"",""]
                 else:
                     playerData = [item[0],item[1],item[2],item[2]+" "+item[3],item[3],0,0,item[6],"",item[7],item[8],"O",""]
-            playerOut.append(playerData)
+                playerOut.append(playerData)
     fi.close()
     
     fo = open(blankAdd,"w",newline = "")
