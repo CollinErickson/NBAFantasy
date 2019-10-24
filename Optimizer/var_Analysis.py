@@ -16,14 +16,13 @@ from gurobipy import *
 from NBA_Det_Optimizer import *
 import csv
 from NBA_scrapper import *
-import matplotlib.pyplot as plt
 #import pdb
 #pdb.set_trace()
-salaryPath = "/Users/haoxiangyang/Desktop/NBA_Data/Salary/"
-lineupPath = "/Users/haoxiangyang/Desktop/NBA_Data/Lineups/"
-snapshotPath = "/Users/haoxiangyang/Desktop/NBA_Data/Snapshot/"
-blankPath = "/Users/haoxiangyang/Desktop/NBA_Data/Blank/"
-projPath = "/Users/haoxiangyang/Desktop/NBA_Data/Projections/"
+salaryPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Salary/"
+lineupPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Lineups/"
+snapshotPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Snapshot/"
+blankPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Blank/"
+projPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Projections/"
 
 # function to convert the datetime date to a YYYYMMDD string
 def dateConvert(currentDate):
@@ -59,10 +58,12 @@ playerNameDict = {"Lou Williams":"Louis Williams",\
                 "Timothe Luwawu-Cabarrot": "Timothe Luwawu",\
                 "Ish Smith":"Ishmael Smith",\
                 "Wesley Matthews":"Wes Matthews",\
-                "JR Smith":"J.R. Smith"}
+                "JR Smith":"J.R. Smith",\
+                "Joe Young":"Joseph Young"}
 
 class playerData:
-    def __init__(self,name,pos,fppg,played,salary,team,oppo,inj,topProb):
+    def __init__(self,ID,name,pos,fppg,played,salary,team,oppo,inj,topProb):
+        self.ID = ID
         self.name = name
         self.pos = pos
         self.fppg = fppg
@@ -72,7 +73,8 @@ class playerData:
         self.oppo = oppo
         self.inj = inj
         self.topProb = topProb
-  
+
+#%%  
 
 def readSalary(salaryAdd):
     # return a dictionary of fd points
@@ -177,3 +179,21 @@ def comparePlayerProj(start,end,projPath,salaryPath):
         
         currentDate = currentDate + datetime.timedelta(1)
     return playerDiff
+
+def printBestvsPredict(start,end,projPath,blankPath,bestAdd,outAdd):
+    # read in the best score of the day
+    fi = open(bestAdd,"r")
+    csvReader = csv.reader(fi)
+    counter = 0
+    bestScore = {}
+    for item in csvReader:
+        iDateList = item[0].split("/")
+        iDate = datetime.date(int(iDateList[2])+2000,int(iDateList[0]),int(iDateList[1]))
+        bestScore[iDate] = float(item[1])
+    fi.close()
+    
+    # calculate the predicted best
+    predictScore = {}
+    for iKey in bestScore.keys():
+    
+    # output the spreadsheet with predicted best vs. actual best

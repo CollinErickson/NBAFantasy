@@ -16,11 +16,11 @@ import csv
 from NBA_scrapper import *
 #import pdb
 #pdb.set_trace()
-salaryPath = "/Users/haoxiangyang/Desktop/NBA_Data/Salary/"
-lineupPath = "/Users/haoxiangyang/Desktop/NBA_Data/Lineups/"
-snapshotPath = "/Users/haoxiangyang/Desktop/NBA_Data/Snapshot/"
-blankPath = "/Users/haoxiangyang/Desktop/NBA_Data/Blank/"
-projPath = "/Users/haoxiangyang/Desktop/NBA_Data/Projections/"
+salaryPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Salary/"
+lineupPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Lineups/"
+snapshotPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Snapshot/"
+blankPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Blank/"
+projPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Projections/"
 
 # function to convert the datetime date to a YYYYMMDD string
 def dateConvert(currentDate):
@@ -72,7 +72,7 @@ class playerData:
         self.inj = inj
         self.topProb = topProb
         
-N = 300
+N = 225
 M = 2
 opt = 500
 pairBar = 300
@@ -170,7 +170,7 @@ class detOptimizer_d:
         self.model.update()
         
         # reduce the probability of players that are frequently selected
-        for i in range(N):
+        for i in range(self.N):
             self.counter = i
             #lineupN = self.addLineup()
             lineupN = self.addLineup_pair()
@@ -185,14 +185,14 @@ class detOptimizer_d:
             self.pastLineup.append(lineupN)
             
         
-    def __init__(self,playerList,N,M,opt,pairBar,zeroList):
+    def __init__(self,playerList,Ninput,Minput,opt,pairBar,zeroList):
         self.playerList = playerList
         self.playerN = {}
         # initialize with the number of selection
         for item in self.playerList:
             self.playerN[item.name] = [0,item.topProb]
-        self.N = N
-        self.M = M
+        self.N = Ninput
+        self.M = Minput
         self.opt = opt
         self.pairBar = pairBar
         self.zeroList = zeroList
@@ -220,7 +220,7 @@ def zeroPlayers(predictDate,snapshotPath,epsilon):
     fi.close()
     return zeroList
 
-def preFreq(predictDate,blankPath,snapshotPath,N,M,opt,pairBar):
+def preFreq(predictDate,blankPath,snapshotPath,NN,MM,opt,pairBar):
     prepreDate = predictDate - datetime.timedelta(1)
     fileExist = False
     while not(fileExist):
@@ -277,11 +277,11 @@ def preFreq(predictDate,blankPath,snapshotPath,N,M,opt,pairBar):
                 playerList.append(player)
     fi.close()
     # optimize using the playerList
-    d = detOptimizer_d(playerList,N,M,opt,pairBar)
+    d = detOptimizer_d(playerList,NN,MM,opt,pairBar)
     d.mainOpt()
     return d
     
-def preNerd(predictDate,blankPath,projPath,snapshotPath,N,M,opt,pairBar,epsilon):
+def preNerd(predictDate,blankPath,projPath,snapshotPath,NN,MM,opt,pairBar,epsilon,playerNameDict):
     # read in the projection data from Daily Fantasy Nerd
     dateStr = dateConvert(predictDate)
     fi = open(projPath + dateStr + ".csv","r")
@@ -339,11 +339,11 @@ def preNerd(predictDate,blankPath,projPath,snapshotPath,N,M,opt,pairBar,epsilon)
                 playerList.append(player)
     fi.close()
     # optimize using the playerList
-    d = detOptimizer_d(playerList,N,M,opt,pairBar,zeroList)
+    d = detOptimizer_d(playerList,NN,MM,opt,pairBar,zeroList)
     d.mainOpt()
     return d
 
-def preEnsemble(predictDate,blankPath,projPath,snapshotPath,N,M,opt,pairBar,epsilon,beta):
+def preEnsemble(predictDate,blankPath,projPath,snapshotPath,NN,MM,opt,pairBar,epsilon,beta):
      # read in the projection data from Daily Fantasy Nerd
     dateStr = dateConvert(predictDate)
     fi = open(projPath + dateStr + ".csv","r")
@@ -407,13 +407,21 @@ def preEnsemble(predictDate,blankPath,projPath,snapshotPath,N,M,opt,pairBar,epsi
                 topProj = projDict[name]
                 if name in playerNameDict.keys():
                     name = playerNameDict[name]
-                player = playerData(ID,name,pos,fppg,played,salary,team,oppo,inj,topProj + beta*snapDict[name])
-                playerList.append(player)
+                if name in snapDict.keys():
+                    player = playerData(ID,name,pos,fppg,played,salary,team,oppo,inj,topProj + beta*snapDict[name])
+                    playerList.append(player)
+                else:
+                    player = playerData(ID,name,pos,fppg,played,salary,team,oppo,inj,topProj)
+                    playerList.append(player)
             elif name in playerNameDict.keys():
                 if playerNameDict[name] in projDict.keys():
                     topProj = projDict[playerNameDict[name]]
-                    player = playerData(ID,playerNameDict[name],pos,fppg,played,salary,team,oppo,inj,topProj + beta*snapDict[playerNameDict[name]])
-                    playerList.append(player)
+                    if playerNameDict[name] in snapDict.keys():
+                        player = playerData(ID,playerNameDict[name],pos,fppg,played,salary,team,oppo,inj,topProj + beta*snapDict[playerNameDict[name]])
+                        playerList.append(player)
+                    else:
+                        player = playerData(ID,playerNameDict[name],pos,fppg,played,salary,team,oppo,inj,topProj)
+                        playerList.append(player)
                 else:
                     player = playerData(ID,name,pos,fppg,played,salary,team,oppo,inj,0.0)
                     playerList.append(player)
@@ -422,6 +430,6 @@ def preEnsemble(predictDate,blankPath,projPath,snapshotPath,N,M,opt,pairBar,epsi
                 playerList.append(player)
     fi.close()
     # optimize using the playerList
-    d = detOptimizer_d(playerList,N,M,opt,pairBar,zeroList)
+    d = detOptimizer_d(playerList,NN,MM,opt,pairBar,zeroList)
     d.mainOpt()
     return d

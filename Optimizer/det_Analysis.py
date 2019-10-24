@@ -16,11 +16,11 @@ import csv
 from NBA_scrapper import *
 #import pdb
 #pdb.set_trace()
-salaryPath = "/Users/haoxiangyang/Desktop/NBA_Data/Salary/"
-lineupPath = "/Users/haoxiangyang/Desktop/NBA_Data/Lineups/"
-snapshotPath = "/Users/haoxiangyang/Desktop/NBA_Data/Snapshot/"
-blankPath = "/Users/haoxiangyang/Desktop/NBA_Data/Blank/"
-projPath = "/Users/haoxiangyang/Desktop/NBA_Data/Projections/"
+salaryPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Salary/"
+lineupPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Lineups/"
+snapshotPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Snapshot/"
+blankPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Blank/"
+projPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Projections/"
 
 # function to convert the datetime date to a YYYYMMDD string
 def dateConvert(currentDate):
@@ -37,8 +37,8 @@ def dateConvert(currentDate):
 
 #%%
 # first generate the top 2000 picks of each day
-start = datetime.date(2017,12,26)
-end = datetime.date(2017,12,26)
+start = datetime.date(2018,1,4)
+end = datetime.date(2018,1,4)
 currentDate = start
 #salaryPath = "C:/Documents/PhD/Sports/FD/Salary/"
 #lineupPath = "C:/Documents/PhD/Sports/FD/Lineups/"

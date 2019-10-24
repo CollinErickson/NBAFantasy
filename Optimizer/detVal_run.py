@@ -17,11 +17,11 @@ from det_Predict import *
 from det_Validation import *
 #import pdb
 #pdb.set_trace()
-salaryPath = "/Users/haoxiangyang/Desktop/NBA_Data/Salary/"
-lineupPath = "/Users/haoxiangyang/Desktop/NBA_Data/Lineups/"
-snapshotPath = "/Users/haoxiangyang/Desktop/NBA_Data/Snapshot/"
-blankPath = "/Users/haoxiangyang/Desktop/NBA_Data/Blank/"
-projPath = "/Users/haoxiangyang/Desktop/NBA_Data/Projections/"
+salaryPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Salary/"
+lineupPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Lineups/"
+snapshotPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Snapshot/"
+blankPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Blank/"
+projPath = "/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/Projections/"
 
 # function to convert the datetime date to a YYYYMMDD string
 def dateConvert(currentDate):
@@ -58,7 +58,9 @@ playerNameDict = {"Lou Williams":"Louis Williams",\
                 "Ish Smith":"Ishmael Smith",\
                 "Wesley Matthews":"Wes Matthews",\
                 "JR Smith":"J.R. Smith",\
-                "Joe Young":"Joseph Young"}
+                "Joe Young":"Joseph Young",\
+                "P.J. Dozier":"PJ Dozier",\
+                "Derrick Jones Jr.":"Derrick Jones"}
 
 class playerData:
     def __init__(self,ID,name,pos,fppg,played,salary,team,oppo,inj,topProb):
@@ -75,7 +77,7 @@ class playerData:
 
 # read in last winning position data
 lastWin = {}
-fi = open("/Users/haoxiangyang/Desktop/NBA_Data/lastWinning.csv","r")
+fi = open("/Users/haoxiangyang/Google Drive/Sports Analytics Stuff/Sports Analytics/NBA/Data/lastWinning.csv","r")
 csvReader = csv.reader(fi,dialect = "excel")
 for item in csvReader:
     dateList = item[0].split("/")
@@ -100,14 +102,14 @@ print(sum([i >= 303.7 for i in FDScoreList]))
 #%%
 
 # test out the no feature, changing the gap M
-predictDate = datetime.date(2017,11,28)
+predictDate = datetime.date(2017,12,30)
 maxResult_M = {}
 sumResult_M = {}
 MList = [1,2,3,4]
 for i in MList:
     maxResult_M[i] = {}
     sumResult_M[i] = {}
-end = datetime.date(2017,12,29)
+end = datetime.date(2017,12,30)
 while predictDate <= end:
     try:
         for i in MList:
@@ -151,11 +153,11 @@ while predictDate <= end:
     
 # print the output
 #fo = open("/Users/haoxiangyang/Desktop/NBA_Data/Pcomp.csv","w",newline = "")
-fo = open("/Users/haoxiangyang/Desktop/NBA_Data/Mcomp_C.csv","w",newline = "")
+fo = open("/Users/haoxiangyang/Desktop/NBA_Data/Mcomp.csv","w",newline = "")
 csvWriter = csv.writer(fo,dialect = "excel")
 csvWriter.writerow(["",1,2,3,4])
 #csvWriter.writerow(["",10,30,50,70,90,110])
-predictDate = datetime.date(2017,11,28)
+predictDate = datetime.date(2017,12,30)
 while predictDate <= end:
     dateOut = [predictDate]
     for i in MList:
@@ -166,7 +168,7 @@ while predictDate <= end:
             # dateOut.append(maxResult_P[i][predictDate])
     csvWriter.writerow(dateOut)
     predictDate += datetime.timedelta(1)
-predictDate = datetime.date(2017,11,28)
+predictDate = datetime.date(2017,12,30)
 while predictDate <= end:
     dateOut = [predictDate]
     for i in MList:
@@ -183,8 +185,8 @@ fo.close()
 #%%
 
 # combine the P50-M3 and P50-M4
-predictDate = datetime.date(2017,11,28)
-end = datetime.date(2017,12,29)
+predictDate = datetime.date(2018,1,28)
+end = datetime.date(2018,1,28)
 maxResult_C = {}
 sumResult_C = {}
 luNo = {}
@@ -192,8 +194,8 @@ luNo = {}
 while predictDate <= end:
     pastLineup = []
     try:
-        d5 = preNerd(predictDate,blankPath,projPath,snapshotPath,N,3,opt,50,1e-5)
-        d6 = preNerd(predictDate,blankPath,projPath,snapshotPath,N,4,opt,50,1e-5)
+        d5 = preNerd(predictDate,blankPath,projPath,snapshotPath,300,3,opt,50,1e-5,playerNameDict)
+        d6 = preNerd(predictDate,blankPath,projPath,snapshotPath,300,4,opt,50,1e-5,playerNameDict)
         # combine the past lineups from d5 and d6
         for item in d5.pastLineup:
             if not(item in pastLineup):
@@ -216,7 +218,7 @@ fo = open("/Users/haoxiangyang/Desktop/NBA_Data/Mcomp_C.csv","w",newline = "")
 csvWriter = csv.writer(fo,dialect = "excel")
 csvWriter.writerow(["","No. of Lineups","Max Score","No. of Earning Entries"])
 #csvWriter.writerow(["",10,30,50,70,90,110])
-predictDate = datetime.date(2017,11,28)
+predictDate = datetime.date(2018,1,28)
 while predictDate <= end:
     try:
         dateOut = [predictDate,luNo[predictDate]]
@@ -228,4 +230,58 @@ while predictDate <= end:
     except:
         aaa = 1
     predictDate += datetime.timedelta(1)
+fo.close()
+
+#%%
+# test the ensemble method
+predictDate = datetime.date(2017,11,28)
+end = datetime.date(2017,12,30)
+maxResult_E = {}
+sumResult_E = {}
+lList = [0.5,1,2,3,4,5,10]
+for i in lList:
+    maxResult_E[i] = {}
+    sumResult_E[i] = {}
+while predictDate <= end:
+    try:
+        for i in lList:
+            d7 = preEnsemble(predictDate,blankPath,projPath,snapshotPath,N,4,opt,50,1e-5,i)
+            salaryDict = readSalary(salaryPath + dateConvert(predictDate) + ".csv")
+            FDScoreList = optValidation(d7.pastLineup,salaryDict,d7.playerIndexRev)
+            maxResult_E[i][predictDate] = max(FDScoreList)
+            if predictDate in lastWin.keys():
+                sumResult_E[i][predictDate] = sum([pl >= lastWin[predictDate] for pl in FDScoreList])
+            print("Date {} Run {} finished, max {}, no. of earning entries {}".format(predictDate,i,maxResult_E[i][predictDate],sumResult_E[i][predictDate]))
+    except:
+        print("Date {} Error".format(predictDate))
+    
+    predictDate = predictDate + datetime.timedelta(1)
+    
+fo = open("/Users/haoxiangyang/Desktop/NBA_Data/EComp.csv","w",newline = "")
+csvWriter = csv.writer(fo,dialect = "excel")
+csvWriter.writerow(["",0.5,1,2,3,4,5,10])
+#csvWriter.writerow(["",10,30,50,70,90,110])
+predictDate = datetime.date(2017,11,28)
+while predictDate <= end:
+    dateOut = [predictDate]
+    for i in lList:
+#    for i in pList:
+        #if predictDate in maxResult_P[i].keys():
+        if predictDate in maxResult_E[i].keys():
+            dateOut.append(maxResult_E[i][predictDate])
+            # dateOut.append(maxResult_P[i][predictDate])
+    csvWriter.writerow(dateOut)
+    predictDate += datetime.timedelta(1)
+predictDate = datetime.date(2017,11,28)
+while predictDate <= end:
+    dateOut = [predictDate]
+    for i in lList:
+#    for i in pList:
+#        if predictDate in sumResult_P[i].keys():
+#            dateOut.append(sumResult_P[i][predictDate])
+        if predictDate in sumResult_E[i].keys():
+            dateOut.append(sumResult_E[i][predictDate])
+    csvWriter.writerow(dateOut)
+    predictDate += datetime.timedelta(1)
+    
 fo.close()
