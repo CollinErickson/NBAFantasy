@@ -46,3 +46,13 @@ Network Trash Folder
 Temporary Items
 .apdisk
 .Rproj.user
+
+# Collin adding these
+# \.Rhistory
+# data/Lineups/*
+# data/Player/*
+# data/Salary/*
+data/*
+
+
+\.Rhistory
