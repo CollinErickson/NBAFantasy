@@ -1,0 +1,42 @@
+Player ID,Position,First Name,Last Name,Starter,FDPoints,Salary,Team,Opponent,Home,Team Score,Opponent Score
+4382,PG,Brandon,Knight,1,41.4,7100,mil,pho,1,96,102,35,26pt 2rb 4as 3st 1bl 1to 2trey 10-20fg 4-4ft
+4621,SG,Giannis,Antetokounmpo,1,34.4,6300,mil,pho,1,96,102,34,16pt 12rb 2as 1bl 1to 7-13fg 2-2ft
+4193,SG,Danny,Green,1,30.7,6200,sas,det,1,104,105,33,13pt 6rb 3as 2st 1bl 3trey 5-10fg 0-0ft
+4266,SG,Eric,Bledsoe,1,29.2,8900,pho,mil,0,102,96,38,10pt 6rb 10as 2st 7to 3-10fg 4-6ft
+4092,PG,Goran,Dragic,1,26.7,7200,pho,mil,0,102,96,39,16pt 6rb 3as 1st 3to 2trey 7-13fg 0-0ft
+4182,PG,Brandon,Jennings,1,26.7,7500,det,sas,0,105,104,29,13pt 1rb 7as 1st 1bl 2to 1trey 5-18fg 2-2ft
+3021,SG,Manu,Ginobili,0,26.6,5800,sas,det,1,104,105,28,11pt 3rb 8as 2st 4to 2trey 3-7fg 3-4ft
+4078,PG,D.J.,Augustin,0,24.5,4000,det,sas,0,105,104,22,19pt 5as 2to 1trey 8-18fg 2-3ft
+4420,PG,Isaiah,Thomas,0,23.3,5500,pho,mil,0,102,96,31,19pt 4rb 1as 2to 2trey 5-8fg 7-8ft
+4183,SG,Jodie,Meeks,0,21.1,5000,det,sas,0,105,104,30,13pt 3rb 3as 4-11fg 5-5ft
+4405,PG,Cory,Joseph,0,18.8,5500,sas,det,1,104,105,27,7pt 4rb 4as 1bl 1to 3-4fg 1-2ft
+3974,SG,Marco,Belinelli,1,16.6,4400,sas,det,1,104,105,23,12pt 3rb 2as 2to 2trey 4-8fg 2-2ft
+4616,SG,Kentavious,Caldwell-Pope,1,14.5,4400,det,sas,0,105,104,37,10pt 1as 1st 1bl 1to 4-9fg 2-2ft
+4500,PG,Kendall,Marshall,0,11.6,3600,mil,pho,1,96,102,13,0pt 3rb 4as 1st 0-4fg 0-0ft
+4245,PG,Patty,Mills,0,11.1,4200,sas,det,1,104,105,21,6pt 3rb 1as 1st 2to 1trey 2-10fg 1-2ft
+4076,PG,Jerryd,Bayless,0,10.8,4100,mil,pho,1,96,102,24,4pt 4rb 1st 1bl 2to 2-7fg 0-0ft
+4072,SG,O.J.,Mayo,0,7.7,4300,mil,pho,1,96,102,18,4pt 1rb 3as 2to 2-6fg 0-0ft
+3313,PG,Tony,Parker,1,4,6300,sas,det,1,104,105,13,3pt 2as 2to 0-3fg 3-4ft
+4453,PF,Markieff,Morris,1,41,6100,pho,mil,0,102,96,35,26pt 10rb 2as 1st 2to 2trey 10-17fg 4-5ft
+4298,PF,Greg,Monroe,1,37.7,6300,det,sas,0,105,104,28,17pt 11rb 3as 2st 1to 7-10fg 3-4ft
+2223,PF,Tim,Duncan,1,26.9,8700,sas,det,1,104,105,22,15pt 7rb 1as 2bl 2to 7-12fg 1-2ft
+4525,PF,John,Henson,0,23.7,4500,mil,pho,1,96,102,24,13pt 6rb 3as 1bl 3to 6-9fg 1-2ft
+4248,PF,Jeff,Ayres,0,22.8,3500,sas,det,1,104,105,17,16pt 4rb 1bl 5-8fg 6-7ft
+4490,SF,Khris,Middleton,1,20.2,4900,mil,pho,1,96,102,30,13pt 1rb 2as 2st 1to 1trey 4-9fg 4-4ft
+3985,SF,Jared,Dudley,0,19.8,5000,mil,pho,1,96,102,24,10pt 4rb 2as 1st 3-9fg 4-4ft
+3760,SF,Gerald,Green,0,15.8,4900,pho,mil,0,102,96,16,7pt 4rb 2st 1bl 2to 2-9fg 3-3ft
+3871,SF,P.J.,Tucker,1,13.7,4600,pho,mil,0,102,96,27,5pt 6rb 1as 1st 2to 1trey 2-7fg 0-0ft
+3527,PF,Boris,Diaw,0,13.1,5000,sas,det,1,104,105,22,10pt 3rb 1as 2to 1trey 3-5fg 3-5ft
+4187,PF,Jonas,Jerebko,0,13,3800,det,sas,0,105,104,11,5pt 5rb 1st 1trey 2-3fg 0-0ft
+4460,SF,Kyle,Singler,1,9.6,3500,det,sas,0,105,104,16,3pt 3rb 2st 1to 1-1fg 1-2ft
+4049,PF,Anthony,Tolliver,0,9,3500,det,sas,0,105,104,23,3pt 5rb 1st 2to 1-5fg 1-1ft
+4407,PF,Marcus,Morris,0,8,4400,pho,mil,0,102,96,19,6pt 2as 1to 2-6fg 2-3ft
+3401,SF,Caron,Butler,0,1,3500,det,sas,0,105,104,10,2pt 1to 1-2fg 0-0ft
+4489,C,Andre,Drummond,1,42.4,9200,det,sas,0,105,104,35,20pt 17rb 2st 1bl 4to 8-10fg 4-9ft
+4591,C,Alex,Len,1,28.6,4300,pho,mil,0,102,96,24,9pt 8rb 5bl 4-7fg 1-2ft
+4024,C,Tiago,Splitter,1,23.4,4400,sas,det,1,104,105,28,10pt 7rb 2as 1st 1bl 2to 4-9fg 2-4ft
+3553,C,Zaza,Pachulia,1,15.6,5400,mil,pho,1,96,102,24,7pt 8rb 2as 1st 6to 2-7fg 3-4ft
+4721,C,Johnny,O'Bryant,1,7.6,3500,mil,pho,1,96,102,14,3pt 3rb 1bl 1to 1-4fg 1-2ft
+4542,C,Miles,Plumlee,0,6.4,4200,pho,mil,0,102,96,11,4pt 2rb 2-4fg 0-0ft
+3520,C,Matt,Bonner,0,2.2,3500,sas,det,1,104,105,8,1pt 1rb 0-3fg 1-2ft
+3972,C,Joel,Anthony,0,0,3500,det,sas,0,105,104,0,0pt 0-0fg 0-0ft

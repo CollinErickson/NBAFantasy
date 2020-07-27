@@ -1,0 +1,50 @@
+Player ID,Position,First Name,Last Name,Starter,FDPoints,Salary,Team,Opponent,Home,Team Score,Opponent Score
+4224,SG,James,Harden,1,36.2,10300,hou,sas,1,98,81,33,20pt 6rb 6as 1st 3bl 8to 1trey 8-15fg 3-6ft
+4523,PG,Damian,Lillard,1,30,8300,por,dal,1,108,87,32,18pt 5rb 6as 1st 5to 1trey 6-13fg 5-5ft
+3054,SG,Jason,Terry,0,22,3500,hou,sas,1,98,81,21,16pt 2as 2st 1to 4trey 4-5fg 4-4ft
+4657,SG,C.J.,McCollum,0,21.9,3500,por,dal,1,108,87,21,13pt 2rb 3as 1bl 3trey 4-8fg 2-2ft
+3745,SG,Monta,Ellis,1,19.1,7900,dal,por,0,87,108,27,14pt 3rb 1as 1st 2to 6-13fg 2-2ft
+3637,PG,Devin,Harris,0,18.6,4700,dal,por,0,87,108,27,7pt 3rb 4as 1st 2-7fg 3-3ft
+4193,SG,Danny,Green,1,18.4,4200,sas,hou,0,81,98,25,10pt 2rb 2as 2st 1to 3-13fg 4-4ft
+4569,PG,Isaiah,Canaan,1,17.9,4600,hou,sas,1,98,81,26,12pt 2rb 1as 1st 2trey 5-10fg 0-0ft
+3882,PG,Jose,Barea,0,17.4,3900,dal,por,0,87,108,16,8pt 2rb 2as 2st 3-8fg 2-2ft
+4164,SG,Wes,Matthews,1,16.8,6000,por,dal,1,108,87,25,12pt 4rb 1st 2to 2trey 3-6fg 4-4ft
+4405,PG,Cory,Joseph,0,16.2,3500,sas,hou,0,81,98,22,18pt 1rb 3to 9-11fg 0-0ft
+3518,PG,Steve,Blake,0,14.9,3800,por,dal,1,108,87,20,8pt 2rb 3as 2trey 3-5fg 0-0ft
+3656,PG,Jameer,Nelson,1,11.3,5400,dal,por,0,87,108,25,6pt 4rb 1as 1to 2trey 2-9fg 0-0ft
+4658,PG,Troy,Daniels,0,9.7,3500,hou,sas,1,98,81,13,8pt 1rb 1as 1to 2trey 3-7fg 0-0ft
+3313,PG,Tony,Parker,1,6.7,7200,sas,hou,0,81,98,26,6pt 1rb 1as 2to 3-8fg 0-0ft
+4522,SG,Will,Barton,0,2.5,3500,por,dal,1,108,87,11,0pt 3as 2to 0-3fg 0-0ft
+4698,SG,Nick,Johnson,0,2,3500,hou,sas,1,98,81,3,2pt 0-1fg 2-2ft
+4086,SF,Nicolas,Batum,1,32.3,6900,por,dal,1,108,87,29,8pt 9rb 9as 1bl 2to 2trey 2-8fg 2-2ft
+3860,PF,LaMarcus,Aldridge,1,27.4,9500,por,dal,1,108,87,30,20pt 7rb 1to 10-16fg 0-1ft
+4404,SF,Kawhi,Leonard,1,26.3,6100,sas,hou,0,81,98,29,7pt 4rb 5as 4st 1to 2-11fg 3-3ft
+4736,SF,Kyle,Anderson,0,23.6,4100,sas,hou,0,81,98,31,4pt 8rb 4as 2st 1-8fg 2-3ft
+2374,PF,Dirk,Nowitzki,1,20.1,7800,dal,por,0,87,108,27,17pt 3rb 1as 2to 2trey 6-17fg 3-3ft
+3621,SF,Trevor,Ariza,1,18.1,6500,hou,sas,1,98,81,32,7pt 3rb 3as 2st 1to 1trey 2-10fg 2-2ft
+4261,SF,Al-Farouq,Aminu,0,17.8,3900,dal,por,0,87,108,16,7pt 4rb 2st 1bl 1trey 3-6fg 0-0ft
+4461,SF,Chandler,Parsons,1,16.3,6700,dal,por,0,87,108,28,11pt 4rb 1as 1to 5-13fg 1-1ft
+4186,SF,Austin,Daye,0,14.6,3500,sas,hou,0,81,98,16,6pt 3rb 3st 1to 3-13fg 0-0ft
+3527,PF,Boris,Diaw,0,13.6,4300,sas,hou,0,81,98,22,7pt 3rb 4as 1bl 5to 1trey 2-5fg 2-2ft
+4248,PF,Jeff,Ayres,0,12.2,3500,sas,hou,0,81,98,23,6pt 6rb 1to 2-7fg 2-2ft
+3683,SF,Dorell,Wright,0,8.1,3900,por,dal,1,108,87,6,3pt 3rb 1as 1trey 1-3fg 0-0ft
+4509,PF,Thomas,Robinson,0,7.8,3900,por,dal,1,108,87,13,3pt 4rb 1st 2to 1-2fg 1-2ft
+4710,SF,Kostas,Papanikolaou,0,7.3,3900,hou,sas,1,98,81,26,0pt 4rb 3as 2to 0-2fg 0-0ft
+3311,SF,Richard,Jefferson,0,5.4,3500,dal,por,0,87,108,11,3pt 2rb 1-5fg 1-1ft
+3751,SF,Francisco,Garcia,0,4.2,3500,hou,sas,1,98,81,9,1pt 1rb 1bl 0-2fg 1-2ft
+4766,PF,Clint,Capela,0,4.1,3500,hou,sas,1,98,81,6,0pt 3rb 1as 1to 0-0fg 0-4ft
+3807,PF,Charlie,Villanueva,0,3.2,3500,dal,por,0,87,108,7,2pt 1rb 1-2fg 0-0ft
+4459,PF,Donatas,Motiejunas,1,3.1,3500,hou,sas,1,98,81,25,0pt 3rb 1as 2to 0-1fg 0-0ft
+4472,SF,Jae,Crowder,0,2.7,3500,dal,por,0,87,108,7,0pt 1rb 1as 0-2fg 0-0ft
+4408,PF,Greg,Smith,0,2,3500,dal,por,0,87,108,7,2pt 1-1fg 0-0ft
+4691,PF,Tarik,Black,0,1.6,4200,hou,sas,1,98,81,9,0pt 3rb 2to 0-0fg 0-0ft
+3639,C,Dwight,Howard,1,55.2,9000,hou,sas,1,98,81,33,32pt 16rb 1st 2bl 2to 12-18fg 8-13ft
+4556,C,Aron,Baynes,1,28.4,3500,sas,hou,0,81,98,31,12pt 12rb 1st 4-10fg 4-5ft
+4112,C,Robin,Lopez,1,21.6,6000,por,dal,1,108,87,24,8pt 8rb 3bl 2to 3-6fg 2-2ft
+3545,C,Chris,Kaman,0,19,4600,por,dal,1,108,87,18,12pt 5rb 1bl 1to 6-6fg 0-1ft
+3307,C,Tyson,Chandler,1,16.8,5700,dal,por,0,87,108,29,4pt 4rb 2as 3bl 1to 0-2fg 4-4ft
+4034,C,Brandan,Wright,0,11.1,4100,dal,por,0,87,108,12,6pt 3rb 1as 3-5fg 0-0ft
+3520,C,Matt,Bonner,1,7.7,3500,sas,hou,0,81,98,15,5pt 1rb 1as 1trey 2-4fg 0-0ft
+4521,C,Meyers,Leonard,0,6.6,3500,por,dal,1,108,87,6,3pt 3rb 1trey 1-1fg 0-0ft
+4090,C,Joey,Dorsey,0,1.4,3500,hou,sas,1,98,81,3,0pt 2rb 1to 0-1fg 0-0ft
+3958,C,Joel,Freeland,0,1.2,3500,por,dal,1,108,87,4,0pt 1rb 0-0fg 0-0ft

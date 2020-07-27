@@ -1,0 +1,40 @@
+Player ID,Position,First Name,Last Name,Starter,FDPoints,Salary,Team,Opponent,Home,Team Score,Opponent Score
+4224,SG,James,Harden,1,66.8,10300,hou,sac,0,113,109,48,44pt 4rb 8as 3st 1bl 2to 3trey 14-32fg 13-15ft
+4079,PG,Russell,Westbrook,1,44.4,9900,okc,cle,1,103,94,36,26pt 7rb 8as 1st 4to 12-24fg 2-2ft
+4228,PG,Darren,Collison,1,38.1,7700,sac,hou,1,109,113,42,24pt 3rb 7as 3st 6to 2trey 10-20fg 2-2ft
+4379,PG,Kyrie,Irving,1,35.6,8300,cle,okc,0,94,103,40,20pt 3rb 6as 2st 1to 1trey 7-21fg 5-6ft
+4234,PG,Patrick,Beverley,1,34.5,5300,hou,sac,0,113,109,40,15pt 10rb 5as 1st 2to 4trey 5-12fg 1-4ft
+4610,PG,Matthew,Dellavedova,1,25,3500,cle,okc,0,94,103,34,14pt 5rb 4as 1st 3to 4trey 5-8fg 0-0ft
+4589,SG,Ben,McLemore,1,23.4,4300,sac,hou,1,109,113,46,21pt 2rb 2as 3to 2trey 9-15fg 1-3ft
+4369,PG,Reggie,Jackson,0,21.3,6800,okc,cle,1,103,94,26,13pt 4rb 3as 1to 1trey 5-11fg 2-2ft
+4515,SG,Dion,Waiters,0,19.2,4400,cle,okc,0,94,103,26,14pt 1rb 4as 2to 2trey 5-13fg 2-2ft
+4115,SG,Anthony,Morrow,0,16.9,4100,okc,cle,1,103,94,26,11pt 2rb 1as 1st 3trey 4-8fg 0-0ft
+3054,SG,Jason,Terry,0,12,4100,hou,sac,0,113,109,35,13pt 1to 3trey 4-12fg 2-2ft
+4020,PG,Ramon,Sessions,0,7.9,4000,sac,hou,1,109,113,11,4pt 2rb 1as 2-4fg 0-0ft
+4658,PG,Troy,Daniels,0,6.5,3500,hou,sac,0,113,109,12,6pt 1as 1to 2trey 2-5fg 0-0ft
+4559,SG,Andre,Roberson,1,6.4,4200,okc,cle,1,103,94,15,4pt 2rb 2-3fg 0-0ft
+4698,SG,Nick,Johnson,0,5.8,3500,hou,sac,0,113,109,8,2pt 4rb 1to 1-3fg 0-0ft
+4703,SG,Nik,Stauskas,0,3,3500,sac,hou,1,109,113,14,3pt 2as 3to 1trey 1-2fg 0-0ft
+4733,SG,Joe,Harris,0,0,3500,cle,okc,0,94,103,7,0pt 0-1fg 0-0ft
+4170,PG,A.J.,Price,0,0,3500,cle,okc,0,94,103,2,0pt 0-0fg 0-0ft
+4074,PF,Kevin,Love,1,41.2,8400,cle,okc,0,94,103,39,18pt 16rb 2as 1st 1bl 3to 2trey 5-13fg 6-8ft
+3986,SF,Kevin,Durant,1,38.7,9800,okc,cle,1,103,94,30,19pt 6rb 5as 2st 2bl 3to 1trey 6-14fg 6-6ft
+3857,SF,Rudy,Gay,1,36.6,8500,sac,hou,1,109,113,40,13pt 8rb 8as 3st 4to 1trey 4-18fg 4-4ft
+4124,PF,Jason,Thompson,1,34.5,5000,sac,hou,1,109,113,35,13pt 15rb 1as 1st 2-4fg 9-11ft
+4380,PF,Tristan,Thompson,0,32.1,5000,cle,okc,0,94,103,30,14pt 13rb 1as 2bl 3to 4-8fg 6-8ft
+3621,SF,Trevor,Ariza,1,27.4,6100,hou,sac,0,113,109,43,15pt 7rb 3st 2to 3trey 4-13fg 4-4ft
+4514,SF,Jeremy,Lamb,0,24.8,5200,okc,cle,1,103,94,19,9pt 4rb 2as 3st 1bl 1trey 3-9fg 2-2ft
+4416,PF,Derrick,Williams,0,23.5,3500,sac,hou,1,109,113,34,17pt 5rb 1as 1to 2trey 5-12fg 5-6ft
+4459,PF,Donatas,Motiejunas,1,22.1,5900,hou,sac,0,113,109,30,14pt 3rb 1as 1st 1bl 1to 6-11fg 2-2ft
+3523,PF,Nick,Collison,0,15.8,3500,okc,cle,1,103,94,20,2pt 4rb 2as 2st 1bl 0-4fg 2-2ft
+4691,PF,Tarik,Black,1,10.5,3800,hou,sac,0,113,109,16,4pt 5rb 1as 1to 2-5fg 0-0ft
+4104,PF,Serge,Ibaka,1,10.5,7700,okc,cle,1,103,94,26,7pt 1as 2bl 2to 1trey 3-6fg 0-0ft
+4003,PF,Carl,Landry,0,10.2,3500,sac,hou,1,109,113,18,7pt 1rb 2bl 2to 3-5fg 1-2ft
+3430,PF,Reggie,Evans,1,9.8,4800,sac,hou,1,109,113,18,5pt 4rb 1st 2to 2-2fg 1-6ft
+3544,SF,James,Jones,0,5.7,3500,cle,okc,0,94,103,14,3pt 1rb 1as 0-4fg 3-3ft
+3039,SF,Shawn,Marion,1,4.6,3700,cle,okc,0,94,103,21,2pt 3rb 1to 1-6fg 0-2ft
+4574,C,Steven,Adams,1,24,3800,okc,cle,1,103,94,22,8pt 10rb 2bl 2-5fg 4-4ft
+4090,C,Joey,Dorsey,0,22.8,3600,hou,sac,0,113,109,33,0pt 9rb 2as 5st 1bl 3to 0-2fg 0-4ft
+3679,C,Anderson,Varejao,1,22.2,4900,cle,okc,0,94,103,27,9pt 6rb 2as 1st 1bl 1to 4-11fg 1-1ft
+3556,C,Kendrick,Perkins,0,17.4,3700,okc,cle,1,103,94,20,4pt 7rb 3bl 1to 1-3fg 2-4ft
+3898,C,Ryan,Hollins,0,10.8,3500,sac,hou,1,109,113,7,2pt 4rb 2bl 1-2fg 0-0ft

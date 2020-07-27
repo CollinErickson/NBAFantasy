@@ -1,0 +1,47 @@
+Player ID,Position,First Name,Last Name,Starter,FDPoints,Salary,Team,Opponent,Home,Team Score,Opponent Score
+4079,PG,Russell,Westbrook,1,62.1,12000,okc,chi,0,105,108,38,43pt 8rb 7as 2st 5to 3trey 14-32fg 12-15ft
+3872,PG,Rajon,Rondo,1,29.9,5400,dal,por,0,75,94,29,10pt 7rb 9as 1st 4to 5-13fg 0-0ft
+4364,PG,E'Twaun,Moore,0,29.8,3500,chi,okc,1,108,105,22,19pt 4rb 2st 1bl 1trey 9-10fg 0-0ft
+4523,PG,Damian,Lillard,1,27.7,8700,por,dal,1,94,75,31,14pt 6rb 5as 2st 5to 2trey 4-10fg 4-4ft
+3745,SG,Monta,Ellis,1,26.7,6700,dal,por,0,75,94,32,12pt 1rb 5as 3st 1bl 2to 5-20fg 2-2ft
+4078,PG,D.J.,Augustin,0,17.7,6800,okc,chi,0,105,108,19,10pt 1rb 3as 1st 2trey 4-7fg 0-0ft
+3976,PG,Aaron,Brooks,1,17.1,4800,chi,okc,1,108,105,24,6pt 3rb 7as 3to 2-8fg 2-2ft
+3538,PG,Kirk,Hinrich,0,13.4,3500,chi,okc,1,108,105,23,7pt 2rb 4as 2to 1trey 3-4fg 0-0ft
+4115,SG,Anthony,Morrow,0,12.8,3500,okc,chi,0,105,108,23,8pt 4rb 2trey 3-8fg 0-0ft
+3637,PG,Devin,Harris,0,12.6,4700,dal,por,0,75,94,28,7pt 3rb 2st 2to 3-8fg 1-2ft
+3970,SG,Arron,Afflalo,0,12.6,4700,por,dal,1,94,75,29,6pt 3rb 2as 2-9fg 2-2ft
+4559,SG,Andre,Roberson,1,12.3,3500,okc,chi,0,105,108,23,2pt 4rb 1as 2st 1-2fg 0-0ft
+4164,SG,Wes,Matthews,1,11.7,6400,por,dal,1,94,75,18,4pt 1rb 3as 2st 2to 1-5fg 2-2ft
+4515,SG,Dion,Waiters,0,10.7,4400,okc,chi,0,105,108,26,6pt 1rb 3as 1to 3-10fg 0-0ft
+4571,SG,Tony,Snell,1,10.1,3800,chi,okc,1,108,105,29,4pt 3rb 1as 1st 1to 2-7fg 0-0ft
+3518,PG,Steve,Blake,0,5.9,3500,por,dal,1,94,75,15,2pt 2rb 1as 1-3fg 0-0ft
+3882,PG,Jose,Barea,0,5,4400,dal,por,0,75,94,16,4pt 2as 2to 2-8fg 0-0ft
+4657,SG,C.J.,McCollum,0,3.4,3500,por,dal,1,94,75,8,1pt 2rb 0-2fg 1-2ft
+3747,PG,Raymond,Felton,0,0,3500,dal,por,0,75,94,2,0pt 0-1fg 0-0ft
+4104,PF,Serge,Ibaka,1,46.3,8200,okc,chi,0,105,108,46,25pt 9rb 3as 1st 3bl 2to 12-19fg 1-2ft
+4682,PF,Nikola,Mirotic,0,40.1,4700,chi,okc,1,108,105,34,26pt 8rb 1as 2bl 1to 2trey 5-15fg 14-16ft
+3308,PF,Pau,Gasol,1,37.4,9400,chi,okc,1,108,105,32,21pt 12rb 2as 1to 9-19fg 3-4ft
+4086,SF,Nicolas,Batum,1,37.4,5600,por,dal,1,94,75,36,15pt 12rb 6as 1bl 3to 2trey 6-12fg 1-1ft
+3860,PF,LaMarcus,Aldridge,1,31.4,9800,por,dal,1,94,75,34,17pt 12rb 1trey 7-16fg 2-2ft
+3404,SF,Mike,Dunleavy,1,26.8,3900,chi,okc,1,108,105,38,21pt 4rb 2as 2to 3trey 8-17fg 2-2ft
+3311,SF,Richard,Jefferson,1,19.2,3600,dal,por,0,75,94,33,9pt 6rb 1st 1bl 1to 1trey 4-6fg 0-0ft
+2374,PF,Dirk,Nowitzki,1,15.8,6300,dal,por,0,75,94,27,10pt 4rb 1st 1to 5-13fg 0-0ft
+3419,PF,Amare,Stoudemire,0,15.2,5100,dal,por,0,75,94,14,12pt 1rb 1st 5-7fg 2-2ft
+3523,PF,Nick,Collison,0,11.5,3900,okc,chi,0,105,108,17,2pt 5rb 3as 1to 1-1fg 0-0ft
+3683,SF,Dorell,Wright,0,10.7,3500,por,dal,1,94,75,13,8pt 1rb 1as 2trey 3-4fg 0-0ft
+4261,SF,Al-Farouq,Aminu,0,7.6,4600,dal,por,0,75,94,19,5pt 3rb 1to 1trey 2-5fg 0-0ft
+4460,SF,Kyle,Singler,1,7.4,3500,okc,chi,0,105,108,15,3pt 2rb 1st 1trey 1-3fg 0-0ft
+4239,SF,Alonzo,Gee,0,6,3500,por,dal,1,94,75,9,6pt 1st 2to 3-3fg 0-0ft
+3807,PF,Charlie,Villanueva,0,3.2,3500,dal,por,0,75,94,4,2pt 1rb 1-2fg 0-0ft
+4408,PF,Greg,Smith,0,1.2,3500,dal,por,0,75,94,2,0pt 1rb 0-0fg 0-0ft
+4725,PF,Mitch,McGary,0,1.2,4000,okc,chi,0,105,108,2,0pt 1rb 0-0fg 0-0ft
+4533,SF,Perry,Jones III,0,0,3500,okc,chi,0,105,108,0,0pt 0-0fg 0-0ft
+4669,SF,Doug,McDermott,0,0,3500,chi,okc,1,108,105,8,0pt 0-3fg 0-0ft
+4013,C,Joakim,Noah,1,33.9,7400,chi,okc,1,108,105,31,4pt 12rb 9as 1st 2-4fg 0-2ft
+4112,C,Robin,Lopez,1,29.9,5000,por,dal,1,94,75,26,13pt 7rb 1as 1st 3bl 1to 5-10fg 3-4ft
+3307,C,Tyson,Chandler,1,26.3,6100,dal,por,0,75,94,32,4pt 14rb 1as 1st 1bl 1-4fg 2-2ft
+4442,C,Enes,Kanter,1,17.2,6000,okc,chi,0,105,108,30,6pt 6rb 1st 1bl 2-6fg 2-2ft
+3545,C,Chris,Kaman,0,14.9,3800,por,dal,1,94,75,16,6pt 7rb 1as 1st 3to 2-7fg 2-2ft
+3958,C,Joel,Freeland,0,5.6,3800,por,dal,1,94,75,2,0pt 3rb 1bl 0-1fg 0-0ft
+4521,C,Meyers,Leonard,0,2,3500,por,dal,1,94,75,2,2pt 0-0fg 2-2ft
+4473,C,Bernard,James,0,0,3600,dal,por,0,75,94,2,0pt 0-1fg 0-0ft

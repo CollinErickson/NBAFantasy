@@ -1,0 +1,320 @@
+Player ID,Position,First Name,Last Name,Starter,FDPoints,Salary,Team,Opponent,Home,Team Score,Opponent Score
+4224,SG,James,Harden,1,69.1,11200,hou,por,0,124,117,37:19,48pt 8rb 3as 3st 2to 4trey 16-29fg 12-14ft
+4079,PG,Russell,Westbrook,1,54.2,10800,okc,mem,0,102,101,43:06,20pt 11rb 14as 1st 3to 1trey 7-29fg 5-8ft
+4207,SG,Tyreke,Evans,1,53.1,7300,mem,okc,1,101,102,40:36,29pt 13rb 5as 1bl 2to 2trey 13-24fg 1-2ft
+3816,SG,Louis,Williams,0,48.4,7900,lac,was,1,113,112,37:02,35pt 2rb 8as 1to 4trey 11-20fg 9-10ft
+4523,PG,Damian,Lillard,1,46.8,9200,por,hou,1,117,124,37:54,35pt 4rb 6as 1st 5to 9trey 11-23fg 4-4ft
+4507,SG,Kent,Bazemore,1,45.7,5400,atl,orl,1,117,110,27:28,19pt 6rb 7as 3st 1bl 3to 3trey 7-12fg 2-2ft
+4945,PG,Kris,Dunn,1,44.9,7100,chi,nyk,1,104,102,29:43,17pt 7rb 9as 3st 3to 6-11fg 5-6ft
+3786,PG,Chris,Paul,1,43.1,8700,hou,por,0,124,117,34:58,26pt 3rb 7as 2st 3to 1trey 8-14fg 9-10ft
+4668,SG,Jordan,Clarkson,0,38,5000,lal,cha,0,110,99,26:58,22pt 5rb 6as 1st 2to 1trey 7-12fg 7-8ft
+4092,PG,Goran,Dragic,1,37.9,6400,mia,bkn,0,101,89,28:22,20pt 7rb 3as 2st 1to 1trey 9-19fg 1-3ft
+5202,PG,Mike,James,0,37.4,4100,pho,sas,1,101,104,29:25,25pt 2rb 2as 3st 2to 2trey 8-16fg 7-9ft
+4595,PG,Dennis,Schroder,1,35.9,8300,atl,orl,1,117,110,35:25,18pt 2rb 7as 2st 1to 1trey 6-19fg 5-6ft
+4440,PG,Kemba,Walker,1,34.6,8700,cha,lal,1,99,110,28:55,23pt 3rb 4as 1st 1to 3trey 10-22fg
+4657,SG,C.J.,McCollum,1,34.4,6600,por,hou,1,117,124,38:40,28pt 2rb 4as 1st 5to 2trey 11-21fg 4-5ft
+4494,SG,Bradley,Beal,1,33.9,8700,was,lac,0,112,113,37:12,25pt 2rb 3as 1st 1to 5trey 8-21fg 4-6ft
+4490,SG,Khris,Middleton,1,32.5,7400,mil,uta,1,117,100,37:55,20pt 5rb 5as 1to 2trey 8-13fg 2-2ft
+4266,PG,Eric,Bledsoe,1,32.3,6900,mil,uta,1,117,100,35:19,20pt 4rb 1as 3st 3to 3trey 7-14fg 3-4ft
+4907,SG,Brandon,Paul,1,31.9,3500,sas,pho,0,104,101,30:29,10pt 2rb 3as 3st 2bl 3-7fg 4-4ft
+4760,PG,Spencer,Dinwiddie,1,31.1,7000,bkn,mia,1,89,101,32:14,15pt 3rb 9as 1st 4to 3trey 5-15fg 2-2ft
+4441,SG,Alec,Burks,0,30.7,5100,uta,mil,0,100,117,27:27,20pt 6rb 3as 1to 2trey 8-13fg 2-4ft
+4078,PG,D.J.,Augustin,0,29.9,3700,orl,atl,0,110,117,26:58,8pt 2rb 7as 3st 1trey 2-8fg 3-3ft
+4963,PG,Dejounte,Murray,1,29.8,3600,sas,pho,0,104,101,26:37,8pt 14rb 4as 1to 4-11fg
+4756,PG,Tyler,Johnson,0,29.3,4400,mia,bkn,0,101,89,27:27,20pt 4rb 1as 1bl 2trey 8-11fg 2-2ft
+3861,SG,J.J.,Redick,1,28.2,5400,phi,cle,0,98,105,36:19,19pt 1rb 2as 2st 1to 4trey 6-13fg 3-3ft
+4873,PG,Jerian,Grant,0,27.9,3800,chi,nyk,1,104,102,18:17,6pt 2rb 9as 2st 2-5fg 2-5ft
+4943,SG,Alex,Abrines,1,27.8,3500,okc,mem,0,102,101,42:34,20pt 4rb 2st 3to 6trey 7-10fg 0-1ft
+4483,PG,Austin,Rivers,1,27.5,6500,lac,was,1,113,112,35:59,16pt 7as 1bl 2to 4trey 6-15fg
+4377,PG,Shelvin,Mack,0,27.3,3500,orl,atl,0,110,117,25:47,9pt 4rb 9as 1st 3to 2trey 3-7fg 1-2ft
+4559,SG,Andre,Roberson,1,26.6,4600,okc,mem,0,102,101,40:41,2pt 8rb 3st 2bl 1-3fg
+5013,SG,Malcolm,Brogdon,0,26.4,4400,mil,uta,1,117,100,26:35,16pt 2rb 2as 2st 1to 6-13fg 4-5ft
+4980,PG,Tomas,Satoransky,0,26.2,4100,was,lac,0,112,113,27:09,11pt 6rb 6as 1to 1trey 5-8fg 0-2ft
+5215,PG,Lonzo,Ball,1,25.5,7100,lal,cha,0,110,99,26:31,5pt 5rb 9as 1bl 2to 1trey 2-5fg 0-2ft
+4245,PG,Patty,Mills,0,24.4,4000,sas,pho,0,104,101,23:54,20pt 2rb 2as 1bl 4to 3trey 7-11fg 3-4ft
+5136,SG,Donovan,Mitchell,1,24.2,7400,uta,mil,0,100,117,36:45,12pt 1rb 2as 3st 1bl 4to 2trey 4-17fg 2-2ft
+4616,SG,Kentavious,Caldwell-Pope,1,24.2,5900,lal,cha,0,110,99,31:59,15pt 1rb 2as 2st 1to 3trey 6-12fg
+4589,SG,Ben,McLemore,0,23.8,3900,mem,okc,1,101,102,28:16,17pt 4rb 1bl 1to 5trey 6-10fg
+4414,PG,Ricky,Rubio,1,22.9,4900,uta,mil,0,100,117,31:41,10pt 2rb 7as 1st 3to 2-7fg 6-6ft
+4992,SG,Caris,LeVert,0,22.5,6200,bkn,mia,1,89,101,31:04,12pt 5as 2st 3to 4-9fg 4-4ft
+5219,PG,Frank,Ntilikina,0,21.9,3700,nyk,chi,0,102,104,21:14,10pt 2rb 7as 1st 4to 2trey 4-6fg
+3571,SG,Dwyane,Wade,0,20.2,6100,cle,phi,1,105,98,23:48,13pt 1rb 4as 1bl 3to 6-10fg 1-4ft
+4906,PG,Isaiah,Whitehead,0,19.5,3500,bkn,mia,1,89,101,16:50,13pt 5rb 1as 1to 1trey 4-7fg 4-5ft
+4717,PG,Tim,Frazier,1,19,3900,was,lac,0,112,113,20:51,2pt 5rb 6as 1st 1to 1-4fg
+4185,SG,Wayne,Ellington,0,18.6,3700,mia,bkn,0,101,89,22:56,9pt 3rb 2st 1trey 4-9fg
+4948,PG,Andrew,Harrison,1,18.6,4100,mem,okc,1,101,102,25:36,3pt 3rb 4as 2st 1bl 3to 1-8fg 1-2ft
+3974,SG,Marco,Belinelli,0,17.9,4300,atl,orl,1,117,110,23:05,13pt 2rb 3as 2to 3trey 5-8fg
+4804,SG,Treveon,Graham,0,17.1,3500,cha,lal,1,99,110,26:06,7pt 3rb 3as 1st 1to 1trey 2-6fg 2-2ft
+3547,SG,Kyle,Korver,0,17,3800,cle,phi,1,105,98,28:09,13pt 2as 1st 2to 4trey 4-8fg 1-1ft
+4077,SG,Eric,Gordon,0,16.9,4800,hou,por,0,124,117,29:53,12pt 2rb 1as 1st 2to 1trey 2-6fg 7-8ft
+4076,PG,Jerryd,Bayless,0,16.1,3900,phi,cle,0,98,105,18:53,2pt 3rb 3as 2st 0-6fg 2-2ft
+4699,PG,Elfrid,Payton,1,15.7,8100,orl,atl,0,110,117,24:01,11pt 1rb 3as 1to 1trey 5-9fg
+3766,PG,Jarrett,Jack,1,15.6,5200,nyk,chi,0,102,104,28:29,6pt 3rb 4as 1st 3to 3-7fg
+3740,PG,Jose,Calderon,1,15.4,3500,cle,phi,1,105,98,27:33,8pt 2rb 2as 1st 1to 2trey 3-5fg 0-1ft
+4558,SG,Justin,Holiday,1,15.1,5700,chi,nyk,1,104,102,29:19,7pt 3rb 1as 1st 1bl 3to 1trey 3-9fg
+3669,SG,J.R.,Smith,1,13.5,4400,cle,phi,1,105,98,22:48,7pt 3as 1st 1to 2trey 2-5fg 1-1ft
+4575,PG,Michael,Carter-Williams,0,13.4,3700,cha,lal,1,99,110,19:05,9pt 2rb 2as 1to 1trey 3-4fg 2-2ft
+3747,PG,Raymond,Felton,0,12.2,3500,okc,mem,0,102,101,19:48,6pt 1rb 4as 1to 3-7fg
+4995,SG,Bryn,Forbes,1,11.6,3500,sas,pho,0,104,101,36:19,11pt 3rb 3to 1trey 5-13fg 0-2ft
+5235,PG,Jawun,Evans,0,11.5,3500,lac,was,1,113,112,17:22,8pt 1as 1st 1to 2trey 3-5fg
+4086,SG,Nicolas,Batum,1,10.9,6400,cha,lal,1,99,110,18:57,2pt 2rb 3as 1st 1to 1-3fg
+4658,SG,Troy,Daniels,0,10.2,3700,pho,sas,1,101,104,24:22,10pt 1rb 1to 2trey 4-8fg
+4839,SG,Darrun,Hilliard,0,9.7,3500,sas,pho,0,104,101,13:04,1pt 1rb 3as 1st 0-2fg 1-2ft
+5133,SG,Malik,Monk,0,9.7,3700,cha,lal,1,99,110,19:45,2pt 1rb 3as 1st 1to 1-7fg 0-1ft
+4976,PG,Gary,Payton,1,9.6,3500,mil,uta,1,117,100,23:05,4pt 3rb 2as 1to 2-5fg
+4811,SG,Pat,Connaughton,0,9.2,3500,por,hou,1,117,124,24:31,8pt 1rb 4-10fg
+4950,PG,Tyler,Ulis,1,9,5100,pho,sas,1,101,104,18:35,4pt 2as 1st 1to 2-7fg
+4846,SG,Rashad,Vaughn,0,8.4,3500,mil,uta,1,117,100,15:41,3pt 2rb 2as 1trey 1-1fg
+5222,SG,Damyean,Dotson,0,7.5,3500,nyk,chi,0,102,104,15:10,6pt 1as 3-5fg
+4974,SG,C.J.,Williams,0,6.9,3500,lac,was,1,113,112,10:02,3pt 2rb 1as 1trey 1-2fg
+5234,PG,Sindarius,Thornwell,1,6.4,3500,lac,was,1,113,112,19:36,2pt 2rb 1st 1to 1-3fg
+5238,SG,Josh,Hart,0,6.4,3500,lal,cha,0,110,99,13:28,5pt 2rb 1to 1trey 2-2fg
+4088,PG,Mario,Chalmers,0,5.2,3900,mem,okc,1,101,102,12:49,2pt 1rb 1st 1to 1-6fg
+4515,SG,Dion,Waiters,1,4.7,5600,mia,bkn,0,101,89,24:59,2pt 1rb 1as 1-10fg
+4918,SG,Timothe,Luwawu,0,4.2,3500,phi,cle,0,98,105,18:03,0pt 1rb 2as 0-2fg
+5148,PG,Derrick,White,0,3.2,3500,sas,pho,0,104,101,8:31,4pt 1rb 2to 2-2fg
+3970,SG,Arron,Afflalo,1,3,3500,orl,atl,0,110,117,24:48,4pt 1to 2-4fg
+4183,SG,Jodie,Meeks,0,3,3500,was,lac,0,112,113,7:41,0pt 2as 0-2fg
+4362,SG,DeAndre,Liggins,0,1.2,3500,mil,uta,1,117,100,14:00,0pt 1rb 0-1fg
+4729,PG,Tyler,Ennis,0,1.2,3500,lal,cha,0,110,99,6:28,0pt 1rb 0-1fg
+4807,PG,Raul,Neto,0,0,3500,uta,mil,0,100,117,2:05,0pt 0-2fg
+5165,PG,Jacob,Wiley,0,0,3500,bkn,mia,1,89,101,00:56,0pt
+5006,PG,Ron,Baker,0,0,3500,nyk,chi,0,102,104,DNP,
+5157,SG,Furkan,Korkmaz,0,0,3500,phi,cle,0,98,105,DNP,
+5233,PG,Milos,Teodosic,0,0,4200,lac,was,1,113,112,DNP,
+4087,PG,Bobby,Brown,0,0,3500,hou,por,0,124,117,DNP,
+5185,PG,London,Perrantes,0,0,3500,cle,phi,1,105,98,DNP,
+4744,SG,Rodney,Hood,0,0,5600,uta,mil,0,100,117,DNP,
+5163,PG,Jacob,Pullen,0,0,3500,phi,cle,0,98,105,DNP,
+5170,SG,Yakuba,Ouattara,0,0,3500,bkn,mia,1,89,101,DNP,
+4020,PG,Ramon,Sessions,0,0,3500,nyk,chi,0,102,104,DNP,
+4571,SG,Tony,Snell,0,0,3500,mil,uta,1,117,100,DNP,
+4923,PG,Demetrius,Jackson,0,0,3500,hou,por,0,124,117,DNP,
+4193,SG,Danny,Green,0,0,4700,sas,pho,0,104,101,DNP,0pt
+4967,PG,Malcolm,Delaney,0,0,3500,atl,orl,1,117,110,DNP,
+5184,SG,Sterling,Brown,0,0,3500,mil,uta,1,117,100,DNP,
+4694,PG,Shabazz,Napier,0,0,3500,por,hou,1,117,124,DNP,
+5158,PG,Tyler,Dorsey,0,0,3500,atl,orl,1,117,110,DNP,
+4455,PG,Julyan,Stone,0,0,3500,cha,lal,1,99,110,DNP,
+5225,SG,Terrance,Ferguson,0,0,3500,okc,mem,0,102,101,DNP,
+4628,SG,Tim,Hardaway Jr.,0,0,6000,nyk,chi,0,102,104,NA,
+4549,SG,Terrence,Ross,0,0,4500,orl,atl,0,110,117,NA,
+4909,PG,Wade,Baldwin,0,0,3500,por,hou,1,117,124,NA,
+4612,PG,Nate,Wolters,0,0,3500,uta,mil,0,100,117,NA,
+3021,SG,Manu,Ginobili,0,0,3600,sas,pho,0,104,101,NA,
+5228,PG,Antonio,Blakeney,0,0,3500,chi,nyk,1,104,102,NA,
+5198,PG,Derrick,Walton Jr.,0,0,3500,mia,bkn,0,101,89,NA,
+4972,PG,Kay,Felder,0,0,3500,chi,nyk,1,104,102,NA,
+4397,SG,Iman,Shumpert,0,0,3600,cle,phi,1,105,98,NA,
+4321,PG,John,Wall,0,0,9300,was,lac,0,112,113,NA,
+4514,SG,Jeremy,Lamb,0,0,5700,cha,lal,1,99,110,NA,
+4468,SG,Evan,Fournier,0,0,6500,orl,atl,0,110,117,NA,
+4882,PG,Cameron,Payne,0,0,3500,chi,nyk,1,104,102,NA,
+4706,SG,Zach,LaVine,0,0,5300,chi,nyk,1,104,102,NA,
+5208,SG,Matt,Williams,0,0,3500,mia,bkn,0,101,89,NA,
+4799,SG,D'Angelo,Russell,0,0,7600,bkn,mia,1,89,101,NA,
+4885,SG,Devin,Booker,0,0,7400,pho,sas,1,101,104,NA,
+3979,PG,Mike,Conley,0,0,7100,mem,okc,1,101,102,NA,
+5205,PG,Marcus,Paige,0,0,3500,cha,lal,1,99,110,NA,
+4560,SG,Vander,Blue,0,0,3500,lal,cha,0,110,99,NA,
+4898,PG,Briante,Weber,0,0,3500,hou,por,0,124,117,NA,
+4831,PG,T.J.,McConnell,0,0,4600,phi,cle,0,98,105,NA,
+4703,SG,Nik,Stauskas,0,0,3500,bkn,mia,1,89,101,NA,
+5177,SG,PJ,Dozier,0,0,3500,okc,mem,0,102,101,NA,
+4685,SG,C.J.,Wilcox,0,0,3500,por,hou,1,117,124,NA,
+4073,PG,Derrick,Rose,0,0,4400,cle,phi,1,105,98,NA,
+4975,PG,Josh,Magette,0,0,3500,atl,orl,1,117,110,NA,
+4986,SG,Wayne,Selden,0,0,3500,mem,okc,1,101,102,NA,
+5218,SG,Alex,Caruso,0,0,3500,lal,cha,0,110,99,NA,
+3054,SG,Jason,Terry,0,0,3500,mil,uta,1,117,100,NA,
+4610,PG,Matthew,Dellavedova,0,0,3500,mil,uta,1,117,100,NA,
+5161,SG,Kobi,Simmons,0,0,3500,mem,okc,1,101,102,NA,
+3313,PG,Tony,Parker,0,0,3700,sas,pho,0,104,101,NA,0pt
+4962,PG,Ryan,Arcidiacono,0,0,3500,chi,nyk,1,104,102,NA,
+3541,SF,LeBron,James,1,68.1,12000,cle,phi,1,105,98,38:44,30pt 13rb 13as 3st 6to 2trey 9-23fg 10-12ft
+4621,SF,Giannis,Antetokounmpo,1,67.1,12000,mil,uta,1,117,100,39:25,37pt 13rb 7as 2st 2to 1trey 14-22fg 8-9ft
+4653,SF,Otto,Porter,1,55.7,6900,was,lac,0,112,113,35:19,27pt 11rb 5as 3st 1to 4trey 10-16fg 3-4ft
+4890,SF,Jonathon,Simmons,1,45.9,6100,orl,atl,0,110,117,33:03,29pt 7rb 5as 1st 2to 3trey 13-24fg
+3510,PF,Carmelo,Anthony,1,43.8,6800,okc,mem,0,102,101,36:36,21pt 9rb 2st 2bl 2trey 7-20fg 5-8ft
+3860,PF,LaMarcus,Aldridge,1,42.8,8200,sas,pho,0,104,101,35:58,20pt 9rb 2as 3bl 7-18fg 6-7ft
+4570,SF,Robert,Covington,1,39.2,6900,phi,cle,0,98,105,35:58,19pt 6rb 2as 4st 2to 5trey 7-10fg
+4168,PF,James,Johnson,1,38.9,5600,mia,bkn,0,101,89,31:07,17pt 7rb 3as 1st 2bl 7-13fg 3-4ft
+3765,PF,Ersan,Ilyasova,1,35.6,5500,atl,orl,1,117,110,27:55,26pt 3rb 4as 5trey 9-9fg 3-5ft
+4925,PF,Ben,Simmons,1,35.2,10500,phi,cle,0,98,105,35:32,14pt 6rb 10as 1st 1bl 7to 7-13fg
+5216,PF,Kyle,Kuzma,0,34.8,4800,lal,cha,0,110,99,31:56,12pt 14rb 2as 1bl 6-11fg
+4525,PF,John,Henson,1,33.9,5400,mil,uta,1,117,100,26:24,11pt 7rb 1as 1st 4bl 2to 4-7fg 3-4ft
+4810,PF,Rondae,Hollis-Jefferson,1,33.6,7400,bkn,mia,1,89,101,34:40,18pt 8rb 2bl 1trey 6-10fg 5-5ft
+4904,PF,Dario,Saric,1,32.8,6400,phi,cle,0,98,105,34:13,17pt 9rb 6as 4to 1trey 8-17fg
+4082,SF,Danilo,Gallinari,1,32.6,5900,lac,was,1,113,112,36:02,25pt 3rb 2as 1st 2to 2trey 8-19fg 7-7ft
+4488,PF,Mike,Scott,0,32.6,3600,was,lac,0,112,113,27:49,22pt 8rb 2as 2to 3trey 9-11fg 1-2ft
+4871,PF,Kristaps,Porzingis,1,31.8,9100,nyk,chi,0,102,104,36:06,23pt 4rb 2as 1bl 2to 1trey 10-25fg 2-2ft
+5109,SF,David,Nwaba,0,31.5,4000,chi,nyk,1,104,102,30:38,15pt 5rb 1as 1st 2bl 6-9fg 3-7ft
+4680,PF,Julius,Randle,0,29.7,5000,lal,cha,0,110,99,26:18,12pt 6rb 3as 1st 2bl 3to 4-7fg 4-5ft
+4938,SF,Taurean,Prince,1,29.7,5700,atl,orl,1,117,110,33:07,10pt 6rb 3as 3bl 1to 1trey 4-8fg 1-2ft
+5227,PF,Lauri,Markkanen,1,29.6,6500,chi,nyk,1,104,102,29:50,15pt 8rb 2bl 1to 1trey 7-14fg
+4669,SF,Doug,McDermott,0,29.2,3500,nyk,chi,0,102,104,26:19,10pt 6rb 4as 1st 1bl 2trey 4-8fg
+4787,SF,Justise,Winslow,0,28.7,3800,mia,bkn,0,101,89,25:04,15pt 6rb 1as 2bl 1to 4trey 5-6fg 1-2ft
+4724,SF,T.J.,Warren,1,28.6,7900,pho,sas,1,101,104,31:06,24pt 3rb 2as 2to 2trey 7-16fg 8-8ft
+3621,SF,Trevor,Ariza,1,27.4,5000,hou,por,0,124,117,33:52,13pt 2rb 4st 3trey 4-7fg 2-2ft
+4261,PF,Al-Farouq,Aminu,1,27,5100,por,hou,1,117,124,31:55,15pt 5rb 2as 1bl 5trey 5-10fg
+4472,PF,Jae,Crowder,1,27,3800,cle,phi,1,105,98,33:26,12pt 5rb 2st 1bl 2trey 4-9fg 2-2ft
+4721,PF,Johnny,O'Bryant,0,26.9,3500,cha,lal,1,99,110,16:01,11pt 7rb 1as 1st 1bl 1trey 5-15fg
+4110,SF,Courtney,Lee,1,26.8,5900,nyk,chi,0,102,104,29:44,14pt 4rb 2as 2st 1to 1trey 6-14fg 1-1ft
+3857,SF,Rudy,Gay,1,26.8,5500,sas,pho,0,104,101,32:37,16pt 9rb 2as 3to 7-11fg 2-2ft
+5199,PF,Tyler,Cavanaugh,0,26.6,4000,atl,orl,1,117,110,26:49,14pt 8rb 2as 3trey 5-8fg 1-2ft
+4952,PF,Marquese,Chriss,1,26.1,3800,pho,sas,1,101,104,25:25,15pt 8rb 1as 1trey 5-10fg 4-5ft
+4965,SF,Brandon,Ingram,1,25.7,7300,lal,cha,0,110,99,35:41,18pt 6rb 1as 1st 4to 7-16fg 4-6ft
+3992,PF,Jeff,Green,0,25.7,4500,cle,phi,1,105,98,30:22,13pt 6rb 1as 2st 2to 1trey 5-8fg 2-2ft
+4267,PF,Trevor,Booker,0,25.6,4500,phi,cle,0,98,105,19:50,12pt 8rb 2as 1bl 2to 4-6fg 4-4ft
+4583,PF,Kelly,Olynyk,1,24.5,6400,mia,bkn,0,101,89,28:04,11pt 5rb 3as 1st 1bl 3to 5-12fg 1-2ft
+4701,SF,Joe,Ingles,1,23.8,5200,uta,mil,0,100,117,31:12,12pt 4rb 4as 1st 2to 3trey 4-9fg 1-2ft
+4276,PF,Ed,Davis,0,23.8,3500,por,hou,1,117,124,14:39,8pt 9rb 1st 1bl 1to 4-4fg 0-2ft
+5173,SF,Dillon,Brooks,1,22.3,3600,mem,okc,1,101,102,37:37,13pt 4rb 3as 2trey 5-8fg 1-1ft
+4682,PF,Nikola,Mirotic,0,21.6,4000,chi,nyk,1,104,102,20:08,19pt 3rb 1to 5trey 6-10fg 2-4ft
+4292,SF,Wesley,Johnson,1,21.4,4900,lac,was,1,113,112,24:04,5pt 2rb 3st 2bl 1to 1trey 2-5fg
+4776,SF,Mario,Hezonja,1,21.2,3500,orl,atl,0,110,117,31:15,7pt 6rb 2as 1st 1bl 2to 1trey 3-9fg
+3817,PF,Marvin,Williams,1,21.1,4400,cha,lal,1,99,110,27:49,13pt 3rb 3as 2trey 5-11fg 1-2ft
+4532,SF,Michael,Kidd-Gilchrist,1,20.7,5200,cha,lal,1,99,110,26:11,9pt 6rb 1as 1st 4-8fg 1-1ft
+5001,SF,DeAndre,Bembry,0,19.4,4300,atl,orl,1,117,110,22:33,8pt 2rb 6as 1bl 3to 1trey 2-6fg 3-4ft
+4857,PF,Montrezl,Harrell,0,19.1,3800,lac,was,1,113,112,14:13,11pt 3rb 1as 1st 4-4fg 3-3ft
+4841,PF,Bobby,Portis,0,18.6,3900,chi,nyk,1,104,102,15:34,10pt 3rb 2as 1st 1to 5-7fg
+4280,PF,Derrick,Favors,1,18.6,5200,uta,mil,0,100,117,26:57,14pt 3rb 1bl 2to 1trey 5-11fg 3-3ft
+4989,PF,Davis,Bertans,0,18.4,3500,sas,pho,0,104,101,20:29,8pt 7rb 2as 1to 2trey 3-7fg
+4581,PF,JaMychal,Green,1,17.6,5300,mem,okc,1,101,102,34:15,5pt 8rb 4as 3to 1trey 2-6fg 0-2ft
+4561,SF,Allen,Crabbe,1,17.1,4800,bkn,mia,1,89,101,32:01,12pt 3rb 1as 2trey 5-13fg
+4788,SF,Josh,Richardson,1,16.7,4900,mia,bkn,0,101,89,32:05,5pt 6rb 1as 1bl 2-7fg 1-1ft
+3871,SF,P.J.,Tucker,0,16.6,3500,hou,por,0,124,117,30:52,8pt 3rb 2st 1to 1trey 3-4fg 1-2ft
+5130,SF,Josh,Jackson,1,16.3,4800,pho,sas,1,101,104,29:17,9pt 4rb 1as 1bl 2to 3-6fg 3-4ft
+4318,SF,Evan,Turner,1,13.8,3500,por,hou,1,117,124,27:27,4pt 4rb 2as 1st 1to 2-5fg
+5152,SF,Wes,Iwundu,0,13.6,3500,orl,atl,0,110,117,26:08,7pt 3rb 2as 1trey 3-9fg
+4187,PF,Jonas,Jerebko,0,13.5,3500,uta,mil,0,100,117,15:43,6pt 5rb 1as 3-5fg
+4071,PF,Michael,Beasley,0,13,4700,nyk,chi,0,102,104,15:00,9pt 5rb 2to 1trey 3-5fg 2-2ft
+4203,SF,DeMarre,Carroll,1,12.4,6000,bkn,mia,1,89,101,25:29,5pt 7rb 1to 2-10fg 1-3ft
+3931,SF,Thabo,Sefolosha,0,11.9,4400,uta,mil,0,100,117,24:27,3pt 2rb 1as 2st 1to 1-2fg 1-2ft
+4915,SF,Paul,Zipser,0,11.2,3700,chi,nyk,1,104,102,17:30,4pt 1rb 2as 1st 2-6fg
+4901,SF,Denzel,Valentine,1,11,5300,chi,nyk,1,104,102,18:30,0pt 5rb 2as 1st 1to 0-5fg
+4113,PF,Luc,Mbah a Moute,0,11,3700,hou,por,0,124,117,23:58,0pt 5rb 2bl 1to 0-2fg
+4302,PF,Patrick,Patterson,0,10.8,3500,okc,mem,0,102,101,14:57,6pt 4rb 2trey 2-5fg
+5179,SF,Dwayne,Bacon,0,10.3,3500,cha,lal,1,99,110,25:12,2pt 4rb 1as 1st 1to 1-3fg
+3768,PF,Amir,Johnson,1,9.9,3500,phi,cle,0,98,105,21:09,2pt 2rb 3as 1st 2to 2-2ft
+4697,SF,James,Ennis,0,9.8,3500,mem,okc,1,101,102,22:00,6pt 4rb 1to 1trey 2-5fg 1-2ft
+4264,PF,Luke,Babbitt,0,9.6,3600,atl,orl,1,117,110,15:35,0pt 8rb 0-1fg
+4850,PF,Jarell,Martin,0,9.2,3500,mem,okc,1,101,102,10:51,2pt 1rb 2st 0-3fg 2-2ft
+4798,PF,Larry,Nance,1,9.2,5800,lal,cha,0,110,99,16:17,6pt 1rb 1st 1to 3-7fg
+5116,SF,Cedi,Osman,0,8.6,3500,cle,phi,1,105,98,11:07,3pt 3rb 1st 1to 1trey 1-1fg
+4384,SF,Lance,Thomas,1,7.4,3700,nyk,chi,0,102,104,25:26,4pt 2rb 1st 2to 2-5fg
+5182,SF,Royce,O'Neale,0,7.1,3500,uta,mil,0,100,117,14:50,3pt 3rb 1as 1to 0-2fg 3-4ft
+4761,PF,Noah,Vonleh,0,5,3600,por,hou,1,117,124,11:30,2pt 2as 1-1fg
+4880,SF,Josh,Huestis,0,4,3500,okc,mem,0,102,101,6:49,5pt 1to 1trey 2-2fg
+4718,PF,Jamil,Wilson,0,3.4,3500,lac,was,1,113,112,11:53,2pt 2rb 1to 1-1fg
+4453,PF,Markieff,Morris,1,3.2,5600,was,lac,0,112,113,15:41,2pt 1rb 2as 3to 1-3fg
+3975,SF,Corey,Brewer,0,3.2,3500,lal,cha,0,110,99,5:09,2pt 1rb 1-1fg
+4085,PF,Ryan,Anderson,1,2.7,4400,hou,por,0,124,117,17:08,2pt 1rb 1as 2to 1-4fg
+4913,PF,Dragan,Bender,0,2.4,3500,pho,sas,1,101,104,5:37,0pt 2rb 0-1fg
+4997,SF,Jake,Layman,0,1.4,3500,por,hou,1,117,124,14:34,0pt 2rb 1to 0-3fg
+4496,PF,Quincy,Acy,0,1.4,3500,bkn,mia,1,89,101,16:20,0pt 2rb 1to 0-5fg
+4828,SF,Kelly,Oubre,0,1.2,5300,was,lac,0,112,113,20:18,0pt 1rb 0-5fg 0-2ft
+3985,PF,Jared,Dudley,0,1.2,3700,pho,sas,1,101,104,16:58,0pt 1rb 0-3fg
+5146,PF,D.J.,Wilson,0,0,3500,mil,uta,1,117,100,00:31,0pt
+4765,PF,Jerami,Grant,0,0,3700,okc,mem,0,102,101,11:46,0pt 0-3fg
+4705,PF,Aaron,Gordon,0,0,9200,orl,atl,0,110,117,DNP,
+4809,PF,Chris,McCullough,0,0,3500,was,lac,0,112,113,DNP,
+4733,SF,Joe,Harris,0,0,3500,bkn,mia,1,89,101,DNP,
+5171,PF,Ivan,Rabb,0,0,3500,mem,okc,1,101,102,DNP,
+4461,SF,Chandler,Parsons,0,0,3800,mem,okc,1,101,102,DNP,
+4856,SF,Sam,Dekker,0,0,3500,lac,was,1,113,112,DNP,
+4305,SF,Quincy,Pondexter,0,0,3500,chi,nyk,1,104,102,DNP,
+5178,PF,Caleb,Swanigan,0,0,3500,por,hou,1,117,124,DNP,
+4824,PF,Jordan,Mickey,0,0,3500,mia,bkn,0,101,89,DNP,
+4818,PF,Vince,Hunter,0,0,3500,mem,okc,1,101,102,DNP,
+4700,PF,James Michael,McAdoo,0,0,3500,phi,cle,0,98,105,DNP,
+4978,PF,Joel,Bolomboy,0,0,3500,mil,uta,1,117,100,DNP,
+4900,SF,John,Holland,0,0,3500,cle,phi,1,105,98,DNP,
+5183,PF,Mangok,Mathiang,0,0,3500,cha,lal,1,99,110,DNP,
+4673,PF,Adreian,Payne,0,0,3500,orl,atl,0,110,117,DNP,
+4691,PF,Tarik,Black,0,0,3500,hou,por,0,124,117,DNP,
+4023,PF,Jason,Smith,0,0,3500,was,lac,0,112,113,DNP,
+5143,SF,Devin,Robinson,0,0,3500,was,lac,0,112,113,NA,
+4860,SF,Justin,Anderson,0,0,3500,phi,cle,0,98,105,NA,
+4988,PF,Okaro,White,0,0,3500,mia,bkn,0,101,89,NA,
+5224,SF,Daniel,Hamilton,0,0,3500,okc,mem,0,102,101,NA,
+4478,SF,Mirza,Teletovic,0,0,3500,mil,uta,1,117,100,NA,
+4908,SF,Troy,Williams,0,0,3500,hou,por,0,124,117,NA,
+4778,PF,Frank,Kaminsky,0,0,4000,cha,lal,1,99,110,NA,
+4530,SF,Maurice,Harkless,0,0,3500,por,hou,1,117,124,NA,
+5197,PF,Mike,Young,0,0,3500,was,lac,0,112,113,NA,
+4404,SF,Kawhi,Leonard,0,0,7400,sas,pho,0,104,101,NA,
+4172,PF,Blake,Griffin,0,0,9700,lac,was,1,113,112,NA,
+4696,PF,Khem,Birch,0,0,3500,orl,atl,0,110,117,NA,
+4914,PF,Brice,Johnson,0,0,3500,lac,was,1,113,112,NA,
+4736,SF,Kyle,Anderson,0,0,5300,sas,pho,0,104,101,NA,
+5240,PF,Luke,Kornet,0,0,3500,nyk,chi,0,102,104,NA,
+5141,PF,Alec,Peters,0,0,3500,pho,sas,1,101,104,NA,
+5137,PF,Jonathan,Isaac,0,0,4300,orl,atl,0,110,117,NA,
+5154,PF,Isaiah,Hicks,0,0,3500,nyk,chi,0,102,104,NA,
+5134,PF,John,Collins,0,0,6200,atl,orl,1,117,110,NA,
+5220,SF,Jamel,Artis,0,0,3500,orl,atl,0,110,117,NA,
+4587,SF,Eric,Griffin,0,0,3500,uta,mil,0,100,117,NA,
+3629,SF,Luol,Deng,0,0,3500,lal,cha,0,110,99,NA,
+4650,SF,Rodney,McGruder,0,0,3700,mia,bkn,0,101,89,NA,
+4283,SF,Paul,George,0,0,7800,okc,mem,0,102,101,NA,
+3304,SF,Joe,Johnson,0,0,3500,uta,mil,0,100,117,NA,
+4373,C,Nikola,Vucevic,1,65.6,8500,orl,atl,0,110,117,37:34,31pt 13rb 10as 1st 1bl 2to 4trey 13-18fg 1-1ft
+3990,C,Marc,Gasol,1,39.2,8500,mem,okc,1,101,102,42:21,22pt 6rb 6as 1bl 2to 2trey 8-17fg 4-6ft
+3639,C,Dwight,Howard,1,36.4,7800,cha,lal,1,99,110,31:59,21pt 12rb 2bl 5to 9-14fg 3-6ft
+4574,C,Steven,Adams,1,34.8,6400,okc,mem,0,102,101,43:00,21pt 9rb 1bl 7-11fg 7-12ft
+4107,C,DeAndre,Jordan,1,34.4,7800,lac,was,1,113,112,33:47,6pt 17rb 2as 1st 1bl 1to 2-6fg 2-4ft
+4620,C,Rudy,Gobert,1,33.3,7400,uta,mil,0,100,117,28:53,20pt 9rb 1as 1bl 2to 6-8fg 8-14ft
+4442,C,Enes,Kanter,1,29.2,6800,nyk,chi,0,102,104,28:00,10pt 11rb 4as 4-11fg 2-2ft
+4766,C,Clint,Capela,1,28,7300,hou,por,0,124,117,21:54,11pt 10rb 2as 1st 1to 4-5fg 3-6ft
+4075,C,Brook,Lopez,1,25.3,4300,lal,cha,0,110,99,19:15,13pt 4rb 1as 1st 1bl 3trey 5-11fg
+3777,C,Ian,Mahinmi,0,23.9,3700,was,lac,0,112,113,23:47,14pt 2rb 3as 1bl 4-6fg 6-6ft
+3756,C,Marcin,Gortat,1,23.6,4500,was,lac,0,112,113,24:13,9pt 8rb 4as 1bl 4to 4-6fg 1-1ft
+4298,C,Greg,Monroe,0,22.7,5300,pho,sas,1,101,104,21:47,8pt 11rb 1as 3-7fg 2-2ft
+4112,C,Robin,Lopez,1,19.6,5200,chi,nyk,1,104,102,30:31,11pt 3rb 2as 2bl 4to 5-6fg 1-1ft
+4935,C,Thon,Maker,0,18.8,3500,mil,uta,1,117,100,21:05,6pt 4rb 2as 2bl 1to 2-5fg 2-2ft
+4521,C,Meyers,Leonard,1,18.8,3500,por,hou,1,117,124,20:02,12pt 4rb 2as 1to 1trey 5-6fg 1-1ft
+4516,C,Tyler,Zeller,1,18.4,3900,bkn,mia,1,89,101,21:56,12pt 7rb 2to 6-9fg
+4529,C,Kyle,O'Quinn,0,18.1,3900,nyk,chi,0,102,104,14:32,10pt 3rb 1as 1bl 4-5fg 2-2ft
+4835,C,Richaun,Holmes,0,17.1,4300,phi,cle,0,98,105,20:03,13pt 3rb 1as 1to 1trey 5-11fg 2-2ft
+5155,C,Zach,Collins,0,16.9,3500,por,hou,1,117,124,18:48,5pt 2rb 1as 3bl 1to 1trey 2-5fg
+3307,C,Tyson,Chandler,1,14.4,5300,pho,sas,1,101,104,26:13,4pt 7rb 2as 1to 2-3fg 0-2ft
+5159,C,Bam,Adebayo,0,14,4400,mia,bkn,0,101,89,19:56,2pt 5rb 2as 1bl 1-3fg
+5139,C,Jarrett,Allen,0,13.4,3900,bkn,mia,1,89,101,22:07,2pt 7rb 1bl 1-3fg
+4542,C,Miles,Plumlee,1,13.1,3700,atl,orl,1,117,110,15:45,3pt 3rb 1as 2st 1to 0-3fg 3-4ft
+4768,C,Joffrey,Lauvergne,0,12.8,3500,sas,pho,0,104,101,12:02,6pt 4rb 1st 1to 2-5fg 2-4ft
+3749,C,Channing,Frye,0,10.4,3500,cle,phi,1,105,98,19:25,6pt 2rb 1st 1to 2-5fg 2-2ft
+4928,C,Deyonta,Davis,0,10.3,3600,mem,okc,1,101,102,10:39,2pt 4rb 1as 1bl 1to 1-1fg
+4458,C,Bismack,Biyombo,0,8.1,3500,orl,atl,0,110,117,10:26,4pt 3rb 1as 1to 1-4fg 2-2ft
+3408,C,Nene,Hilario,0,5.2,3500,hou,por,0,124,117,10:06,4pt 1rb 2-4fg
+5119,C,Ante,Zizic,1,2.7,3500,cle,phi,1,105,98,4:38,0pt 1rb 1as 0-1fg
+4299,C,Timofey,Mozgov,0,1.2,3500,bkn,mia,1,89,101,6:23,0pt 1rb
+3523,C,Nick,Collison,0,0,3500,okc,mem,0,102,101,DNP,
+4845,C,Cristiano,Felicio,0,0,3500,chi,nyk,1,104,102,DNP,
+4591,C,Alex,Len,0,0,4500,pho,sas,1,101,104,DNP,
+4324,C,Hassan,Whiteside,0,0,7400,mia,bkn,0,101,89,DNP,
+4354,C,Ekpe,Udoh,0,0,3500,uta,mil,0,100,117,DNP,
+4924,C,Ivica,Zubac,0,0,3500,lal,cha,0,110,99,DNP,
+3736,C,Andrew,Bogut,0,0,3500,lal,cha,0,110,99,DNP,
+4949,C,Guillermo,Hernangomez,0,0,3700,nyk,chi,0,102,104,DNP,
+4122,C,Marreese,Speights,0,0,3500,orl,atl,0,110,117,DNP,
+4579,C,Willie,Reed,0,0,3500,lac,was,1,113,112,DNP,
+5226,C,Dakari,Johnson,0,0,3500,okc,mem,0,102,101,DNP,
+3535,C,Udonis,Haslem,0,0,3500,mia,bkn,0,101,89,DNP,
+4074,C,Kevin,Love,0,0,8000,cle,phi,1,105,98,DNP,0pt
+4614,C,Cody,Zeller,0,0,3800,cha,lal,1,99,110,NA,
+4013,C,Joakim,Noah,0,0,3500,nyk,chi,0,102,104,NA,
+4836,C,Jahlil,Okafor,0,0,5200,bkn,mia,1,89,101,NA,
+4681,C,Jusuf,Nurkic,0,0,7600,por,hou,1,117,124,NA,
+5166,C,Tony,Bradley,0,0,3500,uta,mil,0,100,117,NA,
+4380,C,Tristan,Thompson,0,0,3600,cle,phi,1,105,98,NA,
+3308,C,Pau,Gasol,0,0,5900,sas,pho,0,104,101,NA,0pt
+4897,C,Alan,Williams,0,0,4600,pho,sas,1,101,104,NA,
+4034,C,Brandan,Wright,0,0,3500,mem,okc,1,101,102,NA,
+4659,C,Mike,Muscala,0,0,3500,atl,orl,1,117,110,NA,
+5121,C,Zhou,Qi,0,0,3500,hou,por,0,124,117,NA,
+5217,C,Thomas,Bryant,0,0,3500,lal,cha,0,110,99,NA,
+5010,C,Chinanu,Onuaku,0,0,3500,hou,por,0,124,117,NA,
+4762,C,Joel,Embiid,0,0,11000,phi,cle,0,98,105,NA,
+4572,C,Dewayne,Dedmon,0,0,5600,atl,orl,1,117,110,NA,
+4944,C,A.J.,Hammons,0,0,3500,mia,bkn,0,101,89,NA,

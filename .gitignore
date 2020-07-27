@@ -52,7 +52,7 @@ Temporary Items
 # data/Lineups/*
 # data/Player/*
 # data/Salary/*
-data/*
+# data/*
 
 
 \.Rhistory
